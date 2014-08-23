@@ -302,7 +302,7 @@ class Client_college_Model extends CI_Model {
                 ->like('school_name', $q)
                 ->from('college_info as C_I')
                 ->join('field_of_study as F_S', 'C_I.field_study = F_S.id')
-                ->join('master_degree as M_D', 'C_I.degree = M_D.id')
+                ->join('master_degree as M_D', 'C_I.degree = M_D.id') 
                 ->get();
 
         if ($query->num_rows > 0) {
