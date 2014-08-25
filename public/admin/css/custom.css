@@ -1,0 +1,16 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+.error{display:none;}  
+#element_chosen{display:none}
+
+
+#container .display_image
+{
+float:left;
+margin-left:10px;
+}
+
+
+

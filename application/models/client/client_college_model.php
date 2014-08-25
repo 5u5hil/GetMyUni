@@ -315,7 +315,7 @@ class Client_college_Model extends CI_Model {
             echo json_encode($row_set); //format the array into json data
         }
     }
- 
+
     function review_count() {
         $result = $this->db->where('college_id', $this->college_id)->count_all_results("college_review_rating");
         //show_query();
@@ -398,6 +398,7 @@ class Client_college_Model extends CI_Model {
                 ->from('user_interested_in_school as U_I')
                 ->join('user as U_T', 'U_I.student_id = U_T.id')
                 ->where('U_I.school_id', $this->college_id)
+                ->group_by('U_I.student_id')
                 ->get();
         return $query->result_array();
     }

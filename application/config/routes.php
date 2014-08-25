@@ -45,8 +45,8 @@ $route['default_controller'] = "client/client_home/home_view";
 $route['404_override'] = '';
 ######################################################################ADMIN ROUTE#############################################################
 ######################################################################ADMIN ROUTE#############################################################
-$route['admin'] = 'admin/college/index';
-//$route['admin'] = 'admin/college/add_edit';
+//$route['admin'] = 'admin/college/index';
+$route['admin'] = 'admin/college/add_edit';
 
 
 ######################################################################CLIENT ROUTE#############################################################
@@ -72,7 +72,7 @@ $route['communities/(:num)'] = 'client/client_communities/client_communities_vie
 
 $route['ticker'] = 'client/client_ticker/ticker_view';
 $route['adspace'] = 'client/client_adspace/adspace_view';
-
+$route['profile/(:num)'] = 'client/client_user/user_show_profile/$1/';
 ######################################################################CLIENT ROUTE#############################################################
 
 

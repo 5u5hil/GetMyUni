@@ -28,7 +28,7 @@
                                 {
 									
 									  $checked       = '';
-									  if($master[id]== "1")
+									  if($master["id"]== "1")
 									  $checked = 'checked';
                                     echo '<input '.$checked.' type="radio" name="int_degree"  id="int_degree_'.$master['id'].'"  value="'.$master['id'].'"> <label for="int_degree_'.$master['id'].'">'.$master['degree_name'].'</label> ';
                                 }

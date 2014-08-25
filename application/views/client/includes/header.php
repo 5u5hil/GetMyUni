@@ -174,11 +174,11 @@
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav nav-justified mt17 ">
-                                <li class="active"><a href="<?php echo SITE_URL ?>">School Search</a></li>
-                                <li><a href="<?php echo CLIENT_SITE_URL ?>client_review_rating/review_rating_view">Reviews/ Rating</a></li>
-                                <li><a href="<?php echo SITE_URL ?>forums/">Forums</a></li>
-                                <li><a href="#">Communities</a></li>
-                                <li><a href="#">News</a></li>
+                                <li class="<?= current_url() == "http://www.getmyuni.com/index.php" ? "active" : "" ?>"><a href="<?php echo SITE_URL ?>">School Search</a></li>
+                                <li class="<?= preg_match("/review/",current_url()) ? "active" : "" ?>"><a href="<?php echo CLIENT_SITE_URL ?>client_review_rating/review_rating_view">Reviews/ Rating</a></li>
+                                <li class="<?= preg_match("/forum/",current_url()) ? "active" : "" ?>"><a href="<?php echo SITE_URL ?>forums/1/">Forums</a></li>
+                                <li class="<?= preg_match("/communities/",current_url()) ? "active" : "" ?>"><a href="<?php echo SITE_URL ?>communities/1/">Communities</a></li>
+                                <li class="<?= preg_match("/news/",current_url()) ? "active" : "" ?>"><a href="<?php echo SITE_URL ?>news/1/">News</a></li>
 
                             </ul>
 

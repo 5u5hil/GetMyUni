@@ -5,7 +5,7 @@
 
  <script>
         function goBack() {
-            window.history.back()
+           window.location.href = "http://www.getmyuni.com/college/search";
         }
     </script>
 <div class="row container-fluid">

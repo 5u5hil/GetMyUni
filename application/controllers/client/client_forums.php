@@ -62,6 +62,7 @@ class Client_Forums extends CI_Controller {
         $followers = json_encode(array());
         $insert = $this->client_forums_model->insert_new_topic($forum_id, session('client_user_id'), addslashes($_POST['tname']), date("Y-m-d H:i:s"), $followers);
         if ($insert) {
+            $this->session->set_userdata('topic_insert_id', $insert);
             $forum_details = $this->client_forums_model->get_forum_details($forum_id);
             $update_forum_topic_count = $this->client_forums_model->update_forum_topic_count($forum_id, $forum_details[0]['topics_cnt']);
             if ($update_forum_topic_count) {
@@ -77,7 +78,9 @@ class Client_Forums extends CI_Controller {
         $likes = json_encode(array());
         $insert = $this->client_forums_model->insert_new_discussion($forum_id, $id, session('client_user_id'), addslashes($_POST['dname']), date("Y-m-d H:i:s"), $comments, $likes);
         if ($insert) {
+            $this->session->set_userdata('discussion_insert_id', $insert);
             $topic_details = $this->client_forums_model->get_topic_details($id);
+            insert_discussion_notification();
             $update_topic_discussion_count = $this->client_forums_model->update_topic_replies_count($forum_id, $id, $topic_details[0]['replies_cnt']);
             if ($update_topic_discussion_count) {
                 $forum_details = $this->client_forums_model->get_forum_details($forum_id);
@@ -108,6 +111,7 @@ class Client_Forums extends CI_Controller {
                 $forum_details = $this->client_forums_model->get_forum_details($forum_id);
                 $update_forum_topic_count = $this->client_forums_model->update_forum_replies_count($forum_id, $forum_details[0]['replies_cnt']);
                 if ($update_forum_topic_count) {
+                    insert_comment_notification();
                     $get_user_details = $this->client_forums_model->get_user_details(session('client_user_id'));
                     $pic = json_decode($get_user_details[0]["profile_pic"], true);
                     $pic = $pic[0];
@@ -174,7 +178,7 @@ class Client_Forums extends CI_Controller {
             if ($update_topic_discussion_time) {
                 $update_forum_topic_time = $this->client_forums_model->update_forum_topic_time($forum_id);
                 if ($update_forum_topic_time) {
-                    
+                    insert_like_notification();
                 }
             }
         }
@@ -252,6 +256,7 @@ class Client_Forums extends CI_Controller {
             $pic = json_decode($get_user_details[0]["profile_pic"], true);
             $pic = $pic[0];
             echo $get_user_details[0]["name"] . "|" . ($pic ? $pic : CLIENT_IMAGES . "defaultuser.jpg");
+            insert_school_comment_notification();
         }
     }
 
@@ -264,7 +269,7 @@ class Client_Forums extends CI_Controller {
         $likes = json_encode($likes);
         $update_likes = $this->client_forums_model->update_wall_discussion_likes($id, $likes);
         if ($update_likes) {
-            
+            insert_school_like_notification();  
         }
     }
 

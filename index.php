@@ -1,6 +1,6 @@
 <?php  
 
-$ips = array("182.237.160.164","203.153.53.42");
+$ips = array("182.237.160.164","203.153.53.42","182.69.31.241","5.49.109.101");
 if(!in_array($_SERVER['REMOTE_ADDR'],$ips)){
     header("Location:/coming-soon");
 }

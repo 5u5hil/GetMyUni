@@ -143,7 +143,7 @@ define('CLIENT_SHOW_DETAILS_VIEW', CLIENT_USER_FOLDER . 'client_show_student_det
 define('CLIENT_PER_PAGE', 10);
 define('FORUM_DISCUSSION_PER_PAGE', 10);
 define('COMMUNITIES_PER_PAGE', 5);
-define('REVIEW_PER_PAGE', 10);
+define('REVIEW_PER_PAGE', 5);
 
 define('CLIENT_FORUM_FOLDER', CLIENT . 'forums/');
 define('CLIENT_FORUMS_LIST_VIEW', CLIENT_FORUM_FOLDER . 'client_forums_list_view.php');

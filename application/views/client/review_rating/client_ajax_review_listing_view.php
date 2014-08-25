@@ -33,11 +33,11 @@
                           ?>
                             
                             
-                	<img src=<?php if(!empty ($ans_review["profile_pic"])){ echo $user_pic1;} else {echo "'".CLIENT_IMAGES ;}?>//user.jpg' class="img-responsive display_inline prof_pic" style="height:83px;width:84px;">
+                	<img src=<?php if(!empty ($ans_review["profile_pic"])){ echo $user_pic1;} else {echo "'".CLIENT_IMAGES ;}?>/defaultuser.jpg' class="img-responsive display_inline prof_pic" style="height:83px;width:84px;">
             	         
                     
             		<!--<img src="<?php echo CLIENT_IMAGES ;?>/user.jpg" class="img-responsive display_inline">-->
-                    <a href="#"><img src="<?php echo CLIENT_IMAGES ;?>/icons/follow.png" class="mt40"></a> <a href="#"><img src="<?php echo CLIENT_IMAGES ;?>/icons/message.png"  class="mt40"></a>
+                    <a href="#"><img src="<?php echo CLIENT_IMAGES ;?>icons/follow.png" class="mt40"></a> <a href="#"><img src="<?php echo CLIENT_IMAGES ;?>/icons/message.png"  class="mt40"></a>
                     
                     <div class="college_review_detail mt10"> Name: <span><?php echo $ans_review["name"];?></span></div>
                     <div class="college_review_detail mt10"> Program: <span><?php echo $ans_review["program_name"];?></span></div>
@@ -65,7 +65,7 @@
 					?>
 					<?php echo "<div class='alert alert-info'>No Reviews present for this school. Be the first one to Rate your school</div>"; ?>
 					
-					     <div class="leave_review">
+					     <div class="leave_review col-sm-3 col-md-3 col-xs-12">
             <div class="f_18 tcol_grey">Want to leave a review for this school?</div>
             <div class="write_review btn btn-sm">
 			<a 

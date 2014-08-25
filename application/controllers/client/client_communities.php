@@ -53,6 +53,7 @@ class Client_Communities extends CI_Controller {
         $insert = $this->client_communities_model->insert_new_community($name, json_encode($members), $user_id, $time, $pic, $desc);
         if ($insert) {
             $uri = urlclean(strtolower($insert[0]['cname']));
+            insert_new_community_notification($insert[0]['id'], $uri);
             redirect(SITE_URL . "communities/$uri/" . $insert[0]["id"] . "/");
         }
     }
@@ -66,7 +67,7 @@ class Client_Communities extends CI_Controller {
             $members = json_encode($members);
             $update_members = $this->client_communities_model->update_community_members($id, $members);
             if ($update_members) {
-                
+                insert_comm_user_join_notification();
             }
         }
     }
@@ -126,6 +127,7 @@ class Client_Communities extends CI_Controller {
             $pic = json_decode($get_user_details[0]["profile_pic"], true);
             $pic = $pic[0];
             echo $get_user_details[0]["name"] . "|" . ($pic ? $pic : CLIENT_IMAGES . "defaultuser.jpg");
+            insert_comm_comment_notification();
         }
     }
 
@@ -138,7 +140,7 @@ class Client_Communities extends CI_Controller {
         $likes = json_encode($likes);
         $update_likes = $this->client_communities_model->update_wall_discussion_likes($id, $likes);
         if ($update_likes) {
-            
+            insert_comm_like_notification();
         }
     }
 
@@ -183,6 +185,7 @@ class Client_Communities extends CI_Controller {
         $likes = json_encode(array());
         $insert = $this->client_communities_model->insert_new_wall_discussion($community_id, session('client_user_id'), addslashes($npost), date("Y-m-d H:i:s"), $comments, $likes);
         if ($insert) {
+            insert_comm_discussion_notification();
             redirect(CLIENT_SITE_URL . 'client_communities/community_wall/' . $community_id . '/1/' . $_POST['uriseg'] . '/');
         }
     }
@@ -302,16 +305,21 @@ class Client_Communities extends CI_Controller {
 
         $insert = $this->client_communities_model->insert_new_event($name, $cid, json_encode($members), $user_id, $time, $pic, $desc, $edate, $etime, $location);
         if ($insert) {
+            insert_new_event_notification();
             $uri = $_POST["uriseg"];
             redirect(SITE_URL . "communities/$uri/$cid/");
         }
     }
-    
-    function search_users(){
+
+    function search_users() {
         $term = $_GET["term"];
         $getUsers = $this->client_communities_model->get_users($term);
-        
+
         echo json_encode($getUsers);
+    }
+
+    function send_join_invite() {
+        
     }
 
 }

@@ -1345,7 +1345,7 @@ foreach ($get_school_name as $school_ans) {
 				//alert(test_count_sel);
 				 var img = $( ".studentprofilepic" ).attr('src');
 				 var res = img.split("/");
-				//alert(res[7]);
+				//alert(res[5]);
 				if ((school_count_sel >=1) || (school_count_text >=1))
 					{
 						var total_school = 1;
@@ -1363,18 +1363,18 @@ foreach ($get_school_name as $school_ans) {
 					{
 						var total_test = 0;
 					}	
-				if(res[7] != "defaultuser.jpg")
+				if(res[6] == "defaultuser.jpg")
 				
-				{
-					var img_count = 1;
-				}
-				else
 				{
 					var img_count = 0;
 				}
+				else if(res[9] != "defaultuser.jpg")
+				{
+					var img_count = 1;
+				}
 									
 				
-				//alert(school_count_sel);
+				//alert(img_count);
 				//alert(school_count_text);
 			var nPercent = ((count_text+count_select+1+total_school+total_test+img_count)/16)*100;
 			<?php $abc = "<script>document.write(nPercent)</script>"?>   
@@ -1405,7 +1405,7 @@ foreach ($get_school_name as $school_ans) {
                         max_file_size: '10mb',
                         max_file_count: '1',
                         multi_selection: false,
-                        url: '<?php echo ADMIN_SCRIPTS; ?>plugins/upload.php/?image_type=profile_pic', //site_url+'admin/breed/process_image',
+                        url: '<?php echo ADMIN_SCRIPTS; ?>plugins/upload.php/?image_type=eventimg', //site_url+'admin/breed/process_image',
                         flash_swf_url: site_url + 'ui/admin/scripts/plugin/plupload/js/plupload.flash.swf',
                         silverlight_xap_url: site_url + 'ui/admin/scripts/plugin/plupload/js/plupload.silverlight.xap',
                         filters: [

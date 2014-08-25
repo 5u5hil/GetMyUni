@@ -1313,7 +1313,7 @@
                                     </div>
 
                                     <div class="col-sm-12 col-md-12 collapse in" id="toggle-walls">
-                                        <iframe style="width: 100%;border: none;" frameborder="0" scrolling="no" id="iframe" onload='javascript:resizeIframe(this);' src="<?= CLIENT_SITE_URL ?>client_college/get_college_wall/<?= $this->uri->segment(3, 0) ?>/1/<?= $this->uri->segment(2, 0) ?>"  ></iframe>      
+                                        <iframe style="width: 100%;border: none;" frameborder="0" id="iframe" height="500" src="<?= CLIENT_SITE_URL ?>client_college/get_college_wall/<?= $this->uri->segment(3, 0) ?>/1/<?= $this->uri->segment(2, 0) ?>"  ></iframe>      
                                     </div>
                                 </div>
 

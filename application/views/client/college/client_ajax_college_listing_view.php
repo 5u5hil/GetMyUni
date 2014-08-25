@@ -88,7 +88,7 @@ if (!empty($ans)) {
                             </div-->
 							
 				<div class="col-sm-12 col-md-12 cmpfrmsub add_comapre_btn" id="<?php echo $value['id']."-".$value['school_name'];?>">
-                            	<div class="compare_circle mb10 mr3 pull-left compare_circle1 " >+</div>
+                            	<div class="compare_circle mt10 compare_circle1 " >+</div>
 									 Compare
                             </div>
             </div>

@@ -71,7 +71,7 @@ class Client_Communities_Model extends CI_Model {
 
     function get_wall_discussion_details($id) {
         if (is_numeric($id)) {
-            $discussion_details = $this->db->query("select * from community_walls s, communities c where s.id=$id and s.community_id = c.id limit 1");
+            $discussion_details = $this->db->query("select *, s.added_by d_by from community_walls s, communities c where s.id=$id and s.community_id = c.id limit 1");
             if ($discussion_details->num_rows == 0) {
                 return FALSE;
             } else {

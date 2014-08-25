@@ -1,0 +1,108 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+.error{display:none;}  
+#element_chosen{display:none}
+
+.navbar-form .form-control 
+	{
+		width: 296px;
+		border-radius: 15px;
+	}
+.navbar-form{padding:2px 8px;}
+		
+		
+.output
+{
+        font-family:Arial;
+        font-size: 10pt;
+        color:black;
+        padding-left: 3px;
+        padding-top: 3px;
+        border: 1px solid #ccc;
+        width: 99%;
+        background: #fff;
+		margin-top: -13px !important;
+		
+}
+.shadow
+{
+        width:99%;
+        position:relative !important;
+        top: 13px;
+       left: 2px;
+        background: #555;
+		
+}
+.shadow div{
+        position:relative !important;
+        top: -2px;
+        left: -2px;
+}
+
+.output .r_option:hover{
+
+background:#2d548d;
+color:#fff;
+} 
+
+#loading{
+
+margin-left:250px;
+margin-top:200px;
+
+}
+.advance_search{
+color:#fff;
+text-decoration:none;
+}
+
+.advance_search:hover
+{
+text-decoration:none;
+color:#fff;
+}
+
+.home_subtitle:hover
+{
+	color: #093c64;
+	text-decoration:none;
+
+}
+
+label.error {
+    color: #b94a48;
+    margin-top: 2px;
+}
+
+/*#remove_school .school_name_1{
+
+height:44px;
+}*/
+
+.hide_box
+{
+height:44px;
+}
+.prof_pic{
+height:100px;
+width:100px;
+border:solid 3px #f1f1f1;
+
+}
+.compare_circle{
+cursor:pointer;
+}
+
+ .edit_pro:hover .dropdown-menu {
+    display: block;
+ }
+ .delete_compare {
+ cursor:pointer;
+ }
+
+
+
+
+

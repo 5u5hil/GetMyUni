@@ -1,4 +1,5 @@
 <?php
+
 //$con=mysqli_connect("localhost","root","","gmu");
 
 if (!defined('BASEPATH'))
@@ -113,8 +114,8 @@ function set_session($array) {
 function post($index) {
     $CI = & get_instance();
     $post_value = $CI->input->post($index, TRUE);
-   // if (!is_array($post_value))
-       // $post_value = $post_value);
+    // if (!is_array($post_value))
+    // $post_value = $post_value);
 
     return $post_value;
 }
@@ -126,8 +127,8 @@ function post($index) {
 function get($index) {
     $CI = & get_instance();
     $get_value = $CI->input->get($index, TRUE);
-   // if (!is_array($get_value))
-        //$get_value = mysqli_real_escape_string($con,$get_value);
+    // if (!is_array($get_value))
+    //$get_value = mysqli_real_escape_string($con,$get_value);
     return $get_value;
 }
 
@@ -204,7 +205,6 @@ function client_pagiantion($pagination_url, $total_row, $per_page, $current_page
     return $pagination;
 }
 
-
 function client_pagiantion1($pagination_url, $total_row, $per_page, $current_page, $uri_segment) {
 
     $CI = & get_instance();
@@ -239,8 +239,6 @@ function client_pagiantion1($pagination_url, $total_row, $per_page, $current_pag
     return $pagination;
 }
 
-
-
 function date_time_diff($date) {
     $datetime1 = new DateTime($date);
     $datetime2 = new DateTime(date("Y-m-d H:i:s"));
@@ -258,6 +256,8 @@ function date_time_diff($date) {
         $date = $interval->i . "m ago";
     } elseif ($interval->s > 0) {
         $date = $interval->s . "s ago";
+    } else {
+        $date = "0s ago";
     }
 
     return $date;

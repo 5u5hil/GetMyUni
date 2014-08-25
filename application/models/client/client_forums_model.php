@@ -145,7 +145,7 @@ class Client_Forums_Model extends CI_Model {
 
     function get_discussion_details($id) {
         if (is_numeric($id)) {
-            $discussion_details = $this->db->query("select * from user_forum_topic_discussions d, user_forum_topics t , master_forums f where d.id=$id and d.topic_id = t.id and d.forum_id = f.id limit 1");
+            $discussion_details = $this->db->query("select *, d.added_by d_by from user_forum_topic_discussions d, user_forum_topics t , master_forums f where d.id=$id and d.topic_id = t.id and d.forum_id = f.id limit 1");
             if ($discussion_details->num_rows == 0) {
                 return FALSE;
             } else {

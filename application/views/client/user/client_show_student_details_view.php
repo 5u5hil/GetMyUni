@@ -52,95 +52,86 @@
                     </div>
 					
 					
-                    <div class="tcol_darkblue f_18 mt20">Your profile is <?php echo $abc;?> complete</div>
-                    <!--img src="<?php echo CLIENT_IMAGES; ?>profilecomplete.png"-->
-                    <div id="circle">
-                    </div>
+                    
                 </div>
                 <div class="col-sm-8 col-md-8">
                     <h2 class="tcol_darkblue mb20"> Personal Info </h2>
                     <div class="form-group">
-                        <label for="firstname" class="col-sm-4 control-label"> Name <span style="color:#B00000">*</span></label>
+                        <label for="firstname" class="col-sm-4 control-label"> Name <span>:</span></label>
                         <div class="col-sm-8">
-                            <input data-progression="" type="text" class="form-control pro_com_text"  data-helper="" name="name" id="firstname" value="<?php echo $user_data->name ?>">
-							<label for="name" class="error" id="name_err">This field is required.</label>
+                            <label  class="control-label"><?php echo $user_data->name ?></label>
+                          
+                            
                         </div>
 						
                     </div>
 
                     <div class="form-group">
-                        <label for="email" class="col-sm-4 control-label">Email</label>
+                        <label for="email" class="col-sm-4 control-label">Email <span>:</span></label>
                         <div class="col-sm-8">
-                            <input data-progression="" type="email" disabled="disabled"  data-helper="" class="form-control pro_com_text" id="email" value="<?php echo $user_data->email ?>">
+                            <label data-progression=""  disabled="disabled"  data-helper="" class="control-label " id="email" ><?php echo $user_data->email ?></abel>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="datepicker" class="col-sm-4 control-label">Date of Birth</label>
+                        <label for="datepicker" class="col-sm-4 control-label">Date of Birth <span>:</span></label>
                         <div class="col-sm-8">
-                            <input data-progression="" type="text" name="dob"  data-helper="" value="<?php  if($user_data->dob !="0000-00-00") { echo date('d-m-Y', strtotime($user_data->dob)); }else {  echo "";}?>" class="form-control pro_com_text" id="datepicker" >
+                            <label data-progression=""  name="dob"  data-helper=""  class="control-label pro_com_text"> <?php  if($user_data->dob !="0000-00-00") { echo date('d-m-Y', strtotime($user_data->dob)); }?></label>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="gender" class="col-sm-4 control-label">Gender</label>
+                        <label for="gender" class="col-sm-4 control-label">Gender <span>:</span></label>
                         <div class="col-sm-8">
-                            <label class="radio-inline">
-                                <?php
-                                $male_checked = 'checked';
-                                $female_checked = '';
-                                if ($user_data->gender == 'M')
-                                    $male_checked = 'checked';
-                                if ($user_data->gender == 'F')
-                                    $female_checked = 'checked';
-                                ?>
-                                <input data-progression="" class = "form-control" type="radio"  name="gender" id="male" value="M" <?php echo $male_checked ?>> Male
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" data-progression class = "form-control" name="gender" id="female" value="F" <?php echo $female_checked ?>> Female
-                            </label>
+                            <label  class="control-label"><?php if ($user_data->gender == 'M') { echo "Male"; } else { echo "Female";} ?></label>
+                           
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="country" class="col-sm-4 control-label">Country of residence</label>
+                        <label for="country" class="col-sm-4 control-label">Country of residence<span>:</span></label>
                         <div class="col-sm-8">
-                            <select data-progression="" type="select" class="form-control new-select pro_com_sel" name="country_id">
-                                <option value="">Country name</option>
+                           
                                 <?php
                                 $country = getMasters('country');
                                 if ($country) {
 
                                     foreach ($country as $con) {
-                                        $selected = '';
+                                        
                                         if ($con['country_id'] == $user_data->country_id)
-                                            $selected = 'selected';
-                                        echo '<option ' . $selected . ' value="' . $con['country_id'] . '">' . $con['country_name'] . '</option>';
+                                        {
+                                         ?>
+                                           <label  class="control-label"><?php echo $con['country_name'] ?></label>
+                                     <?php 
+                                           }
+                                        }
                                     }
-                                }
+                               
                                 ?>
-                            </select>   
+                        
                         </div>                             
                     </div>
 
                     <div class="form-group mb30">
-                        <label for="preferredlocation" class="col-sm-4 control-label">Preferred destination of study</label>
+                        <label for="preferredlocation" class="col-sm-4 control-label">Preferred destination of study<span>:</span></label>
                         <div class="col-sm-8">
-                            <select data-progression="" type="select" class="form-control new-select pro_com_sel" name="preferred_destination">
-                                <option value="">Country name</option>
+                          
                                 <?php
                                 $country = getMasters('country');
                                 if ($country) {
 
                                     foreach ($country as $con1) {
-                                        $pre_selected = '';
+                                     
                                         if ($con1['country_id'] == $user_data->preferred_destination)
-                                            $pre_selected = 'selected';
-                                        echo '<option ' . $pre_selected . ' value="' . $con1['country_id'] . '">' . $con1['country_name'] . '</option>';
+                                        {
+                                         ?>
+                                            <label  class="control-label"><?php echo $con['country_name'] ?></label>
+                                      <?php 
+                                         }
                                     }
                                 }
                                 ?>					
-                            </select>   
+                        
                         </div>                             
                     </div>  
 
@@ -503,90 +494,101 @@
 
                     <h2 class="tcol_darkblue mb30 mt30"> Interested In </h2>
                     <div class="form-group">
-                        <label for="levelofstudy" class="col-sm-4 control-label">Level of study</label>
+                        <label for="levelofstudy" class="col-sm-4 control-label">Level of study<span>:<span></label>
                         <div class="col-sm-8">
-                            <select type="select" class="form-control new-select pro_com_sel" name="interested_degree_id">
-                                <option value="">Level of study</option>
+                           
                                 <?php
                                 $master_degree = getMasters('master_degree');
                                 if ($master_degree) {
                                     foreach ($master_degree as $mast) {
-                                        $selected = '';
+                                       
                                         if ($mast['id'] == $user_data->interested_degree_id)
-                                            $selected = 'selected';
-                                        echo '<option ' . $selected . ' value="' . $mast['id'] . '">' . $mast['degree_name'] . '</option>';
+                                        {
+                                           ?>
+                                            <label  class="control-label"><?php echo $mast['degree_name']; ?></label>
+                                       <?php 
+                                          }
                                     }
                                 }
                                 ?>						
-                            </select>   
+                           
                         </div>                             
                     </div>
 
                     <div class="form-group">
-                        <label for="areaofstudy" class="col-sm-4 control-label">Area of study</label>
+                        <label for="areaofstudy" class="col-sm-4 control-label">Area of study<span>:<span></label>
                         <div class="col-sm-8">
-                            <select type="select" class="form-control new-select pro_com_sel" name="interested_field_id">
-                                <option value="">Area of study</option>
+                            
                                 <?php
                                 $area_of_study = getMasters('field_of_study');
                                 if ($area_of_study) {
                                     foreach ($area_of_study as $area) {
-                                        $selected = '';
+                                       
                                         if ($area['id'] == $user_data->interested_field_id)
-                                            $selected = 'selected';
-                                        echo '<option ' . $selected . ' value="' . $area['id'] . '">' . $area['field_name'] . '</option>';
-                                    }
+                                        {  
+                                        ?>
+                                            
+                                            <label  class="control-label"><?php echo $area['field_name']; ?></label>
+                                       <?php 
+                                            }
+                                     }
                                 }
                                 ?>	
 
-                            </select>   
+                          
                         </div>                             
                     </div>
 
                     <div class="form-group mb30">
-                        <label for="domainofstudy" class="col-sm-4 control-label">Domain of study</label>
+                        <label for="domainofstudy" class="col-sm-4 control-label">Domain of study<span>:<span></label>
                         <div class="col-sm-8">
-                            <select type="select" class="form-control new-select pro_com_sel" name="interested_domain_id">
-                                <option value="">Domain of study</option>
+                           
                                 <?php
                                 $domain = getMasters('master_majors_domains');
                                 if ($domain) {
                                     foreach ($domain as $dom) {
-                                        $selected = '';
+                                     
                                         if ($dom['id'] == $user_data->interested_domain_id)
-                                            $selected = 'selected';
-                                        echo '<option ' . $selected . ' value="' . $dom['id'] . '">' . $dom['domains_name'] . '</option>';
+                                        {
+                                            ?>
+                                            
+                                                <label  class="control-label"><?php echo $dom['domains_name']; ?></label>
+                                        <?php 
+                                        }
                                     }
                                 }
                                 ?>						
-                            </select>   
+                             
                         </div>                             
                     </div>
                     <hr/>
                     <h2 class="tcol_darkblue mb30 mt30"> Work Experience </h2>
                     <div class="form-group">
 
-                        <label for="job_position_id" class="col-sm-4 control-label ">Current job Position</label>
+                        <label for="job_position_id" class="col-sm-4 control-label ">Current job Position<span>:<span></label>
                         <div class="col-sm-8">
-                            <select type="select" class="form-control new-select pro_com_sel" name="job_position_id">
-                                <option value="">Job Position</option>
+                          
                                 <?php
                                 $job_position = getMasters('job_position');
                                 if ($job_position) {
                                     foreach ($job_position as $pos) {
-                                        $selected = '';
+                                       
                                         if ($pos['id'] == $user_data->job_position_id)
-                                            $selected = 'selected';
-                                        echo '<option ' . $selected . ' value="' . $pos['id'] . '">' . $pos['name'] . '</option>';
-                                    }
+                                        {
+                                          ?>
+                                        <label  class="control-label"><?php echo $pos['name']; ?></label>
+                                   
+                                     <?php 
+                                        }
+                                        }
                                 }
                                 ?>
-                            </select> 
+                           
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="company" class="col-sm-4 control-label">Current Company</label>
+                        <label for="company" class="col-sm-4 control-label">Current Company<span>:<span></label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control pro_com_text" name="company" value="<?php echo $user_data->company ?>" id="company" >
                         </div>
@@ -595,25 +597,30 @@
                     <div class="form-group mb30">
                         <label for="industry " class="col-sm-4 control-label">Current Industry</label>
                         <div class="col-sm-8">
-                            <select type="select" class="form-control new-select pro_com_sel" name="industry_id">
-                                <option value="">Industry</option>
+                            
                                 <?php
                                 $industry = getMasters('industry');
                                 if ($industry) {
                                     foreach ($industry as $ind) {
-                                        $selected = '';
+                                       
                                         if ($ind['id'] == $user_data->industry_id)
-                                            $selected = 'selected';
-                                        echo '<option ' . $selected . ' value="' . $ind['id'] . '">' . $ind['name'] . '</option>';
+                                        { 
+                                        ?>    
+                                            
+                                        
+                                       <label  class="control-label"><?php echo $pos['name']; ?></label>
+                                    <?php
+                                        }
+                                    
                                     }
                                 }
                                 ?>
 
-                            </select>   
+                           
                         </div>                             
                     </div>
                     <div class="form-group mb30">
-                        <label for="functionality " class="col-sm-4 control-label">Current Functionality</label>
+                        <label for="functionality " class="col-sm-4 control-label">Current Functionality<span>:<span></label>
                         <div class="col-sm-8">
                             <select type="select" class="form-control new-select pro_com_sel" name="functionality_id">
                                 <option value="">Functionality</option>
@@ -621,10 +628,14 @@
                                 $functionality = getMasters('functionality');
                                 if ($functionality) {
                                     foreach ($functionality as $func) {
-                                        $selected = '';
+                                       
                                         if ($func['id'] == $user_data->functionality_id)
-                                            $selected = 'selected';
-                                        echo '<option ' . $selected . ' value="' . $func['id'] . '">' . $func['name'] . '</option>';
+                                        {
+                                            ?>
+                                                <label  class="control-label"><?php echo $pos['name']; ?></label>
+                                           <?php 
+                                           
+                                        }
                                     }
                                 }
                                 ?>					
@@ -1054,71 +1065,6 @@
 
             </body>
             </html>
-
-
-
-
-            <script>
-            ( function( $ ){
-			
-				var count_text = $('input.pro_com_text[value!=""]').length;
-				var count_select = $("select.pro_com_sel option:selected[value!='']").length;
-				
-				var tcount = $('.form-control').length;
-				//alert(count_text);
-				//alert(count_select);
-				var school_count_sel = $("select._pro-school-sel option:selected[value!='']").length;
-				var school_count_text = $('input._pro-school-text[value!=""]').length;
-				var test_count_sel = $("select.pro_test_sel option:selected[value!='']").length;
-				//alert(test_count_sel);
-				 var img = $( ".studentprofilepic" ).attr('src');
-				 var res = img.split("/");
-				//alert(res[7]);
-				if ((school_count_sel >=1) || (school_count_text >=1))
-					{
-						var total_school = 1;
-					}
-					else
-					{
-						var total_school = 0;
-					}	
-					
-					if ((test_count_sel >=1))
-					{
-						var total_test = 1;
-					}
-					else
-					{
-						var total_test = 0;
-					}	
-				if(res[7] != "defaultuser.jpg")
-				
-				{
-					var img_count = 1;
-				}
-				else
-				{
-					var img_count = 0;
-				}
-									
-				
-				//alert(school_count_sel);
-				//alert(school_count_text);
-			var nPercent = ((count_text+count_select+1+total_school+total_test+img_count)/16)*100;
-			<?php $abc = "<script>document.write(nPercent)</script>"?>   
-                    $( '#circle' ).progressCircle({
-                    
-                     nPercent        : nPercent.toFixed(),
-					showPercentText : true,
-					circleSize      : 140,
-					thickness       : 4
-                    
-                    });
-            
-					
-            })( jQuery );
-            </script>
-
 
             <script src="<?php echo CLIENT_SCRIPTS; ?>jquery-ui.min.js"></script>
             <script src="<?php echo ADMIN_SCRIPTS; ?>plugins/plupload.full.min.js" type="text/javascript"></script>

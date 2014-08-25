@@ -52,7 +52,7 @@ $arrAddItem =array(
   
 	
 								<div class="col-sm-3 col-md-3" >
-                            	<div class="hs_number mb10 mr3 pull-left"><?php echo $count;?></div> <span class="school_1 <?php  echo $school_details['school_id']; ?> text-center" style="margin-left:20px;"><?php echo $school_details['school_name'];?></span> <span class="delete_compare" id="<?php echo $school_details['school_id']; ?>">x</span>
+                            	<div class="hs_number mb10 mr3 pull-left"><?php echo $count;?></div> <span class="school_1 <?php  echo $school_details['school_id']; ?> text-center" ><?php echo $school_details['school_name'];?></span> <span class="delete_compare" id="<?php echo $school_details['school_id']; ?>">x</span>
 								<input type="hidden" value="<?php  echo $school_details['school_id'];?>" name="comapre_school[]" id=<?php  echo $school_details['school_id'];?>>
                             </div>
   
@@ -113,7 +113,7 @@ $this->session->set_userdata('school_session_compare', $arrShopItems);
   ?>
 	
 								<div class="col-sm-3 col-md-3" >
-                            	<div class="hs_number mb10 mr3 pull-left"><?php echo $count;?></div> <span class="school_1 <?php  echo $school_details['school_id']; ?> text-center" style="margin-left:20px;"><?php echo $school_details['school_name'];?></span> <span class="delete_compare" id="<?php echo $school_details['school_id']; ?>">x</span>
+                            	<div class="hs_number mb10 mr3 pull-left"><?php echo $count;?></div> <span class="school_1 <?php  echo $school_details['school_id']; ?> text-center" ><?php echo $school_details['school_name'];?></span> <span class="delete_compare" id="<?php echo $school_details['school_id']; ?>">x</span>
 								<input type="hidden" value="<?php  echo $school_details['school_id'];?>" name="comapre_school[]" id=<?php  echo $school_details['school_id'];?>>
                             </div>
   

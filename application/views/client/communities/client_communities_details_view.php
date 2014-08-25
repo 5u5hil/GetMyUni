@@ -186,17 +186,17 @@
             </div>
 
             <div class="col-sm-12 col-md-12 collapse in" id="toggle-walls">
-                <iframe style="width: 100%;border: none;" frameborder="0" scrolling="no" id="iframe" onload='javascript:resizeIframe(this);' src="<?= CLIENT_SITE_URL ?>client_communities/community_wall/<?= $this->uri->segment(3, 0) ?>/1/<?= $this->uri->segment(2, 0) ?>"  ></iframe>      
+                <iframe style="width: 100%;border: none;" frameborder="0" id="iframe" height="500" src="<?= CLIENT_SITE_URL ?>client_communities/community_wall/<?= $this->uri->segment(3, 0) ?>/1/<?= $this->uri->segment(2, 0) ?>"  ></iframe>      
             </div>
         </div>
 
     </div>
-			<div class="col-sm-2 sidebar">
-			 <?php  $this->load->view(CLIENT_TICKER_VIEW);?>
-			 <?php $this->load->view(CLIENT_ADS_VIEW); ?>
-           </div>
-           
-           
+    <div class="col-sm-2 sidebar">
+        <?php $this->load->view(CLIENT_TICKER_VIEW); ?>
+        <?php $this->load->view(CLIENT_ADS_VIEW); ?>
+    </div>
+
+
 </div>
 
 <footer>
@@ -228,74 +228,99 @@
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-5" data-toggle="collapse" data-target="#gmu_invite"><a href="#" class="btn btn-sm invite_members">GMU Invite</a> </div>
                     <div class="col-sm-5"><a href="#" class="btn btn-facebook invite_fb">Facebook Invite</a>
-                </div>
-                <div class="row mt50">
-                <div class="col-sm-12">
-               	 <div class="collapse" id="gmu_invite">
-                <form>
-                <div class="form-group">
-                        <label for="invitegmu" class="col-sm-4 control-label"> Invite GMU Members </label>
-                        <div class="col-sm-8">
-                           <textarea class="inviteMembers form-control" name="sinput"></textarea>
-							
-                        </div>
-						
                     </div>
-                
-                <div class="form-group ">
-                    <div class="col-sm-12 mt20">
-                       <div class="pull-right"> 
-                       <input type="submit" value="Submit" class="btn btn-primary">
-                        <input type="button" value="Cancel" class="btn btn-default">
+                    <div class="row mt50">
+                        <div class="col-sm-12">
+                            <div class="collapse" id="gmu_invite">
+                                <form id="inviteMForm">
+                                    <div class="form-group">
+                                        <label for="invitegmu" class="col-sm-4 control-label"> Invite GMU Members </label>
+                                        <div class="col-sm-8">
+                                            <textarea class="inviteMembers form-control" name="sinput" placeholder="Start typing Name of the invitee"></textarea>
+                                        </div>
+                                        <input type="hidden" name="cid" value="<?= $community[0]["id"] ?>" />
+                                        <input type="hidden" name="cname" value="<?= $community[0]["cname"] ?>" />
+                                    </div>
+
+                                    <div class="form-group ">
+                                        <div class="col-sm-12 mt20">
+                                            <div class="pull-right"> 
+                                                <input type="submit" value="Submit" class="btn btn-primary invitesubmit">
+                                                <input type="button" value="Cancel" class="btn btn-default">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
                         </div>
                     </div>
-                </div>
-                </form>
-                
-                </div>
-                </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    var user_id = "<?= session('client_user_id') ?>";
-</script>
+    <script>
+        var user_id = "<?= session('client_user_id') ?>";
+    </script>
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
-<script src="<?php echo CLIENT_SCRIPTS; ?>jquery.min.js"></script> 
-<!-- Include all compiled plugins (below), or include individual files as needed --> 
-<script src="<?php echo CLIENT_SCRIPTS; ?>bootstrap.min.js"></script>
-<link href="<?php echo CLIENT_CSS; ?>bootstrap-multiselect.css" rel="stylesheet">
-<link href="<?php echo CLIENT_CSS; ?>bootstrap_hexagone.css" rel="stylesheet">
-<script src="<?php echo CLIENT_SCRIPTS; ?>bootstrap-multiselect.js"></script> 
-<script src="<?php echo CLIENT_SCRIPTS; ?>jquery-ui.min.js"></script> 
-<script type="text/javascript" src="<?php echo CLIENT_MODULES ?>client_user_module_js.js"></script> 
-<script type="text/javascript" src="<?php echo CLIENT_MODULES ?>client_community_module.js"></script> 
-<script type="text/javascript">
-    $(document).ready(function() {
-//                        $('#myCarousel. #myCarousel1').carousel({
-//                            interval: 10000
-//                        });
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+    <script src="<?php echo CLIENT_SCRIPTS; ?>jquery.min.js"></script> 
+    <!-- Include all compiled plugins (below), or include individual files as needed --> 
+    <script src="<?php echo CLIENT_SCRIPTS; ?>bootstrap.min.js"></script>
+    <link href="<?php echo CLIENT_CSS; ?>bootstrap-multiselect.css" rel="stylesheet">
+    <link href="<?php echo CLIENT_CSS; ?>bootstrap_hexagone.css" rel="stylesheet">
+    <script src="<?php echo CLIENT_SCRIPTS; ?>bootstrap-multiselect.js"></script> 
+    <script src="<?php echo CLIENT_SCRIPTS; ?>jquery-ui.min.js"></script> 
+    <script type="text/javascript" src="<?php echo CLIENT_MODULES ?>client_user_module_js.js"></script> 
+    <script type="text/javascript" src="<?php echo CLIENT_MODULES ?>client_community_module.js"></script> 
+    <script type="text/javascript">
+        $(document).ready(function() {
+            //                        $('#myCarousel. #myCarousel1').carousel({
+            //                            interval: 10000
+            //                        });
 
-        $(".inviteM").click(function() {
-            FB.ui({
-                method: 'apprequests',
-                message: 'Invite your Facebook Friends'
-            }, function(response) {
-                if (response) {
-                    console.log(response);
-                    alert('Successfully Invited');
+            $(".inviteM").click(function() {
+                if (user_id == "") {
+                    $("#myModalLogin").modal();
                 } else {
-                    alert('Failed To Invite');
+                    $("#myModalInvite").modal();
+                }
+
+            });
+            $(".btn.btn-facebook.invite_fb").click(function() {
+                FB.ui({
+                    method: 'apprequests',
+                    message: 'Invite your Facebook Friends'
+                }, function(response) {
+                    if (response) {
+                        console.log(response);
+                        alert('Successfully Invited');
+                    } else {
+                        //alert('Failed To Invite');
+                    }
+                });
+            });
+
+            $(".invitesubmit").click(function(e) {
+                e.preventDefault();
+                if ($(".inviteMembers").val() == "") {
+                    alert("Please Select atleast one invitee");
+                } else {
+                    $.ajax({
+                        type: "post",
+                        url: CLIENT_SITE_URL + "client_communities/send_join_invite/",
+                        data: $("#inviteMForm").serialize(),
+                        success: function() {
+                            $(".inviteMembers").val("Successfully Sent");
+                        }
+                    });
                 }
             });
+
         });
-    });
 
 
-</script>
+    </script>
 </body></html><script src="<?php echo CLIENT_SCRIPTS; ?>jquery-ui.min.js"></script>
 <script src="<?php echo ADMIN_SCRIPTS; ?>plugins/plupload.full.min.js" type="text/javascript"></script>
