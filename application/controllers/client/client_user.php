@@ -227,6 +227,124 @@ class Client_user extends CI_Controller {
         $data['study_field'] = getMasters('field_of_study');
         $this->load->view(CLIENT_SHOW_DETAILS_VIEW, $data);
     }
+    
+    function social_login()
+    {
+        $json_array['error'] = 'error';
+        $json_array['msg'] = 'Something Went Wrong!';
+        $data = $this->input->post();     
+        if(isset($data['social_type']) && $data['email'])
+        {
+            $create_user = $this->social_save($data['social_type'],$data);
+            $json_array['error'] = 'success';
+            $json_array['msg'] = 'success';
+            $json_array['type'] = $data['social_type'];
+            $json_array['redirect_path'] = $create_user['redirect_path'];
+        }
+        echo json_encode($json_array);
+    }
+    
+    function social_save($type,$data)
+    {
+        $responce_array = array('error'=>'error','type'=>$type,'redirect_path'=>'');
+        if($data['email'])
+        {
+            
+            $this->model->email = $data['email'];
+            $user_data  = $this->model->getUserData();
+            $industry_id = $data['industry_id'] = ($data['industry'] ? $this->get_industry($data['industry']):'');
+            //$functionality_id = $this->get_functionality($data['']);
+            $company = $data['company'] = ($data['position'] ? $data['position']['values'][0]['company']['name'] : ''); 
+            $fileName = '';
+            if(isset($data['profile_pic']) && $data['profile_pic'])
+            {
+                /*$url = $data['profile_pic'];
+                $image_data = file_get_contents($url);
+                $fileName = $data['profile_id'].'_'.$type.'.jpg';
+                $save_path = $_SERVER['DOCUMENT_ROOT'].'/public/admin/scripts/plugins/uploads/eventimg/';
+                $save_image = file_put_contents($save_path.$fileName, $image_data);*/
+                $fileName = json_encode($data['profile_pic']);
+            }
+            
+            
+            $profile_pic = $data['profile_pic'] = $fileName;
+            $public_profile_url = $data['public_profile_url'];
+            $dob = @($data['dob'] ? date('Y-m-d',strtotime($data['dob'])) : '');
+            $gender = ($data['gender'] == 'female' ? 'F' : 'M');
+            $name = $data['name'] = $data['first_name'].' '.$data['last_name'];
+            //display($data);
+            if(!$user_data)
+            {
+                // pre login
+                $redirect_path = SITE_URL.'user/pre-login-view';
+                $pre_register_data = array(
+                'full_name' => $name,
+                'email' => $data['email'],
+                'industry_id' => $industry_id,
+                'dob' => $dob,
+                'gender' => $gender,
+                'company'    => $company,
+                'profile_id' => $data['profile_id'],
+                'profile_pic' => $profile_pic,
+                'public_profile_url' => $public_profile_url,
+                'profile_type' => $type,
+                );
+                $this->session->set_userdata($pre_register_data);
+            }
+            else
+            {
+                //display($_SERVER);
+                //display($user_data);
+                //update user
+                $redirect_path = SITE_URL;
+                $http_ref = explode('/',$_SERVER['HTTP_REFERER']);
+                //echo '--->'.$http_ref[(count($http_ref)-2)];
+                if(isset($_SERVER['HTTP_REFERER']) &&  $http_ref[count($http_ref)-2] != 'user')
+                {
+                    $redirect_path = 'reload';
+                }
+                
+                $data['interested_degree_id'] = $user_data->interested_degree_id;
+                $data['interested_field_id'] = $user_data->interested_field_id;
+                $data['interested_domain_id'] = $user_data->interested_domain_id;
+                $data['country_id'] = $user_data->country_id;
+                $data['preferred_destination'] = $user_data->preferred_destination;
+                $this->model->user_id = $user_data->id;
+                $save_user = $this->model->save_user($data); 
+                $user_session_data = array(
+                    'client_user_id' => $user_data->id,
+                    'client_email' => $data['email'],
+                );
+                $this->session->set_userdata($user_session_data);
+            }
+            $responce_array = array('error'=>'error','type'=>$type,'redirect_path'=>$redirect_path);
+            
+            
+        }
+        //display($this->session->all_userdata());
+        return $responce_array;
+    }
+    
+    function facebook_login($data)
+    {
+        $responce_array = array('error'=>'error','redirect_path'=>'');
+        if($data['email'])
+        {
+            
+        }
+        return $responce_array;
+    }
+    
+    function get_industry($industry)
+    {
+        $industry = $this->model->get_industry($industry);
+        return $industry->id; 
+    }
+    
+    function get_functionality()
+    {
+        
+    }
 	
 	
 

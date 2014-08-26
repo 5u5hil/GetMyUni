@@ -169,7 +169,7 @@
             
                            
             onLinkedInLoad();
-            $(".linkedin_loader").html('<img src="<?php echo CLIENT_IMAGES?>/loaders/loader8.gif">');                
+            $(".linkedin_loader").html('<img src="<?php //echo CLIENT_IMAGES?>/loaders/loader8.gif">');                
             $("#in_auth").hide();  
             IN.API.Profile("me").fields("id","first-name", "last-name", "email-address","pictureUrl","industry","positions","skills","location","public-profile-url","phone-numbers","publications").result(function (data) {
         member = data.values[0]; 

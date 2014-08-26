@@ -138,7 +138,7 @@
                     <div class="col-xs-12 col-md-4 col-md-offset-7 mt20">
                         <div class="pull-right">
                             <a href="#" class="top_nav_icon mr20"><img src="<?php echo CLIENT_IMAGES; ?>icons/message.png"></a>
-                            <a href="#" class="top_nav_icon mr20"><img src="<?php echo CLIENT_IMAGES; ?>icons/light.png"></a>
+                            <a href="/notifications/" class="top_nav_icon mr20"><img src="<?php echo CLIENT_IMAGES; ?>icons/light.png"><span class="badge noti"><?= get_unread_notification_count() ?></span></a>
                             <a href="#" class="top_nav_icon mr20  dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><img src=<?php
                                 if ($pro_pic != "") {
                                     echo $pro_pic;
@@ -151,6 +151,17 @@
                             </ul>
                         </div>
                     </div>
+                    <script>
+                        setInterval(function() {
+                            $.ajax({
+                                type: "POST",
+                                url: CLIENT_SITE_URL + "client_notification/get_unread_notification_count/",
+                                success : function(data){
+                                    $(".noti").html(data);
+                                }
+                            });
+                        }, 3000);
+                    </script>
                     <?php
                 }
                 ?>
@@ -175,10 +186,10 @@
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav nav-justified mt17 ">
                                 <li class="<?= current_url() == "http://www.getmyuni.com/index.php" ? "active" : "" ?>"><a href="<?php echo SITE_URL ?>">School Search</a></li>
-                                <li class="<?= preg_match("/review/",current_url()) ? "active" : "" ?>"><a href="<?php echo CLIENT_SITE_URL ?>client_review_rating/review_rating_view">Reviews/ Rating</a></li>
-                                <li class="<?= preg_match("/forum/",current_url()) ? "active" : "" ?>"><a href="<?php echo SITE_URL ?>forums/1/">Forums</a></li>
-                                <li class="<?= preg_match("/communities/",current_url()) ? "active" : "" ?>"><a href="<?php echo SITE_URL ?>communities/1/">Communities</a></li>
-                                <li class="<?= preg_match("/news/",current_url()) ? "active" : "" ?>"><a href="<?php echo SITE_URL ?>news/1/">News</a></li>
+                                <li class="<?= preg_match("/review/", current_url()) ? "active" : "" ?>"><a href="<?php echo CLIENT_SITE_URL ?>client_review_rating/review_rating_view">Reviews/ Rating</a></li>
+                                <li class="<?= preg_match("/forum/", current_url()) ? "active" : "" ?>"><a href="<?php echo SITE_URL ?>forums/1/">Forums</a></li>
+                                <li class="<?= preg_match("/communities/", current_url()) ? "active" : "" ?>"><a href="<?php echo SITE_URL ?>communities/1/">Communities</a></li>
+                                <li class="<?= preg_match("/news/", current_url()) ? "active" : "" ?>"><a href="<?php echo SITE_URL ?>news/1/">News</a></li>
 
                             </ul>
 

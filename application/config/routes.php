@@ -73,6 +73,7 @@ $route['communities/(:num)'] = 'client/client_communities/client_communities_vie
 $route['ticker'] = 'client/client_ticker/ticker_view';
 $route['adspace'] = 'client/client_adspace/adspace_view';
 $route['profile/(:num)'] = 'client/client_user/user_show_profile/$1/';
+$route['notifications'] = 'client/client_notification/notification_view/';
 ######################################################################CLIENT ROUTE#############################################################
 
 

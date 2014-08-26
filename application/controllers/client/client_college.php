@@ -68,6 +68,7 @@ class Client_college extends CI_Controller {
             $data['get_student_following_college'] = $this->model->get_student_following_college();
             $data['get_student_edu'] = $this->model->get_student_edu();
             $data['get_student_review_rate'] = $this->model->get_student_review_rate();
+            $data['get_college_top_sector']  = $this->model->get_college_top_sector();
             //display($data['get_user_following_info']);
             if ($data['get_college'])
                 $this->load->view(CLIENT_COLLEGE_DETAIL_VIEW, $data);

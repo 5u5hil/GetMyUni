@@ -523,9 +523,10 @@
                                             <div class="col-sm-12 sum_table_program" id="pro_<?php echo $program_value['id']; ?>">
                                                 <div class="col-sm-6 border-right">
                                                     <div class=" f_20 col_light_blue"><?php echo $program_value['program_name']; ?></div>
-                                                    <div class=" tcol_grey f_18" >Batch Size : <?php echo $program_value['program_size']; ?></div>
+                                                    <!--div class=" tcol_grey f_18" >Batch Size : <?php echo $program_value['program_size']; ?></div>
                                                     <div class=" tcol_grey f_18" >Length : <?php echo $program_value['program_legth']; ?></div>
-                                                    <div class=" tcol_grey f_18" >Type : <?php echo $program_value['program_type']; ?></div>
+                                                    <div class=" tcol_grey f_18" >Type : <?php echo $program_value['program_type']; ?></div-->
+                                                     <div class=" tcol_grey f_18" >Link : <a href="<?php echo $program_value['program_link']; ?>">Click Here </a></div>
                                                 </div>
                                                 <div class="col-sm-6">
 
@@ -1313,7 +1314,7 @@
                                     </div>
 
                                     <div class="col-sm-12 col-md-12 collapse in" id="toggle-walls">
-                                        <iframe style="width: 100%;border: none;" frameborder="0" id="iframe" height="500" src="<?= CLIENT_SITE_URL ?>client_college/get_college_wall/<?= $this->uri->segment(3, 0) ?>/1/<?= $this->uri->segment(2, 0) ?>"  ></iframe>      
+                                        <iframe style="width: 100%;border: none;" frameborder="0" scrolling="no" id="iframe" onload='javascript:resizeIframe(this);' src="<?= CLIENT_SITE_URL ?>client_college/get_college_wall/<?= $this->uri->segment(3, 0) ?>/1/<?= $this->uri->segment(2, 0) ?>"  ></iframe>      
                                     </div>
                                 </div>
 

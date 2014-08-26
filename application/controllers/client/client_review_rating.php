@@ -29,6 +29,7 @@ class Client_Review_Rating extends CI_Controller {
 
         $this->model->college_id = $this->uri->segment(5);
 		 $school_name = $this->uri->segment(4);
+                
 		  $schoo = $this->uri->segment(6);
 		  //display ($schoo);
         $this->model->row = FALSE;
@@ -55,6 +56,7 @@ class Client_Review_Rating extends CI_Controller {
     function review_full_details_view() {
 
         $this->model->review_id = $this->uri->segment(4);
+     
         $this->model->row = TRUE;
         $data['get_review_rating'] = $this->model->get_review_rating();
         //display($data['get_review_rating']);

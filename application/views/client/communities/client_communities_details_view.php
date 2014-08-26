@@ -158,7 +158,12 @@
                                                 <div>Event name: <?= $event["ename"] ?></div>
                                                 <div>Date: <?= date("d M Y", strtotime($event["edate"])) ?> </div>
                                                 <div> Location: <?= $event["location"] ?> </div>
-                                                <div class="mt10"> <a href="javascript:void();" class="event_social"> <i class="fa fa-facebook tcol_darkblue"> </i></a> <a href="javascript:void();" class="event_social"><i class="fa  fa-linkedin tcol_darkblue"></i></a> <a href=javascript:void(); class="event_social"><i class="fa  fa-google-plus tcol_darkblue"></i></a> </div>
+                                                <div class="mt10"> 
+                                                    <a href="javascript:void();" class="event_social"> <i class="fa fa-facebook tcol_darkblue"> </i></a> 
+                                                    <a href="javascript:void();" class="event_social"><i class="fa  fa-linkedin tcol_darkblue"></i></a> 
+                                                    <a href=javascript:void(); class="event_social"><i class="fa  fa-google-plus tcol_darkblue"></i></a> 
+                                                    <a href=javascript:void(); onclick="event_invite('<?= $event["ename"] ?>')" class="event_social"><i class="fa  fa-google-twitter tcol_darkblue"></i></a> 
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -259,68 +264,137 @@
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        var user_id = "<?= session('client_user_id') ?>";
-    </script>
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
-    <script src="<?php echo CLIENT_SCRIPTS; ?>jquery.min.js"></script> 
-    <!-- Include all compiled plugins (below), or include individual files as needed --> 
-    <script src="<?php echo CLIENT_SCRIPTS; ?>bootstrap.min.js"></script>
-    <link href="<?php echo CLIENT_CSS; ?>bootstrap-multiselect.css" rel="stylesheet">
-    <link href="<?php echo CLIENT_CSS; ?>bootstrap_hexagone.css" rel="stylesheet">
-    <script src="<?php echo CLIENT_SCRIPTS; ?>bootstrap-multiselect.js"></script> 
-    <script src="<?php echo CLIENT_SCRIPTS; ?>jquery-ui.min.js"></script> 
-    <script type="text/javascript" src="<?php echo CLIENT_MODULES ?>client_user_module_js.js"></script> 
-    <script type="text/javascript" src="<?php echo CLIENT_MODULES ?>client_community_module.js"></script> 
-    <script type="text/javascript">
-        $(document).ready(function() {
-            //                        $('#myCarousel. #myCarousel1').carousel({
-            //                            interval: 10000
-            //                        });
+<div class="modal fade" id="myModalEventInvite" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close pull-right" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h3 class="modal-title tcol_darkblue mb30" id="myModalLabel">Invite!</h3>
+                <div class="row">
+                    <div class="col-sm-offset-1 col-sm-5" data-toggle="collapse" data-target="#gmu_invite2"><a href="#" class="btn btn-sm invite_members">GMU Invite</a> </div>
+                    <div class="col-sm-5"><a href="#" class="btn btn-facebook invite_fb">Facebook Invite</a>
+                    </div>
+                    <div class="row mt50">
+                        <div class="col-sm-12">
+                            <div class="collapse" id="gmu_invite2">
+                                <form id="inviteEMForm">
+                                    <div class="form-group">
+                                        <label for="invitegmu" class="col-sm-4 control-label"> Invite GMU Members </label>
+                                        <div class="col-sm-8">
+                                            <textarea class="inviteMembers form-control" name="sinput" placeholder="Start typing Name of the invitee"></textarea>
+                                        </div>
+                                        <input type="hidden" name="ename" value="" />
+                                        <input type="hidden" name="cid" value="<?= $community[0]["id"] ?>" />
+                                        <input type="hidden" name="cname" value="<?= $community[0]["cname"] ?>" />
+                                    </div>
 
-            $(".inviteM").click(function() {
-                if (user_id == "") {
-                    $("#myModalLogin").modal();
-                } else {
-                    $("#myModalInvite").modal();
-                }
+                                    <div class="form-group ">
+                                        <div class="col-sm-12 mt20">
+                                            <div class="pull-right"> 
+                                                <input type="submit" value="Submit" class="btn btn-primary eventinvitesubmit">
+                                                <input type="button" value="Cancel" class="btn btn-default">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
 
-            });
-            $(".btn.btn-facebook.invite_fb").click(function() {
-                FB.ui({
-                    method: 'apprequests',
-                    message: 'Invite your Facebook Friends'
-                }, function(response) {
-                    if (response) {
-                        console.log(response);
-                        alert('Successfully Invited');
-                    } else {
-                        //alert('Failed To Invite');
-                    }
-                });
-            });
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-            $(".invitesubmit").click(function(e) {
-                e.preventDefault();
-                if ($(".inviteMembers").val() == "") {
-                    alert("Please Select atleast one invitee");
-                } else {
-                    $.ajax({
-                        type: "post",
-                        url: CLIENT_SITE_URL + "client_communities/send_join_invite/",
-                        data: $("#inviteMForm").serialize(),
-                        success: function() {
-                            $(".inviteMembers").val("Successfully Sent");
-                        }
-                    });
-                }
-            });
+
+<script>
+    var user_id = "<?= session('client_user_id') ?>";
+</script>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+<script src="<?php echo CLIENT_SCRIPTS; ?>jquery.min.js"></script> 
+<!-- Include all compiled plugins (below), or include individual files as needed --> 
+<script src="<?php echo CLIENT_SCRIPTS; ?>bootstrap.min.js"></script>
+<link href="<?php echo CLIENT_CSS; ?>bootstrap-multiselect.css" rel="stylesheet">
+<link href="<?php echo CLIENT_CSS; ?>bootstrap_hexagone.css" rel="stylesheet">
+<script src="<?php echo CLIENT_SCRIPTS; ?>bootstrap-multiselect.js"></script> 
+<script src="<?php echo CLIENT_SCRIPTS; ?>jquery-ui.min.js"></script> 
+<script type="text/javascript" src="<?php echo CLIENT_MODULES ?>client_user_module_js.js"></script> 
+<script type="text/javascript" src="<?php echo CLIENT_MODULES ?>client_community_module.js"></script> 
+<script type="text/javascript">
+    $(document).ready(function() {
+        //                        $('#myCarousel. #myCarousel1').carousel({
+        //                            interval: 10000
+        //                        });
+
+        $(".inviteM").click(function() {
+            if (user_id == "") {
+                $("#myModalLogin").modal();
+            } else {
+                $("#myModalInvite").modal();
+            }
 
         });
+        $(".btn.btn-facebook.invite_fb").click(function() {
+            FB.ui({
+                method: 'apprequests',
+                message: 'Invite your Facebook Friends'
+            }, function(response) {
+                if (response) {
+                    console.log(response);
+                    alert('Successfully Invited');
+                } else {
+                    //alert('Failed To Invite');
+                }
+            });
+        });
 
+        $(".invitesubmit").click(function(e) {
+            e.preventDefault();
+            if ($("#inviteMForm .inviteMembers").val() == "") {
+                alert("Please Select atleast one invitee");
+            } else {
+                $.ajax({
+                    type: "post",
+                    url: CLIENT_SITE_URL + "client_communities/send_join_invite/",
+                    data: $("#inviteMForm").serialize(),
+                    success: function() {
+                        $("#inviteEMForm .inviteMembers").val("Successfully Sent");
+                    }
+                });
+            }
+        });
+        
+        $(".eventinvitesubmit").click(function(e) {
+            e.preventDefault();
+            if ($("#inviteEMForm .inviteMembers").val() == "") {
+                alert("Please Select atleast one invitee");
+            } else {
+                $.ajax({
+                    type: "post",
+                    url: CLIENT_SITE_URL + "client_communities/send_event_invite/",
+                    data: $("#inviteEMForm").serialize(),
+                    success: function() {
+                        $("#inviteEMForm .inviteMembers").val("Successfully Sent");
+                    }
+                });
+            }
+        });
 
-    </script>
+    });
+
+    function event_invite(ename) {
+        if (user_id == "") {
+            $("#myModalLogin").modal();
+        } else {
+            $("#myModalEventInvite input[name='ename']").val(ename);
+            $("#myModalEventInvite").modal();
+        }
+    }
+</script>
 </body></html><script src="<?php echo CLIENT_SCRIPTS; ?>jquery-ui.min.js"></script>
 <script src="<?php echo ADMIN_SCRIPTS; ?>plugins/plupload.full.min.js" type="text/javascript"></script>

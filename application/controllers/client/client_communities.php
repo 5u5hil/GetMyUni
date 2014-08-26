@@ -319,7 +319,10 @@ class Client_Communities extends CI_Controller {
     }
 
     function send_join_invite() {
-        
+        insert_comm_join_notification();
     }
 
+    function send_event_invite(){
+         insert_comm_event_join_notification();
+    }
 }

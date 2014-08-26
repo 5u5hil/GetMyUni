@@ -86,6 +86,7 @@
 	</script>
   </head>
   <body>
+      <div id="fb-root"></div>
   
 		<?php 
 				$current_url =  current_url();				
@@ -125,9 +126,9 @@
           	
           	<div class="col-md-offset-4 col-md-4 col-sm-4 col-xs-12 text-center">
             	
-                <div class="btn btn-xlarge  btn-facebook signbtn"><i class="fa fa-2x fa-facebook"></i>  Connect with Facebook</div>
+                    <button class="btn btn-xlarge  btn-facebook signbtn" id="fb-auth"><i class="fa fa-2x fa-facebook"></i>  Connect with Facebook</button>
                
-                <div class="btn btn-xlarge btn-linkedin signbtn"><i class="fa fa-2x fa-linkedin"></i>  Connect with Linkedin</div>
+                <div class="btn btn-xlarge btn-linkedin signbtn" id="in_auth" onclick="onLinkedInLoad()"><i class="fa fa-2x fa-linkedin"></i>  Connect with Linkedin</div>
                 
                 <div class="btn btn-xlarge btn-google-plus signbtn"><i class="fa fa-2x fa-google-plus"></i>  Connect with Google +</div>
                 
@@ -208,6 +209,223 @@
 
    <script src="<?php echo CLIENT_SCRIPTS ;?>jquery.min.js"></script>
   
-    <script src="<?php echo CLENT_SCRIPTS ;?>bootstrap.min.js"></script>
+    <script src="<?php echo CLIENT_SCRIPTS ;?>bootstrap.min.js"></script>
      </body>
 </html>
+
+<script type="text/javascript" src="http://platform.linkedin.com/in.js">
+  api_key: 755iyxpryw6vwb
+  //onLoad: onLinkedInLoad
+  authorize: true
+</script>
+<script type="text/javascript">
+
+
+    function onLinkedInLoad() 
+    {
+        LinkedINAuth();//added(remove to make it )
+        IN.Event.on(IN, "auth", onLinkedInAuth);
+    }
+    function LinkedINAuth()
+    {
+       IN.UI.Authorize().place();
+    }
+        // 2. Runs when the viewer has authenticated
+        function onLinkedInAuth() {
+            
+                           
+            //onLinkedInLoad();
+            $(".linkedin_loader").html('<img src="<?php //echo CLIENT_IMAGES?>/loaders/loader8.gif">');                
+            $("#in_auth").hide();  
+            IN.API.Profile("me").fields("id","first-name", "last-name","email-address","pictureUrl","industry","positions","skills","location","public-profile-url","phone-numbers","publications").result(function (data) {
+        member = data.values[0]; 
+        //make ajax call to update with database
+            $.ajax({
+                type                                                            : "POST",
+                url                                                             : SITE_URL+"client/client_user/social_login",
+                dataType                                                        : "json",
+                data                                                            : {
+                                                                                    'social_type':'linkedin',  
+                                                                                    'profile_id':member.id,
+                                                                                    'email':member.emailAddress,
+                                                                                    'first_name':member.firstName,
+                                                                                    'last_name':member.lastName,
+                                                                                    'profile_pic':member.pictureUrl,
+                                                                                    'industry':member.industry,
+                                                                                    'position':member.positions,
+                                                                                    'skills':member.skills,
+                                                                                    'location':member.location,
+                                                                                    'dob' : '',
+                                                                                    'gender' : '',
+                                                                                    'public_profile_url':member.publicProfileUrl,
+                                                                                   },
+                success : function(msg)
+                {
+                    var val                                                     = eval(msg);
+                    
+                    if(val.error == 'error' )
+                    {
+                        alert('Something Went Wrong');
+                        $(".linkedin_loader").html('');                
+                        $("#in_auth").show();  
+                    }
+                    else(val.error == 'success' )
+                    {
+                        
+                        if(val.redirect_path == 'reload')
+                        {
+                            location.reload();
+                        }
+                        else
+                        {
+                            window.location.href = val.redirect_path;
+                        }
+                    }
+                    
+
+                }
+            });
+        
+        //console.log(data);
+            }).error(function (data) {
+                console.log(data);
+            });
+        }
+</script>
+
+
+<!----------------------------facbook logins------------------------------------>
+<script type="text/javascript">
+var session_user                                                            = '';
+var button;
+var userInfo;
+
+    window.fbAsyncInit = function() 
+    {
+        FB.init({ appId: '801856803178501', //replace the appId by genuine app id
+        status: true, 
+        cookie: true,
+        xfbml: true,
+        oauth: true
+    });
+    function updateButton(response) 
+    {
+         button       =   document.getElementById('fb-auth');
+         userInfo     =   document.getElementById('user-info');
+
+        if (response.status === 'connected')
+        {
+            FB.api('/me', function(info) 
+            {
+
+            });
+            button.onclick = function() 
+            {
+                //$(".fb_loader").html('<img src="<?php echo CLIENT_IMAGES?>/loaders/loader8.gif">');                
+            $("#fb-auth").hide();
+           FB.api('/me', function(info) 
+           {
+                login(response, info);
+                 console.log(response);
+                            console.log(info);
+           });	
+            };
+        }
+        else 
+        {
+            //button.innerHTML = '<img src="ui/client/images/facebook_login.png" />';
+            button.onclick = function() {
+                FB.login(function(response) {
+                    if (response.authResponse) {
+                        FB.api('/me', function(info) {
+                            console.log(response);
+                            console.log(info);
+                            login(response, info);
+                            
+                        });           
+                    } else {
+                        //user cancelled login or did not grant authorization
+                        //showLoader(false);
+                    }
+                }, {scope:'email,user_birthday,status_update,publish_stream,user_about_me'});          
+            }
+        }
+    }
+
+        // run once with current status and whenever the status changes
+        FB.getLoginStatus(updateButton);
+        FB.Event.subscribe('auth.statusChange', updateButton);        
+    };
+    (function() {
+        var e = document.createElement('script'); e.async = true;
+        e.src = document.location.protocol 
+            + '//connect.facebook.net/en_US/all.js';
+        document.getElementById('fb-root').appendChild(e);
+    }());
+    function login(response, info){
+        //alert('test76');
+        console.log(info);
+        if (response.authResponse) {
+
+            var fb_id                   = info.id;
+            var first_name              = info.first_name;
+            var last_name               = info.last_name;
+            var email                   = info.email;
+            var public_profile_url      = info.link;
+            var dob      = info.birthday;
+            var gender      = info.gender;
+            var profile_pic             = 'https://graph.facebook.com/' + info.id + '/picture?width=300&height=300';
+              
+            $.ajax({
+                    type                : "post",
+                    url                 : SITE_URL+"client/client_user/social_login",
+                    data                : {
+                                            'social_type':'facebook',
+                                            'profile_id'            :fb_id,
+                                            'first_name'            :first_name,
+                                            'last_name'             :last_name,
+                                            'email'                 :email,
+                                            'public_profile_url'    :public_profile_url,
+                                            'profile_pic'           :profile_pic,
+                                            'dob'                   : dob,
+                                            'gender'                : gender,
+                                            'industry'              :'',
+                                            'skills'                :'',
+                                            'position'                :''
+                                            
+                                          },
+                    dataType            : "json",
+                    success: function(msg)
+                    {
+                        var value1                                                           = eval(msg);
+                       if(value1.error == 'error' )
+                        {
+                            alert('Something Went Wrong');
+                            $(".fb_loader").html('');                
+                            $("#fb-auth").show(); 
+                        }
+                        else(value1.error == 'success' )
+                        {
+
+                            if(value1.redirect_path == 'reload')
+                            {
+                                location.reload();
+                            }
+                            else
+                            {
+                                window.location.href = value1.redirect_path;
+                            }
+                        }
+
+                    }
+                }); // End ajax method
+
+
+        }
+    }
+
+    function logout(res)
+    {
+        window.location.href                                            = 'client/logout';    
+    }
+     </script>  
