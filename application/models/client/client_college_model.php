@@ -57,7 +57,7 @@ class Client_college_Model extends CI_Model {
 	}	
 	
 
-    function get_college_program() {
+  /*  function get_college_program() {
 
         $this->db->where('C_P.college_id', $this->college_id);
         $query = $this->db
@@ -67,6 +67,7 @@ class Client_college_Model extends CI_Model {
 							C_P.program_legth,
 							C_P.program_type_id,
 							C_P.program_size,
+                                                        C_P.program_link,
 							M_P.program_name,
 							M_T.program_type
 																				')
@@ -81,11 +82,94 @@ class Client_college_Model extends CI_Model {
         } else {
             return $query->result_array();
         }
+    }*/
+
+    
+      function get_college_program_new() {
+
+        $this->db->where('C_P.college_id', $this->college_id);
+        $query = $this->db
+                ->select('
+							C_P.id,
+							C_P.program_name_id,
+							C_P.program_legth,
+							C_P.program_type_id,
+							C_P.program_size,
+                                                        C_P.program_link,
+							M_P.program_name,
+							
+																				')
+                ->from('college_has_program as C_P')
+                ->join('master_program_name as M_P', 'M_P.id= C_P.program_name_id')
+                //->join('master_program_type as M_T', 'M_T.id= C_P.program_type_id')
+                ->get();
+
+       // show_query();
+        if ($query->num_rows == 0) {
+            return "no";
+        } else {
+            return $query->result_array();
+        }
     }
 
+    
+    function get_college_program() {
+
+        $this->db->where('C_P.college_id', $this->college_id);
+        $query = $this->db
+                ->select('
+							C_P.id,
+							C_P.program_name_id,
+							C_P.program_legth,
+							C_P.program_type_id,
+							C_P.program_size,
+                                                        C_P.program_link,
+							M_P.program_name,
+							
+																				')
+                ->from('college_has_program as C_P')
+                ->join('master_program_name as M_P', 'M_P.id= C_P.program_name_id')
+                //->join('master_program_type as M_T', 'M_T.id= C_P.program_type_id')
+                ->get();
+
+       // show_query();
+        if ($query->num_rows == 0) {
+            return "no";
+        } else {
+            return $query->result_array();
+        }
+    }
+    
+        function get_college_top_sector() {
+
+        $this->db->where('C_T.college_id', $this->college_id);
+        $query = $this->db
+                ->select('
+							C_T.id,
+							C_T.college_id,
+							C_T.topsector_id,
+							
+							M_T.top_sectors,
+							
+																				')
+                ->from('college_has_topsectors as C_T')
+                ->join('master_top_sectors as M_T', 'M_T.id= C_T.topsector_id')
+                //->join('master_program_type as M_T', 'M_T.id= C_P.program_type_id')
+                ->get();
+
+       // show_query();
+        if ($query->num_rows == 0) {
+            return "no";
+        } else {
+            return $query->result_array();
+        }
+    }
+    
+    
+    
     function get_college_compare($id) {
         if (is_numeric($id)) {
-            $get = $this->db->query("SELECT CONCAT_WS(  ' - ', c.school_name, m.degree_name ) school_name, c.address, concat(c.rank,'&deg;'), concat(c.acc_rate,'%'),CONCAT('$', FORMAT(c.avg_tution, 2)) , c.test_score, c.top_sectors, CONCAT('$', FORMAT(c.avg_salary, 0)), c.work_exp FROM college_info c, master_degree m WHERE c.id =$id AND c.degree = m.id");
+            $get = $this->db->query("SELECT CONCAT_WS(  ' - ', c.school_name, m.degree_name ) school_name, c.address, c.rank, concat(c.acc_rate,'%'),CONCAT('$', FORMAT(c.avg_tution, 2)) , c.test_score, c.top_sectors, CONCAT('$', FORMAT(c.avg_salary, 0)), c.work_exp FROM college_info c, master_degree m WHERE c.id =$id AND c.degree = m.id");
             if ($get->num_rows == 0) {
                 return FALSE;
             } else {
@@ -169,7 +253,13 @@ class Client_college_Model extends CI_Model {
                         C_I.verbal_ability,
                         C_I.quant_ability,
                         C_I.college_logo,
-                        F_S.field_name,
+                        C_I.course_overview,
+                        C_I.admission_procedure,
+                        C_I.scholarships,
+                        C_I.careers,
+                        C_I.verbal_ability,
+                        C_I.quant_ability,
+                        C_I.key_eligibility,
                         GROUP_CONCAT(DISTINCT(C_D.domain_id ))as domain,
 						GROUP_CONCAT(DISTINCT(M_TOP.top_sectors	))as topsector,
                         GROUP_CONCAT(DISTINCT(C_P.program_name_id ))as program'
@@ -436,6 +526,19 @@ class Client_college_Model extends CI_Model {
         //show_query();
         return $query->result_array();
     }
+    
+      function get_user_follow_info($user_id) {
+        $query = $this->db
+                ->select('
+							  
+                            U_T.user_following
+			')
+                ->from('user as U_T')
+                ->where('id',$user_id)
+                ->get();
 
+        //show_query();
+        return $query->row();
+    }
 }
 ?>

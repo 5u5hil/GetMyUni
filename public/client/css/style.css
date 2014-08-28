@@ -1036,12 +1036,28 @@ padding: 2px 5px;
 .frm_message{min-width: 120px;   display: inline-block;}
 .inbox_title{background: #1392dd; color:#fff;}
 a .inbox_title:hover{background: #1392dd;}
-.notifications{background:#f1f1f1; padding:5px 5px 5px 0px; min-height:30px; margin:10px 0px; font-size:12px;}
+.notifications{border-top: 1px solid #eee; padding:10px 5px 10px 0px; min-height:30px;  font-size:12px;}
 .noti_desc{padding-left: 35px;}
-.n_icon{height: 30px;
-width: 30px;
+.n_icon{height: 25px;
+width: 25px;
 margin-top: -5px;
-padding: 7px;}
-
-
-
+padding: 4px;}
+.notifications a{color:#2a6496;}
+.notifications a:hover{opacity:0.6}
+.news_desc{ margin-top: 5px;}
+.news_source{color:#989898; font-size:12px; }
+.news_source span{ font-size: 11px; color: #4aa2f5;}
+.news_filter{border: 1px solid #4aa2f5; padding:7px;}
+/* notification*/
+/*inbox*/
+.read_panel{margin-top: 10px;
+border-top: 1px solid #eee;
+padding-top: 20px; color:#8d8d8d;}
+.media{margin-bottom:15px;}
+.media-image{width:35px; height:35px;}
+.media-meta{font-size:11px; color:#989898}
+.text-muted{color:#999}
+.media-body h4{margin:5px;}
+.mname{font-size:16px;}
+/*inbox*/
+.read{background:#f5f5f5}

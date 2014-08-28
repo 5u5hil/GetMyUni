@@ -142,8 +142,9 @@ define('CLIENT_USER_POPUP_VIEW', CLIENT_USER_FOLDER . 'client_signup_popup_view.
 define('CLIENT_SHOW_DETAILS_VIEW', CLIENT_USER_FOLDER . 'client_show_student_details_view.php');
 define('CLIENT_PER_PAGE', 10);
 define('FORUM_DISCUSSION_PER_PAGE', 10);
-define('COMMUNITIES_PER_PAGE', 5);
+define('COMMUNITIES_PER_PAGE', 20);
 define('REVIEW_PER_PAGE', 5);
+define('MESSAGES_PER_PAGE', 50);
 
 define('CLIENT_FORUM_FOLDER', CLIENT . 'forums/');
 define('CLIENT_FORUMS_LIST_VIEW', CLIENT_FORUM_FOLDER . 'client_forums_list_view.php');
@@ -163,6 +164,13 @@ define('CLIENT_TICKER_FOLDER', CLIENT . 'ticker_ads/');
 define('CLIENT_TICKER_VIEW', CLIENT_TICKER_FOLDER . 'client_ticker_view.php');
 define('CLIENT_ADS_VIEW', CLIENT_TICKER_FOLDER . 'client_adspace_view.php');
 
+define('CLIENT_NOTIFICATION_FOLDER', CLIENT . 'notification/');
+define('CLIENT_NOTIFICATION_VIEW', CLIENT_NOTIFICATION_FOLDER . 'client_notification_view.php');
+define('CLIENT_MESSAGE_VIEW', CLIENT_NOTIFICATION_FOLDER . 'client_message_view.php');
+define('CLIENT_MESSAGE_DETAIL_VIEW', CLIENT_NOTIFICATION_FOLDER . 'client_message_details_view.php');
+
+define('CLIENT_NEWS_FOLDER', CLIENT . 'news/');
+define('CLIENT_NEWS_VIEW', CLIENT_NEWS_FOLDER . 'client_news_view.php');
 
 /*******************************************views ***************************/
 /*******************************************views ***************************/

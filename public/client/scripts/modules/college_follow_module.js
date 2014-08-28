@@ -112,6 +112,16 @@ $(document).ready(function()
             });
 	
 });
+
+
+$(document).on("click", ".user_following_user", function(e){
+    e.PreventDefault();
+    
+    alert(1);
+    
+});
+
+
 });
 
 

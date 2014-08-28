@@ -71,7 +71,7 @@
                                 </div> the community First 
                                 <div class="form-group">
                                     <div class="col-sm-4">
-                                        <input type="button" value="Cancel" class="btn btn-default">
+                                        <input type="button" value="Cancel" class="closeM btn btn-default">
                                     </div>
                                 </div>
                             </div>
@@ -134,7 +134,7 @@
                                             <input type="hidden" name="cid" value="<?= $community[0]["id"] ?>" />
                                             <input type="hidden" name="uriseg" value="<?= $this->uri->segment(2, 0) ?>" />
                                             <input type="submit" value="Create" class="home_search_button">
-                                            <input type="button" value="Cancel" class="btn btn-default">
+                                            <input type="button" value="Cancel" class=" closeM btn btn-default">
                                         </div>
                                     </div>
                                 </form>
@@ -251,7 +251,7 @@
                                         <div class="col-sm-12 mt20">
                                             <div class="pull-right"> 
                                                 <input type="submit" value="Submit" class="btn btn-primary invitesubmit">
-                                                <input type="button" value="Cancel" class="btn btn-default">
+                                                <input type="button" value="Cancel" class="btn closeM btn-default">
                                             </div>
                                         </div>
                                     </div>
@@ -295,7 +295,7 @@
                                         <div class="col-sm-12 mt20">
                                             <div class="pull-right"> 
                                                 <input type="submit" value="Submit" class="btn btn-primary eventinvitesubmit">
-                                                <input type="button" value="Cancel" class="btn btn-default">
+                                                <input type="button" value="Cancel" class="btn closeM btn-default">
                                             </div>
                                         </div>
                                     </div>
@@ -339,6 +339,10 @@
             }
 
         });
+        
+        $(".closeM").click(function(){
+           $(".modal").modal("hide"); 
+        });
         $(".btn.btn-facebook.invite_fb").click(function() {
             FB.ui({
                 method: 'apprequests',
@@ -363,7 +367,7 @@
                     url: CLIENT_SITE_URL + "client_communities/send_join_invite/",
                     data: $("#inviteMForm").serialize(),
                     success: function() {
-                        $("#inviteEMForm .inviteMembers").val("Successfully Sent");
+                        $("#inviteMForm .inviteMembers").val("Successfully Sent");
                     }
                 });
             }

@@ -48,7 +48,7 @@
 			if( str == "sort_by_rank")
 			{
 				var data 	  	  = "sort_by_rank="+id;
-				alert(data);
+				//alert(data);
 			}
 			else
 			{

@@ -9,7 +9,8 @@
                         foreach ($ticks as $tick) {
                             $user = get_user_details($tick["from"]);
                             $pic = json_decode($user[0]["profile_pic"], true);
-                            $pic = $pic ? $pic : CLIENT_IMAGES . "defaultuser.jpg";
+                            
+                            $pic = $pic[0] ? $pic[0] : CLIENT_IMAGES . "defaultuser.jpg";
                             ?>
                             <li data-tid="<?= $tick["id"] ?>">
                                 <a href="<?= $tick["link"] ?>"><img src="<?= $pic ?>" class="img-responsive ticker-img" />

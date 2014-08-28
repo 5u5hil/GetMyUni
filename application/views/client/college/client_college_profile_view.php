@@ -234,7 +234,7 @@
                                 ?>
                                 <div class="item" id="img_<?php echo $i; ?>">
                                     <div class="row-fluid">
-                                        <div class="span3"><a href="#x" class="thumbnail"><img src="<?php echo $logo ?>" alt="Image" class="school_logo"></a></div>
+                                        <div class="span3"><a href="#x" class="thumbnail"><img src="<?php  echo "/public/admin/scripts/plugins/uploads/collegelogo/$logo"; ?>" alt="Image" class="school_logo"></a></div>
                                     </div><!--/row-fluid-->
                                 </div><!--/item-->  
 
@@ -262,13 +262,13 @@
 
                     <div  class="mb10">
                         <div class="feature_num">1</div>
-                        Rank: <span class="feature_detail"><?php echo $ans->rank; ?></span></div>
+                        Rank: <span class="feature_detail"><?php if( ($ans->rank) == 0) { echo "N/A";} else { echo $ans->rank;} ?></span></div>
                     <div class="mb10">
                         <div class="feature_num">2</div>
-                        Acceptance Rate: <span class="feature_detail"><?php echo $ans->acc_rate; ?> %</span></div>
+                        Acceptance Rate: <span class="feature_detail"><?php if(($ans->acc_rate) == 0) { echo "N/A" ;} else { echo $ans->acc_rate ."%";} ?> </span></div>
                     <div class="mb10">
                         <div class="feature_num">3</div>
-                        Average Course Fees: <span class="feature_detail"> $<?php echo number_format($ans->avg_tution); ?></span></div>
+                        Average Course Fees: <span class="feature_detail"> <?php if((number_format($ans->avg_tution) == 0)) { echo "N/A" ;} else {echo "$".number_format($ans->avg_tution);} ?></span></div>
                     <div class="mb10">
                         <div class="feature_num">4</div>
                         Test Name: <span class="feature_detail"><?php echo $ans->test_score; ?></span></div>
@@ -409,7 +409,7 @@
                     <div class="col-sm-4 col-md-4 text-center"> <img src="<?php echo CLIENT_IMAGES; ?>icons/avgsalary.jpg" class="img-responsive img-center">
                         <div class="qfright_border">
                             <div class="quick_facts_details">Average Salary</div>
-                            <h3 class="tcol_darkblue mt0">$<?php echo number_format($ans->avg_salary); ?></h3>
+                            <h3 class="tcol_darkblue mt0"><?php if((number_format($ans->avg_tution) == 0)) { echo "N/A" ;} else {echo "$".number_format($ans->avg_tution);} ?></h3>
                         </div>
                     </div>
                     <div class="col-sm-4 col-md-4 text-center"> <img src="<?php echo CLIENT_IMAGES; ?>icons/employement.jpg" class="img-responsive img-center">
@@ -447,14 +447,18 @@
                 <div class="tabbable tabs-left row-fluid">
                     <div class="col-sm-3">
                         <ul class="nav nav-tabs">
-                            <li><a href="#domain" data-toggle="tab">Domains</a></li>
-                            <li class="active"><a href="#programs" data-toggle="tab">Programs</a></li>
-                            <li><a href="#c" data-toggle="tab">Key admission criteria</a></li>
+                            <!--li><a href="#domain" data-toggle="tab">Domains</a></li-->
+                             <li class="active"><a href="#overview" data-toggle="tab">Course Overview</a></li>
+                            <li ><a href="#programs" data-toggle="tab">Programs</a></li>
+                            <li><a href="#key_add" data-toggle="tab">Key admission criteria</a></li>
+                             <li><a href="#add" data-toggle="tab">Admission procedure</a></li>
+                             <li><a href="#scholar" data-toggle="tab">Scholarships</a></li>
+                               <li><a href="#career" data-toggle="tab">Careers</a></li>
                             <li><a href="#c" data-toggle="tab">Key Documentation</a></li>
                         </ul>
                     </div>
                     <div class="tab-content col-sm-8">
-                        <div class="tab-pane" id="domain">
+                        <!--div class="tab-pane" id="domain">
                             <div class="row">
                                 <div class="col-sm-6 col-sm-6">
                                     <h4 class="tcol_red">Domains</h4>
@@ -464,6 +468,9 @@
 
 
                                     <?php
+                                    
+                                    if(isset($ans->domain))
+                                    {
                                     $domain = $ans->domain;
                                     $array_domain = explode(",", $domain);
                                     if (is_array($array_domain)) {
@@ -479,6 +486,46 @@
                                             }
                                         }
                                     }
+                                    }
+                                    else
+                                    {
+                                        
+                                         echo "<div class='col-sm-12 alert alert-info'>Sorry, no Data found</div>";
+                                        
+                                    }
+                                    ?>
+
+
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div-->
+                          
+                        
+                                               <div class="tab-pane" id="overview">
+                            <div class="row">
+                                <div class="col-sm-6 col-sm-6">
+                                    <h4 class="tcol_red">Course Overview</h4>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-sm-12 summary-table tcol_grey f_16 text-justify">
+
+
+                                    <?php
+                                    if(isset($ans->course_overview))
+                                    {
+                                    
+                                        echo str_replace('"', '', $ans->course_overview);
+                                       
+                                    }
+                                     else
+                                    {
+                                        
+                                         echo "<div class='col-sm-12 alert alert-info'>Sorry, no Data found</div>";
+                                        
+                                    }
+                                    
+                                    ?>
                                     ?>
 
 
@@ -486,6 +533,135 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        
+                                 <div class="tab-pane" id="key_add">
+                            <div class="row">
+                                <div class="col-sm-6 col-sm-6">
+                                    <h4 class="tcol_red">Key admission criteria</h4>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-sm-12 summary-table tcol_grey f_16 text-justify">
+
+
+                                    <?php
+                                    if(isset($ans->key_eligibility))
+                                    {
+                                    
+                                        echo str_replace('"', '', $ans->key_eligibility);
+                                       
+                                    }
+                                     else
+                                    {
+                                        
+                                         echo "<div class='col-sm-12 alert alert-info'>Sorry, no Data found</div>";
+                                        
+                                    }
+                                    
+                                    ?>
+                                    ?>
+
+
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane" id="add">
+                            <div class="row">
+                                <div class="col-sm-6 col-sm-6">
+                                    <h4 class="tcol_red">Admission procedure</h4>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-sm-12 summary-table tcol_grey f_16 text-justify">
+
+
+                                    <?php
+                                    
+                                    if(isset($ans->admission_procedure))
+                                    {
+                                    
+                                        echo str_replace('"', '', $ans->admission_procedure);
+                                       
+                                    }
+                                     else
+                                    {
+                                        
+                                         echo "<div class='col-sm-12 alert alert-info'>Sorry, no Data found</div>";
+                                        
+                                    }
+                                    
+                                    ?>
+
+
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                          <div class="tab-pane" id="scholar">
+                            <div class="row">
+                                <div class="col-sm-6 col-sm-6">
+                                    <h4 class="tcol_red">Scholarships</h4>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-sm-12 summary-table tcol_grey f_16 text-justify">
+
+
+                                    <?php
+                                    
+                                       if(isset($ans->scholarships))
+                                    {
+                                    
+                                        echo str_replace('"', '', $ans->scholarships);
+                                       
+                                    }
+                                     else
+                                    {
+                                    
+                                      echo "<div class='col-sm-12 alert alert-info'>Sorry, no Data found</div>";
+                                        
+                                    }
+                                   
+                                    ?>
+
+
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="tab-pane" id="career">
+                            <div class="row">
+                                <div class="col-sm-6 col-sm-6">
+                                    <h4 class="tcol_red">Careers</h4>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-sm-12 summary-table tcol_grey f_16 text-justify">
+
+
+                                    <?php
+                                    
+                                     if(isset($ans->careers))
+                                    {
+                                    
+                                        echo str_replace('"', '', $ans->careers);
+                                       
+                                    }
+                                     else
+                                    {
+                                        echo "<div class='col-sm-12 alert alert-info'>Sorry, no Data found</div>";
+                                    }
+                                    ?>
+
+
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div class="tab-pane active" id="programs">
                             <div class="row">
                                 <div class="col-sm-6 col-md-6 ">
@@ -526,7 +702,7 @@
                                                     <!--div class=" tcol_grey f_18" >Batch Size : <?php echo $program_value['program_size']; ?></div>
                                                     <div class=" tcol_grey f_18" >Length : <?php echo $program_value['program_legth']; ?></div>
                                                     <div class=" tcol_grey f_18" >Type : <?php echo $program_value['program_type']; ?></div-->
-                                                     <div class=" tcol_grey f_18" >Link : <a href="<?php echo $program_value['program_link']; ?>">Click Here </a></div>
+                                                     <div class=" tcol_grey f_18" >Link : <a href="<?php echo $program_value['program_link']; ?>" target_blank>Click Here </a></div>
                                                 </div>
                                                 <div class="col-sm-6">
 
@@ -960,8 +1136,9 @@
 
 <?php if (!empty($review)) { ?>
                         <div class="col-sm-3  col-md-3 text-center">
-
+                                
                             <?php
+                           
                             if (!empty($review->profile_pic)) {
                                 $user_pic = $review->profile_pic;
                                 $user_pic1 = stripslashes(str_replace(array("[", "]", "(", ")"), " ", $user_pic));
@@ -977,7 +1154,43 @@
                             }
                             ?>/defaultuser.jpg' class="img-responsive prof_pic"></a>
                                  <div class="tcol_grey student_name"><?php if (!empty($get_review_rating)) echo $review->name; ?></div>
-                            <a href="#"> <img src="<?php echo CLIENT_IMAGES; ?>/icons/follow.png"></a> <a href="#"> <img src="<?php echo CLIENT_IMAGES; ?>/icons/message.png"> </a>
+                            <a href="javascript:;" class="user_following_user" id="<?php echo $review->student_id; ?>"  <?php
+                              
+                        $id = session('client_user_id');
+                        if ($id != 0) {
+                            ?>
+                            href='javascript:;' class="user_follow" id="follow_<?php echo $ans->id; ?>"
+                            <?php
+                        } else {
+                            ?>
+                            data-toggle="modal" data-target=".bs-example-modal-lg"
+
+                            <?php
+                        }
+                        ?> >
+         <!--img src="<?php echo CLIENT_IMAGES; ?>/icons/follow.png"-->  
+                             <?php
+                             if(isset($get_user_follow_info->user_following))
+                             
+                             $user_follow_data = (json_decode($get_user_follow_info->user_following));
+                        $follow_string = 'Follow';
+                        if (!empty($user_follow_data)) {
+
+                            foreach ($user_follow_data as $val) {
+
+                                if ( session('client_user_id')== $val) {
+                                   
+                                        $follow_string = 'Unfollow';
+                                    
+                                }
+                            }
+                        }
+                        echo $follow_string;
+                        ?>
+                            
+                            
+                            
+                            </a> <a href="#"> <img src="<?php echo CLIENT_IMAGES; ?>/icons/message.png"> </a>
                         </div>
 
                         <div class="col-sm-6 col-md-6">
@@ -1314,7 +1527,7 @@
                                     </div>
 
                                     <div class="col-sm-12 col-md-12 collapse in" id="toggle-walls">
-                                        <iframe style="width: 100%;border: none;" frameborder="0" scrolling="no" id="iframe" onload='javascript:resizeIframe(this);' src="<?= CLIENT_SITE_URL ?>client_college/get_college_wall/<?= $this->uri->segment(3, 0) ?>/1/<?= $this->uri->segment(2, 0) ?>"  ></iframe>      
+                                        <iframe style="width: 100%;border: none;" frameborder="0"  id="iframe" height="500" src="<?= CLIENT_SITE_URL ?>client_college/get_college_wall/<?= $this->uri->segment(3, 0) ?>/1/<?= $this->uri->segment(2, 0) ?>"  ></iframe>      
                                     </div>
                                 </div>
 

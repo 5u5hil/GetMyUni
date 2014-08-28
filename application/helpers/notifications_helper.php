@@ -395,3 +395,43 @@ function get_unread_notification_count(){
     $count = $CI->notification->get_unread_notification_count(session("client_user_id"));
     return $count;
 }
+
+function insert_user_follow_notification() {
+    $CI = & get_instance();
+    $class_name = $CI->router->fetch_class();
+    $function_name = $CI->router->fetch_method();
+    $uri_params = $CI->uri->segment_array();
+    $get_params = $CI->input->get();
+    $post_params = $CI->input->post();
+
+    $CI->load->model('client/client_notification_model', 'notification');
+ 
+    $follow = $post_params["student_id"];
+    $message = get_user_name_id(session("client_user_id")) . " has started following you";
+    $link = SITE_URL . "client/client_user/user_show_profile/" . session("client_user_id");
+    $type = "User Follow";
+    $params = json_encode(array($class_name, $function_name, $get_params, $post_params, $uri_params));
+
+    $CI->notification->notification_insert(session("client_user_id"), $follow, addslashes($message), $link, $type, $params, date("Y-m-d H:i:s"));
+}
+
+
+
+function insert_user_follow_school() {
+    $CI = & get_instance();
+    $class_name = $CI->router->fetch_class();
+    $function_name = $CI->router->fetch_method();
+    $uri_params = $CI->uri->segment_array();
+    $get_params = $CI->input->get();
+    $post_params = $CI->input->post();
+
+    $CI->load->model('client/client_notification_model', 'notification');
+ 
+    $follow = $post_params["student_id"];
+    $message = get_user_name_id(session("client_user_id")) . " has started following you";
+    $link = SITE_URL . "client/client_user/user_show_profile/" . session("client_user_id");
+    $type = "User Follow";
+    $params = json_encode(array($class_name, $function_name, $get_params, $post_params, $uri_params));
+
+    $CI->notification->notification_insert(session("client_user_id"), $follow, addslashes($message), $link, $type, $params, date("Y-m-d H:i:s"));
+}

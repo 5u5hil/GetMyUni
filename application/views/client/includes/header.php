@@ -137,8 +137,8 @@
                     ?>
                     <div class="col-xs-12 col-md-4 col-md-offset-7 mt20">
                         <div class="pull-right">
-                            <a href="#" class="top_nav_icon mr20"><img src="<?php echo CLIENT_IMAGES; ?>icons/message.png"></a>
-                            <a href="/notifications/" class="top_nav_icon mr20"><img src="<?php echo CLIENT_IMAGES; ?>icons/light.png"><span class="badge noti"><?= get_unread_notification_count() ?></span></a>
+                            <a href="/messages/1/" class="top_nav_icon mr20"><img src="<?php echo CLIENT_IMAGES; ?>icons/message.png"><span class="badge msgs"></span></a>
+                            <a href="/notifications/" class="top_nav_icon mr20"><img src="<?php echo CLIENT_IMAGES; ?>icons/light.png"><span class="badge noti"></span></a>
                             <a href="#" class="top_nav_icon mr20  dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><img src=<?php
                                 if ($pro_pic != "") {
                                     echo $pro_pic;
@@ -152,15 +152,38 @@
                         </div>
                     </div>
                     <script>
+                        $(document).ready(function() {
+                            $.ajax({
+                                type: "POST",
+                                url: CLIENT_SITE_URL + "client_notification/get_unread_notification_count/",
+                                success: function(data) {
+                                    $(".noti").html(data);
+                                }
+                            });
+                            $.ajax({
+                                type: "POST",
+                                url: CLIENT_SITE_URL + "client_notification/get_unread_message_count/",
+                                success: function(data) {
+                                    $(".msgs").html(data);
+                                }
+                            });
+                        });
                         setInterval(function() {
                             $.ajax({
                                 type: "POST",
                                 url: CLIENT_SITE_URL + "client_notification/get_unread_notification_count/",
-                                success : function(data){
+                                success: function(data) {
                                     $(".noti").html(data);
                                 }
                             });
-                        }, 3000);
+                            $.ajax({
+                                type: "POST",
+                                url: CLIENT_SITE_URL + "client_notification/get_unread_message_count/",
+                                success: function(data) {
+                                    $(".msgs").html(data);
+                                }
+                            });
+                        }, 100000);
                     </script>
                     <?php
                 }

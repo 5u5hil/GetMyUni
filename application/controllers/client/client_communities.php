@@ -62,7 +62,7 @@ class Client_Communities extends CI_Controller {
         if (session('client_user_id')) {
             $id = $_POST["cid"];
             $comm_details = $this->client_communities_model->get_community_details($id);
-            $members = json_decode($comm_details[0]['members']);
+            $members = json_decode($comm_details[0]['members'],true);
             array_push($members, session('client_user_id'));
             $members = json_encode($members);
             $update_members = $this->client_communities_model->update_community_members($id, $members);

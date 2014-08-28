@@ -13,11 +13,11 @@ class Client_college extends CI_Controller {
     }
 
     function college_compare() {
-       
+
         $data['ids'] = @$_POST["comapre_school"];
-		
-		//$this->input->post('comapre_school');
-		//display($data);
+
+        //$this->input->post('comapre_school');
+        //display($data);
         $this->load->view(CLIENT_COLLEGE_COMPARE_VIEW, $data);
     }
 
@@ -26,18 +26,17 @@ class Client_college extends CI_Controller {
         $col = $_POST["col"];
 
         $data = $this->model->get_college_compare($id);
-		
+
         foreach ($data[0] as $key => $value) {
             echo "<li class='compare$col'>$value</li>";
         }
-		
     }
 
     function college_list() {
         $college = $this->uri->segment(1);
         $page_type = $this->uri->segment(2);
         $id = $this->uri->segment(3);
-
+        $user_id = session('client_user_id');
         if (($page_type == 'page' || $page_type == 'search' || $page_type == '')) {
 
             $data = $this->get_data();
@@ -68,7 +67,8 @@ class Client_college extends CI_Controller {
             $data['get_student_following_college'] = $this->model->get_student_following_college();
             $data['get_student_edu'] = $this->model->get_student_edu();
             $data['get_student_review_rate'] = $this->model->get_student_review_rate();
-            $data['get_college_top_sector']  = $this->model->get_college_top_sector();
+            $data['get_college_top_sector'] = $this->model->get_college_top_sector();
+            $data['get_user_follow_info'] = $this->model->get_user_follow_info($user_id);
             //display($data['get_user_following_info']);
             if ($data['get_college'])
                 $this->load->view(CLIENT_COLLEGE_DETAIL_VIEW, $data);
@@ -107,7 +107,7 @@ class Client_college extends CI_Controller {
         ###################################pagination settings#####################
         $page_type = $this->uri->segment(2);
         $current_page = 0;
-		//display($this->uri->segment(4));
+        //display($this->uri->segment(4));
         $pagination_url = SITE_URL . 'college/page/';
         $uri_segment = 3;
         if ($page_type == 'page') {
@@ -185,6 +185,28 @@ class Client_college extends CI_Controller {
         $data['pagination'] = client_pagiantion($pagination_url, $data['total_row'], FORUM_DISCUSSION_PER_PAGE, $pageno, $uri_segment);
         $data['discussions'] = $this->client_forums_model->get_all_school_discussions($school_id, $pageno, FORUM_DISCUSSION_PER_PAGE);
         $this->load->view(CLIENT_COLLEGE_WALL_VIEW, $data);
+    }
+
+    function send_passcode() {
+        if (!session("coll_dom_email")) {
+            $this->session->set_userdata("coll_dom_email", $_POST["email"]);
+        }
+        if (!session("passcode") || isset($_POST["resend"])) {
+            $this->session->set_userdata("passcode", rand(111111, 999999));
+        }
+        $send = sendMail(session("coll_dom_email"), "College Review Passcode", "Your One time Passcode is :" . session("passcode"));
+        if ($send) {
+            echo "sent";
+        }
+    }
+
+    function check_passcode() {
+        $passcode = $_POST["passcode"];
+        if ($passcode == session("passcode")) {
+            echo "1";
+        } else {
+            echo "0";
+        }
     }
 
 }
