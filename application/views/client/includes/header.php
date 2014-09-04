@@ -22,7 +22,7 @@
         <script src="<?php echo CLIENT_MODULES; ?>college_review_rating_module.js"></script>
         <script src="<?php echo CLIENT_MODULES; ?>college_search_module.js"></script>
         <script src="<?php echo CLIENT_MODULES; ?>college_follow_module.js"></script>
-        <script src="<?php echo CLIENT_MODULES; ?>client_rating_passcode_module_js.js"></script>
+        <!--script src="<?php echo CLIENT_MODULES; ?>client_rating_passcode_module_js.js"></script-->
         <script language="javascript" type="text/javascript">
             function resizeIframe(obj) {
                 console.log(obj)
@@ -212,7 +212,7 @@
                                 <li class="<?= preg_match("/review/", current_url()) ? "active" : "" ?>"><a href="<?php echo CLIENT_SITE_URL ?>client_review_rating/review_rating_view">Reviews/ Rating</a></li>
                                 <li class="<?= preg_match("/forum/", current_url()) ? "active" : "" ?>"><a href="<?php echo SITE_URL ?>forums/1/">Forums</a></li>
                                 <li class="<?= preg_match("/communities/", current_url()) ? "active" : "" ?>"><a href="<?php echo SITE_URL ?>communities/1/">Communities</a></li>
-                                <li class="<?= preg_match("/news/", current_url()) ? "active" : "" ?>"><a href="<?php echo SITE_URL ?>news/1/">News</a></li>
+                                <li class="<?= preg_match("/news/", current_url()) ? "active" : "" ?>"><a href="<?php echo SITE_URL ?>news">News</a></li>
 
                             </ul>
 

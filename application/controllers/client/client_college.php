@@ -194,7 +194,109 @@ class Client_college extends CI_Controller {
         if (!session("passcode") || isset($_POST["resend"])) {
             $this->session->set_userdata("passcode", rand(111111, 999999));
         }
-        $send = sendMail(session("coll_dom_email"), "College Review Passcode", "Your One time Passcode is :" . session("passcode"));
+        
+      $message='  <div>
+                            <table cellspacing="0" cellpadding="0" border="0" bgcolor="#ebebeb" align="center" style="max-width:600px;min-width:200px">
+                                <tbody><tr>
+                                        <td width="600" style="padding:10px 0px">
+                                            <table width="217" cellspacing="0" cellpadding="0" border="0" align="left">
+                                                <tbody><tr>
+                                                        <td style="padding:14px">Hello '.get_user_name_id(session("client_user_id")).' ,</td>
+
+                                                    </tr>
+                                                </tbody></table></td>
+                                    </tr>
+                                </tbody></table>
+
+                            <table border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF" style="max-width:600px;min-width:320px;border:1px solid #e2e2e2">
+                                <tbody><tr>
+                                        <td valign="top" width="600">
+                                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                <tbody><tr>
+
+                                                    </tr>
+                                                    <tr>
+
+                                                    </tr><tr>
+
+                                                    </tr>
+                                                    <tr>
+
+                                                    </tr><tr>
+                                                        <td height="10"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><table width="90%" border="0" cellspacing="0" cellpadding="0">
+                                                                <tbody><tr>
+                                                                        <td width="10"></td>
+                                                                        <td style="font-family:calibri;font-size:15px;color:#1b1b1b;text-align:justify;line-height:20px">
+                                                                            We have received your request to submit a College Review. 
+                                                                            <br><br>Your One time Passcode for the same is : ' . session("passcode") .'
+                                                                            <br><br>If you did not request a passcode for this ID, kindly report it to Admin 
+                                                                            or ignore this email.
+                                                                        </td>
+                                                                        <td width="10"></td>
+                                                                    </tr>
+                                                                </tbody></table>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center" valign="top">
+                                                            <div style="width:100%"></div></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td height="10"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td bgcolor="#5c884d"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="20"></td>
+                                                    </tr><tr>
+                                        <td bgcolor="#ebebeb"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                <tbody><tr>
+                                                        <td width="10"></td>
+                                                        <td height="10"></td>
+                                                        <td width="10"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                       <td height="10"></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td height="10"></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody></table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td bgcolor="#ebebeb"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                <tbody><tr>
+                                                        <td width="10"></td>
+                                                        <td height="10"></td>
+                                                        <td width="10"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td style="font-family:calibri;font-size:14px;color:#1b1b1b;text-align:center">
+                                                        Feel free to write to us @ gmu@admin.com for any queries.
+                                                            <br>Team Get My Uni</td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td height="10"></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody></table>
+                                        </td>
+                                    </tr></tbody></table></td></tr></tbody></table></div>';
+            
+        $send = sendMail(session("coll_dom_email"), "College Review Passcode", $message);
         if ($send) {
             echo "sent";
         }

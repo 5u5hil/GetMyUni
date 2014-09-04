@@ -7,7 +7,7 @@
                 <h1 class="page_title">Profile</h1>
             </div>
         </div>
-
+       <?php  display($this->session->all_userdata());?>
         <div class="row mt20">
             <div class="col-sm-12 col-md-12 mb20">
                 <h3 class="tcol_darkblue"> <?php echo session('full_name') ?>, let's get started on your profile </h3>
@@ -48,7 +48,10 @@
                             {
                                 foreach($study_field as $field)
                                 {
-                                    echo '<input type="radio" name="int_field" id="int_field_'.$master['id'].'"   value="'.$field['id'].'"> <label for="int_field_'.$master['id'].'">'.$field['field_name'].'</label> ';
+                                        $checked       = '';
+									  if($field["id"]== "1")
+									  $checked = 'checked';
+                                    echo '<input '.$checked.' type="radio" name="int_field" id="int_field_'.$field['id'].'"   value="'.$field['id'].'"> <label for="int_field_'.$field['id'].'">'.$field['field_name'].'</label> ';
                                 }
                             }
                         ?>

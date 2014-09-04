@@ -4,7 +4,7 @@
     <div class="col-sm-10 col-md-10 col-xs-12">
         <div class="row">
             <div class="col-sm-7"> 
-                <div class="btn btn-sm"><a class="btn_back back_page" ><i class="fa fa-caret-left col_light_blue"></i> Back</a></div>
+                <div class="btn btn-sm"><a class="btn_back back_page" onclick="javascript:history.go(-1)" ><i class="fa fa-caret-left col_light_blue"></i> Back</a></div>
             </div>
             <div class="col-sm-3">
                 <div class="btn btn-sm invite_members"> <a href="javascript:void();"  class="inviteM">Invite Members </a></div>
@@ -26,7 +26,7 @@
         <div class="row mt30">
             <div class="col-sm-3 col-md-3 col-xs-12 ">
                 <h3 class="tcol_darkblue mt0">Members</h3>
-                <div class="f_16 tcol_grey"> There <span class="mnum f_24 col_light_blue"><?= count($members) ?></span> member<?= count($members) > 1 ? 's' : '' ?> in this group</div>
+                <div class="f_16 tcol_grey"> There <span class="mnum f_24 col_light_blue"><?= count($members) ?></span> member<span class="plural"><?= count($members) > 1 ? 's' : '' ?></span> in this group</div>
             </div>
             <div class="col-sm-9 col-md-9 col-xs-12 ">
                 <div id="myCarousel" class="carousel slide">
@@ -58,22 +58,22 @@
         <div class="row mt30">
             <div class="col-sm-3 col-md-3 col-xs-12 ">
                 <h3 class="tcol_darkblue mt0">Events</h3>
-                <div class="create_communities_but mt90 create_cm" data-target="#<?= session('client_user_id') ? in_array(session("client_user_id"), $members) ? "create_event" : "myModalJoin" : "myModalLogin" ?>" data-toggle="modal"><a href=javascript:void();> <i class="fa fa-plus"></i> Create Events</a> </div>
+                <div class="create_communities_but mt90 create_cm" data-target="#<?= session('client_user_id') ? in_array(session("client_user_id"), $members) ? "create_event" : "myModalJoin"  : "myModalLogin" ?>" data-toggle="modal"><a href=javascript:void();> <i class="fa fa-plus"></i> Create Events</a> </div>
 
                 <div class="modal fade" id="myModalJoin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-body">
                                 <button type="button" class="close pull-right" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                <h3 class="modal-title tcol_darkblue mb30" id="myModalLabel">Join!</h3>
-                                Please <div class="col-sm-2">
-                                    <div class="create_communities_but pull-right"><a href="javascript:void();" data-ce="1" data-cid="<?= $community[0]["id"] ?>" class="<?= in_array(session("client_user_id"), $members) ? "unjoin" : "join" ?>"> <i class="fa fa-<?= in_array(session("client_user_id"), $members) ? "minus" : "plus" ?>"></i> <?= in_array(session("client_user_id"), $members) ? "Leave" : "Join" ?></a> </div>                            
-                                </div> the community First 
-                                <div class="form-group">
-                                    <div class="col-sm-4">
-                                        <input type="button" value="Cancel" class="closeM btn btn-default">
-                                    </div>
-                                </div>
+                                <h3 class="modal-title tcol_darkblue mb10" id="myModalLabel">Join!</h3>
+                                Please 
+                                <a href="javascript:void();" data-ce="1" data-cid="<?= $community[0]["id"] ?>" class="<?= in_array(session("client_user_id"), $members) ? "unjoin" : "join" ?>"> <i class="fa fa-<?= in_array(session("client_user_id"), $members) ? "minus" : "plus" ?>"></i> <?= in_array(session("client_user_id"), $members) ? "Leave" : "Join" ?></a>                            
+                                the community First 
+                                <!--                                <div class="form-group mt10">
+                                                                    <div class="col-sm-4">
+                                                                        <input type="button" value="Cancel" class="closeM btn btn-default">
+                                                                    </div>
+                                                                </div>-->
                             </div>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                                         <div class="col-sm-9">
                                             <div class="row">
                                                 <div class="col-sm-6">
-                                                    <input type="date" class="form-control" name="edate" id="date" placeholder="date" required/>
+                                                    <input type="date" maxlength="10" class="form-control" name="edate" id="date" placeholder="date" min="<?= date("Y-m-d"); ?>" required/>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control" id="time"  name="etime"placeholder="time" required/>
@@ -126,7 +126,7 @@
                                     <div class="form-group">
                                         <label for="where" class="col-sm-3 control-label">Event Picture</label>
                                         <div class="col-sm-9">
-                                            <input type="file" id="file" name="file" required/>
+                                            <input type="file" id="file" name="file" />
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -324,6 +324,7 @@
 <script src="<?php echo CLIENT_SCRIPTS; ?>bootstrap-multiselect.js"></script> 
 <script src="<?php echo CLIENT_SCRIPTS; ?>jquery-ui.min.js"></script> 
 <script type="text/javascript" src="<?php echo CLIENT_MODULES ?>client_user_module_js.js"></script> 
+<script src="<?php echo CLIENT_SCRIPTS; ?>bootbox.js"></script>
 <script type="text/javascript" src="<?php echo CLIENT_MODULES ?>client_community_module.js"></script> 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -339,9 +340,9 @@
             }
 
         });
-        
-        $(".closeM").click(function(){
-           $(".modal").modal("hide"); 
+
+        $(".closeM").click(function() {
+            $(".modal").modal("hide");
         });
         $(".btn.btn-facebook.invite_fb").click(function() {
             FB.ui({
@@ -349,8 +350,8 @@
                 message: 'Invite your Facebook Friends'
             }, function(response) {
                 if (response) {
-                    console.log(response);
-                    alert('Successfully Invited');
+                    $(".modal").modal("hide");
+                    bootbox.alert("Invitation Sent Successfully!");
                 } else {
                     //alert('Failed To Invite');
                 }
@@ -367,12 +368,13 @@
                     url: CLIENT_SITE_URL + "client_communities/send_join_invite/",
                     data: $("#inviteMForm").serialize(),
                     success: function() {
-                        $("#inviteMForm .inviteMembers").val("Successfully Sent");
+                        $(".modal").modal("hide");
+                        bootbox.alert("Invitation Sent Successfully!");
                     }
                 });
             }
         });
-        
+
         $(".eventinvitesubmit").click(function(e) {
             e.preventDefault();
             if ($("#inviteEMForm .inviteMembers").val() == "") {
@@ -383,7 +385,8 @@
                     url: CLIENT_SITE_URL + "client_communities/send_event_invite/",
                     data: $("#inviteEMForm").serialize(),
                     success: function() {
-                        $("#inviteEMForm .inviteMembers").val("Successfully Sent");
+                        $(".modal").modal("hide");
+                        bootbox.alert("Invitation Sent Successfully!");
                     }
                 });
             }

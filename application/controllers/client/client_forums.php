@@ -61,6 +61,7 @@ class Client_Forums extends CI_Controller {
         $forum_id = $_POST['forum_id'];
         $followers = json_encode(array());
         $insert = $this->client_forums_model->insert_new_topic($forum_id, session('client_user_id'), addslashes($_POST['tname']), date("Y-m-d H:i:s"), $followers);
+        insert_user_newtopic_notification($forum_id);
         if ($insert) {
             $this->session->set_userdata('topic_insert_id', $insert);
             $forum_details = $this->client_forums_model->get_forum_details($forum_id);
@@ -81,6 +82,7 @@ class Client_Forums extends CI_Controller {
             $this->session->set_userdata('discussion_insert_id', $insert);
             $topic_details = $this->client_forums_model->get_topic_details($id);
             insert_discussion_notification();
+            insert_user_discussion_notification();
             $update_topic_discussion_count = $this->client_forums_model->update_topic_replies_count($forum_id, $id, $topic_details[0]['replies_cnt']);
             if ($update_topic_discussion_count) {
                 $forum_details = $this->client_forums_model->get_forum_details($forum_id);

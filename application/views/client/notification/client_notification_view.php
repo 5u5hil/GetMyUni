@@ -19,7 +19,8 @@
                 <?php foreach ($notifications as $noti) { ?>
                     <div class="notifications">
                         <a href="<?= $noti["link"] ?>">
-                            <div class="label label-primary pull-left n_icon"><i class="fa fa-2x fa-thumbs-o-up"></i></div>
+                            <?= noti_icon($noti["type"]) ?>
+                            <span class="badge_def" style="right: 15px;"><?= date("d M h:i a", strtotime($noti["datetime"])) ?></span>
                             <div class="noti_desc"><?= $noti["message"] ?></div>
                         </a>
                     </div>

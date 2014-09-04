@@ -45,7 +45,7 @@
                             <br><br>
                             <div style="clear:both;"></div>
 
-                            <a id='profile_pic' href='javascript:;'   <?php if (($user_data->profile_pic) != "") { ?> style="display:none;" <?php } ?> >	<input type="button" class="btn btn-primary" value="Upload Photo" ></a>
+                           
 
                         </div>
                         <span id="image1_err"  class="error"></span> <span id="imgerror" class="error"></span>
@@ -590,7 +590,7 @@
                     <div class="form-group">
                         <label for="company" class="col-sm-4 control-label">Current Company<span>:<span></label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control pro_com_text" name="company" value="<?php echo $user_data->company ?>" id="company" >
+                           <label  class="control-label"><?php echo $user_data->company ?></label>
                         </div>
                     </div>
 
@@ -622,8 +622,7 @@
                     <div class="form-group mb30">
                         <label for="functionality " class="col-sm-4 control-label">Current Functionality<span>:<span></label>
                         <div class="col-sm-8">
-                            <select type="select" class="form-control new-select pro_com_sel" name="functionality_id">
-                                <option value="">Functionality</option>
+                           
                                 <?php
                                 $functionality = getMasters('functionality');
                                 if ($functionality) {
@@ -639,7 +638,7 @@
                                     }
                                 }
                                 ?>					
-                            </select>   
+                           
                         </div>                             
                     </div>
 
@@ -758,7 +757,7 @@
                                                         }
                                                         ?>
 
-                                                        <div class="alert tabscont follow_<?php echo $following_school['id']; ?>"> <button type="button" class="close_user" id="user-intrest_<?php echo $following_school['id']; ?>">&times;</button><?php echo (strlen($following_school['school_name']) > 20) ? substr($following_school['school_name'], 0, 20) . '...' : $following_school['school_name']; ?></div>
+                                                        <div class="alert tabscont follow_<?php echo $following_school['id']; ?>"><?php echo (strlen($following_school['school_name']) > 20) ? substr($following_school['school_name'], 0, 20) . '...' : $following_school['school_name']; ?></div>
 
 
 
@@ -788,19 +787,19 @@
 
                                                     <div class="tcol_grey f_18  mb20"> Users you are following : </div>
                                                     <div class="col-sm-4 col-md-4">
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
+                                                        <div class="alert tabscont"> User Name  </div>
+                                                        <div class="alert tabscont"> User Name  </div>
+                                                        <div class="alert tabscont"> User Name  </div>
                                                     </div>
                                                     <div class="col-sm-4 col-md-4">
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
+                                                        <div class="alert tabscont"> User Name  </div>
+                                                        <div class="alert tabscont"> User Name  </div>
+                                                        <div class="alert tabscont"> User Name  </div>
                                                     </div>
                                                     <div class="col-sm-4 col-md-4">
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
+                                                        <div class="alert tabscont"> User Name  </div>
+                                                        <div class="alert tabscont"> User Name  </div>
+                                                        <div class="alert tabscont"> User Name  </div>
                                                     </div>
                                                     <div class="clearfix"></div>
                                                     <div class="findschool"> Find schools to follow <input type="text" placeholder="Find Schools" class="form-control find_school_name"></div>
@@ -811,19 +810,19 @@
 
                                                     <div class="tcol_grey f_18  mb20"> Communities you are following : </div>
                                                     <div class="col-sm-4 col-md-4">
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> Community Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> Community Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> Community Name  </div>
+                                                        <div class="alert tabscont"> Community Name  </div>
+                                                        <div class="alert tabscont"> Community Name  </div>
+                                                        <div class="alert tabscont"> Community Name  </div>
                                                     </div>
                                                     <div class="col-sm-4 col-md-4">
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> Community Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> Community Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> Community Name  </div>
+                                                        <div class="alert tabscont"> Community Name  </div>
+                                                        <div class="alert tabscont"> Community Name  </div>
+                                                        <div class="alert tabscont"> Community Name  </div>
                                                     </div>
                                                     <div class="col-sm-4 col-md-4">
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> Community Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> Community Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> Community Name  </div>
+                                                        <div class="alert tabscont"> Community Name  </div>
+                                                        <div class="alert tabscont"> Community Name  </div>
+                                                        <div class="alert tabscont"> Community Name  </div>
                                                     </div>
                                                     <div class="clearfix"></div>
                                                     <div class="findschool"> Find schools to follow <input type="text" placeholder="Find Schools" class="form-control find_school_name"></div>
@@ -845,19 +844,19 @@
 
                                                         <div class="tcol_grey f_18  mb20"> Users following you: </div>
                                                         <div class="col-sm-4 col-md-4">
-                                                            <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                            <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                            <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
+                                                            <div class="alert tabscont"> User Name  </div>
+                                                            <div class="alert tabscont"> User Name  </div>
+                                                            <div class="alert tabscont"> User Name  </div>
                                                         </div>
                                                         <div class="col-sm-4 col-md-4">
-                                                            <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                            <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                            <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
+                                                            <div class="alert tabscont"> User Name  </div>
+                                                            <div class="alert tabscont"> User Name  </div>
+                                                            <div class="alert tabscont"> User Name  </div>
                                                         </div>
                                                         <div class="col-sm-4 col-md-4">
-                                                            <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                            <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                            <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
+                                                            <div class="alert tabscont"> User Name  </div>
+                                                            <div class="alert tabscont"> User Name  </div>
+                                                            <div class="alert tabscont"> User Name  </div>
                                                         </div>
                                                         <div class="clearfix"></div>
                                                         <div class="findschool"> Find schools to follow <input type="text" placeholder="Find Schools" class="form-control find_school_name"></div>

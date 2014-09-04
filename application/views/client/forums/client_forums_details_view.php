@@ -2,6 +2,11 @@
 <div class="row container-fluid">
     <div class="col-sm-10 col-md-10 col-xs-12">
         <div class="row">
+            <div class="col-sm-7"> 
+                <div class="btn btn-sm"><a class="btn_back back_page" onclick="javascript:history.go(-1)" ><i class="fa fa-caret-left col_light_blue"></i> Back</a></div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-sm-12">
                 <h1 class="page_title">Forums</h1>
             </div>
@@ -69,7 +74,7 @@
                         <?php
                     }
                 } else {
-                    echo "<div class='alert alert-info mtm50'>No Topic has been opened yet!</div>";
+                    echo "<div class='alert alert-info mtm50'>No discussion threads have yet been started…Go ahead, start one</div>";
                 }
                 ?>  
                 <div class="new_topic mt20">
@@ -81,9 +86,9 @@
     </div>
 
     <div class="col-sm-2 sidebar">
-			 <?php  $this->load->view(CLIENT_TICKER_VIEW);?>
-			 <?php $this->load->view(CLIENT_ADS_VIEW); ?>
-           </div>
+        <?php $this->load->view(CLIENT_TICKER_VIEW); ?>
+        <?php $this->load->view(CLIENT_ADS_VIEW); ?>
+    </div>
 </div>
 
 <footer>
@@ -100,7 +105,7 @@
 <script src="<?php echo CLIENT_SCRIPTS; ?>jquery-ui.min.js"></script>
 <script src="<?php echo CLIENT_MODULES; ?>college_search_module.js"></script>
 <script>
-    var user_id = "<?= session('client_user_id') ?>";
+                    var user_id = "<?= session('client_user_id') ?>";
 </script>
 <script>
     $(document).ready(function() {

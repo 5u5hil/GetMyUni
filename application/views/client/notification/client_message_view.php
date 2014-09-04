@@ -49,7 +49,7 @@
                             <?php
                             }
                         } else {
-                            echo "<div class='col-md-offset-2 col-sm-10 col-md-10 col-xs-12 mt20 alert alert-info'>You haven't sent or received any Messages!</div>";
+                            echo "<div class='col-sm-10 col-md-12 col-xs-12 mt20 alert alert-info'>You haven't sent or received any Messages!</div>";
                         }
                         ?>
                     </div>

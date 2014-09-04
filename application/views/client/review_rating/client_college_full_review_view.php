@@ -8,12 +8,14 @@
 				$review = $get_review_rating;
 				//display($review);
 		$data['get_student_college_review_count'] = $this->model->get_student_college_review_count();	
-		//display($data['get_student_college_review_count']);
+		 $data['get_user_follow_info'] = $this->model->get_user_follow_info(session('client_user_id'));
+              // display($review);
 	?>
 	
 	<script>
 function goBack() {
-    window.history.back()
+      window.history.back(-1);
+        //return false;
 }
 </script>
 
@@ -48,7 +50,7 @@ function goBack() {
       <div class="row">
         <div class="col-sm-12">
           <h1 class="page_title"><?php if(!empty($review)){echo $review->school_name;} else { echo (ucwords(str_replace("-"," ",$this->uri->segment(4)))); }?> review</h1>
-          <div class="btn btn-sm"><a href="#" class="btn_back" onclick="goBack()"><i class="fa fa-caret-left col_light_blue"></i> Back</a></div>
+          <div class="btn btn-sm"><a class="btn_back" onclick="goBack()"><i class="fa fa-caret-left col_light_blue"></i> Back</a></div>
         </div>
       </div>
       <div class="row mt30">
@@ -107,10 +109,50 @@ function goBack() {
                        
                           ?>
                            
-                	<img src=<?php if(!empty ($review->profile_pic)){ echo $user_pic1;} else {echo "'".CLIENT_IMAGES ;}?>//user.jpg' class="img-responsive prof_pic">
+                	<img src=<?php if(!empty ($review->profile_pic)){ echo $user_pic1;} else {echo "'".CLIENT_IMAGES ;}?>/defaultuser.jpg' class="img-responsive prof_pic">
                     <div class="tcol_grey student_name"><?php echo $review->name;?></div>
                     
-                    <a href="#"><img src="<?php echo CLIENT_IMAGES ;?>/icons/follow.png"></a> <a href="#"><img src="<?php echo CLIENT_IMAGES ;?>/icons/message.png"></a>
+                    <a href="javascript:;"
+                       <?php 
+                         $id = session('client_user_id');
+                        if ($id != 0) {
+                            ?>
+                            href='javascript:;' class="user_following_user" id="<?php echo $review->student_id; ?>"
+                            <?php
+                        } else {
+                            ?>
+                            data-toggle="modal" data-target=".bs-example-modal-lg"
+
+                            <?php
+                        }
+                        ?>>
+                        
+                      
+                        
+                       <?php
+                             if(isset($data['get_user_follow_info']->user_following))
+                             
+                             $user_data_follow = (json_decode( $data['get_user_follow_info']->user_following));
+                             //display($user_follow_data);
+                        $follow_string = 'Follow';
+                        if (!empty(   $user_data_follow))
+                            {
+
+                            foreach (  $user_data_follow as $val) {
+                                   
+                                if ( $val == $review->student_id) {
+                                   
+                                        $follow_string = 'Unfollow';
+                                    
+                                }
+                            }
+                        }
+                          echo $follow_string;
+                        ?>
+                            
+                    
+                    
+                    </a> <a href="#"><img src="<?php echo CLIENT_IMAGES ;?>/icons/message.png"></a>
                 </div>
                 
                 <div class="col-sm-9 col-md-9">

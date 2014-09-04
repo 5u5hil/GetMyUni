@@ -4,7 +4,8 @@
 				$review = $get_review_rating;
 				//display($review);
 		$data['get_student_college_review_count'] = $this->model->get_student_college_review_count();	
-		//display($data['get_student_college_review_count']);
+		$data['get_user_follow_info'] = $this->model->get_user_follow_info(session('client_user_id'));
+                //display($data['get_student_college_review_count']);
 	?>  
   <div class="col-sm-9 col-md-9 col-xs-12">
 				<?php 
@@ -37,7 +38,52 @@
             	         
                     
             		<!--<img src="<?php echo CLIENT_IMAGES ;?>/user.jpg" class="img-responsive display_inline">-->
-                    <a href="#"><img src="<?php echo CLIENT_IMAGES ;?>icons/follow.png" class="mt40"></a> <a href="#"><img src="<?php echo CLIENT_IMAGES ;?>/icons/message.png"  class="mt40"></a>
+                    <a href="javascript:;" 
+                    
+                       <?php
+                              
+                        $id = session('client_user_id');
+                        if ($id != 0) {
+                            ?>
+                            href='javascript:;'  id="<?php echo $ans_review['student_id'];?>"  class="user_following_user" 
+                            <?php
+                        } else {
+                            ?>
+                            data-toggle="modal" data-target=".bs-example-modal-lg"
+
+                            <?php
+                        }
+                        ?>
+                    
+                    >
+                        
+                          
+                     <?php
+                             if(isset($data['get_user_follow_info']->user_following))
+                             
+                             $user_data_follow = (json_decode( $data['get_user_follow_info']->user_following));
+                             //display($user_data_follow);
+                        $follow_string = 'Follow';
+                        if (!empty(   $user_data_follow))
+                            {
+
+                            foreach (  $user_data_follow as $val) {
+                                   
+                                if ( $val == $ans_review['student_id']) {
+                                   
+                                        $follow_string = 'Unfollow';
+                                    
+                                }
+                            }
+                        }
+                          echo $follow_string;
+                        ?>
+                            
+                    </a>
+                             
+                             
+                             
+                             <a href="#"><img src="<?php echo CLIENT_IMAGES ;?>/icons/message.png"  class=""></a>
                     
                     <div class="college_review_detail mt10"> Name: <span><?php echo $ans_review["name"];?></span></div>
                     <div class="college_review_detail mt10"> Program: <span><?php echo $ans_review["program_name"];?></span></div>

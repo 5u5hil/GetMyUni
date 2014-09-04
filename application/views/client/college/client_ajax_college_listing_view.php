@@ -32,7 +32,7 @@ if (!empty($ans)) {
         //echo $val[0];
         ?>
                 <img src="<?php if (!empty($value['college_logo'])) {
-            echo $val[0];
+            echo "/public/admin/scripts/plugins/uploads/collegelogo/$val[0]";
         } else {
             echo CLIENT_IMAGES . "college/college_1.png";
         } ?>"  class="school_logo img-responsive"/>
@@ -81,15 +81,30 @@ if (!empty($ans)) {
                     </a>
 
                 </div>
-                <br>
-				<!--div class="col-sm-3 col-md-3 ">
-                            	<div class="compare_circle mt10 compare_circle1 add_comapre_btn" id="<?php echo $value['id']."-".$value['school_name'];?>">+</div>
-									 Compare
-                            </div-->
-							
+                <br>		
 				<div class="col-sm-12 col-md-12 cmpfrmsub add_comapre_btn" id="<?php echo $value['id']."-".$value['school_name'];?>">
-                            	<div class="compare_circle mt10 compare_circle1 " >+</div>
-									 Compare
+                                   <?php
+                                        $school_record = array();
+                                      
+                                       if(session('school_session_compare'))
+                                       {
+								foreach (session('school_session_compare') as $key=>$school_details)
+								{
+                                                                   
+                                                                        array_push($school_record,$school_details['school_id']);
+                                       }}
+                                         //display($school_record);
+                                        if (in_array ($value['id'], $school_record))
+                                        {
+                                      ?>                                
+                                       
+                                    <div class="compare-text_<?php echo $value['id'];?>"><div class="compare_circle mt10 compare_circle1 " >+</div>
+                                            <span class="compare_text">Selected</span></div>
+                                        <?php }else { ?>
+                                    
+                                    <div class="compare-text_<?php echo $value['id'];?>"><div class="compare_circle mt10 compare_circle1 " >+</div>
+                                            <span class="compare_text">Compare</span></div>
+                                        <?php } ?>
                             </div>
             </div>
             <div class="col-sm-6 col-md-6">
@@ -102,7 +117,7 @@ if (!empty($ans)) {
                     </div>
                     <div class="col-sm-6 col-md-6 ">
                         <div class="col_det_title"> Acceptance Rate</div>
-                        <div class="col_det_value"> <?php echo $value['acc_rate']; ?>%</div>
+                        <div class="col_det_value"> <?php  if($value['acc_rate'] == 0){ echo "N/A";} else { echo $value['acc_rate']."%";} ?></div>
                     </div>
                 </div>
                 <div class="row mt10">
@@ -112,7 +127,7 @@ if (!empty($ans)) {
                     </div>
                     <div class="col-sm-6 col-md-6 ">
                         <div class="col_det_title"> Average Salary</div>
-                        <div class="col_det_value"> $<?php echo number_format($value['avg_salary']); ?></div>
+                        <div class="col_det_value"> <?php if($value['avg_salary'] == 0){ echo "N/A";} else {echo "$".number_format($value['avg_salary']);}; ?></div>
                     </div>
                 </div>
             </div>
@@ -308,7 +323,7 @@ $(".compare_circle1").click(function(e){
 $(document).on("click",".add_comapre_btn",function(e) {
 		
 			e.preventDefault();
-			
+	
 		 var id = $(this).attr('id').split("-");
 		var data = "id="+id[0]+"&school_name="+id[1];
 		//alert(data);
@@ -333,6 +348,8 @@ $(document).on("click",".add_comapre_btn",function(e) {
 					{
 						
 						$(".old_data").html(msg);
+                                                $(".compare-text_"+id[0]).html("<div class='compare_circle mt10 compare_circle1'>+</div><span class='compare_text'>Selected</span>");
+									 
 					}
                   }
             });
@@ -357,6 +374,7 @@ $(document).on("click",".add_comapre_btn",function(e) {
 
 					//alert(msg);
 					$(".old_data").html(msg);
+                                        $(".compare-text_"+id).html("<div class='compare_circle mt10 compare_circle1'>+</div><span class='compare_text'>Compare</span>");
 				}
                   
             });

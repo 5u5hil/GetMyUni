@@ -373,3 +373,35 @@ function sendMail($to, $subject, $message, $htmlMessage = 1, $from_email = 'admi
         return false;
     }
 }
+
+function noti_icon($type) {
+
+    switch ($type) {
+        case (preg_match('/like/i', $type) ? true : false) :
+            $color = "label-primary";
+            $icon = "fa-thumbs-o-up";
+            break;
+        
+         case (preg_match('/commented/i', $type) ? true : false) :
+            $color = "label-success";
+            $icon = "fa-comment-o";
+            break;
+        
+        case (preg_match('/community/i', $type) ? true : false) :
+            $color = "label-warning";
+            $icon = "fa-flag-o";
+            break;
+        
+        case (preg_match('/user/i', $type) ? true : false) :
+            $color = "label-warning";
+            $icon = "fa-user";
+            break;
+
+        default:
+             $color = "label-primary";
+            $icon = "fa-globe";
+            break;
+    }
+    
+    return '<div class="label '.$color.' pull-left n_icon"><i class="fa fa-2x '.$icon.'"></i></div>';
+}

@@ -19,11 +19,8 @@
                     <div class='controls'><div id='filelist' ></div>
                         <div style='clear:both;'></div>
                         <div id='container'>
-
-                            <!-- <div id="hexagon">
-                                                                     <img src="<?php echo CLIENT_IMAGES; ?>icons/default_profile.png" class="img-responsive" id="hexagon"></div>-->
-
-<!--<div class="hexa gon"> <img src="<?php echo CLIENT_IMAGES; ?>adspace.jpg" class="img-responsive" > </div>-->
+                               <div id="sub_container">
+                          
 
                             <?php
                             if (isset($user_data->profile_pic) && (($user_data->profile_pic != '[""]'))) {
@@ -43,11 +40,13 @@
 							<div class='display_image '><div class=''><img class="studentprofilepic" src=<?php echo CLIENT_IMAGES ;?>defaultuser.jpg></div></div>
 							<?php }?>
                             <br><br>
+                            </div>
                             <div style="clear:both;"></div>
-
+                            
                             <a id='profile_pic' href='javascript:;'   <?php if (($user_data->profile_pic) != "") { ?> style="display:none;" <?php } ?> >	<input type="button" class="btn btn-primary" value="Upload Photo" ></a>
 
                         </div>
+                        
                         <span id="image1_err"  class="error"></span> <span id="imgerror" class="error"></span>
                     </div>
 					
@@ -250,15 +249,15 @@
                                               
 											   
 											   
-													<div class="school_name_<?php echo $i;?>" style='height:22px; display:block;'>&nbsp;
+                                            <div class="school_name_<?php echo $i;?>" style='height:22px; display:block;'>&nbsp;
                                         </div>
 													
 													
-													<?php } if(($edu_info["other"] != "")){?><div class="school_name_<?php echo $i;?>" style='height:66px; display:block;'>&nbsp;
+                                            <?php } if(($edu_info["other"] != "")){?><div class="school_name_<?php echo $i;?>" style='height:66px; display:block;'>&nbsp;
                                         </div>
 													
 													
-													<?php }?>
+						<?php }?>
 													
 												
 
@@ -693,7 +692,7 @@
                                                         }
                                                         ?>
 
-                                                        <div class="alert tabscont follow_<?php echo $save_school['id']; ?>"> <button type="button" class="close_user" id="user-intrest_<?php echo $save_school['id']; ?>" >&times;</button><?php echo (strlen($save_school['school_name']) > 20) ? substr($save_school['school_name'], 0, 20) . '...' : $save_school['school_name']; ?></div>
+                                                        <div class="alert tabscont save_school_<?php echo $save_school['id']; ?> button_a"> <button type="button" class=" unsave_school" id="user-intrest_<?php echo $save_school['id']; ?>" >&times;</button><a  href="<?php echo SITE_URL; ?>college/<?php echo clean_string($save_school['school_name']); ?>/<?php echo $save_school['school_id']; ?>"><?php echo (strlen($save_school['school_name']) > 20) ? substr($save_school['school_name'], 0, 20) . '...' : $save_school['school_name']; ?></a></div>
 
                                                         <!-- data-toggle="modal" data-target=".bs-example-modal-sm"   for boot strap dialog-->
 
@@ -706,14 +705,13 @@
                                                     if ($count % 3 != 1)
                                                         echo "</div>";
 														
-													}
-													else
-													{
-													
-														echo " <div class='alert alert-info'>You have not saved any Schools. Save them from School page to get regular updates about the school.</div>";
-													}
+								}
+                                                                else
+                                                                {
+                                                                    echo " <div class='alert alert-info'>You have not saved any Schools. Save them from School page to get regular updates about the school.</div>";
+                                                                }
                                                     ?>
-
+                                                        
                                                     <div class="clearfix"></div>
                                                     <div class="findschool"> Find schools <input type="text" placeholder="Find Schools" class="form-control find_school_name"></div>
                                                 </div>
@@ -747,7 +745,7 @@
                                                         }
                                                         ?>
 
-                                                        <div class="alert tabscont follow_<?php echo $following_school['id']; ?>"> <button type="button" class="close_user" id="user-intrest_<?php echo $following_school['id']; ?>">&times;</button><?php echo (strlen($following_school['school_name']) > 20) ? substr($following_school['school_name'], 0, 20) . '...' : $following_school['school_name']; ?></div>
+                                                        <div class="alert tabscont follow_<?php echo $following_school['id']; ?> button_a"> <button type="button" class="close_user" id="user-intrest_<?php echo $following_school['id']; ?>">&times;</button><a  href="<?php echo SITE_URL; ?>college/<?php echo clean_string($following_school['school_name']); ?>/<?php echo $following_school['school_id']; ?>"><?php echo (strlen($following_school['school_name']) > 20) ? substr($following_school['school_name'], 0, 20) . '...' : $following_school['school_name']; ?></a></div>
 
 
 
@@ -759,12 +757,12 @@
                                                     }
                                                     if ($count % 3 != 1)
                                                         echo "</div>";
-													}
-													else
-													{
-														echo "<div class='alert alert-info'>You are not following any Schools. Follow them from School page to get regular updates about the school</div>";
-													
-													}
+                                                    }
+                                                    else
+                                                    {
+                                                            echo "<div class='alert alert-info'>You are not following any Schools. Follow them from School page to get regular updates about the school</div>";
+
+                                                    }
                                                     ?>
 
 
@@ -776,21 +774,42 @@
                                                 <div class="row"> 
 
                                                     <div class="tcol_grey f_18  mb20"> Users you are following : </div>
-                                                    <div class="col-sm-4 col-md-4">
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                    </div>
-                                                    <div class="col-sm-4 col-md-4">
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                    </div>
-                                                    <div class="col-sm-4 col-md-4">
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                    </div>
+                                                <?php
+                                                $count = 1;
+						$user_follow_data = (json_decode($get_user_follow_info->user_following));		
+                                                //display($user_follow_data);
+                                                if(!empty($user_follow_data))
+												{
+                                                foreach ($user_follow_data as $follow_user) {
+                                                    if ($count % 3 == 1) {
+                                                        ?>
+
+                                                        <div class="col-sm-4 col-md-4">
+
+                                                            <?php
+                                                        }
+                                                        ?>
+
+                                                        <div class="alert tabscont user_follow_<?php echo $follow_user; ?>"><button type="button" class="delete_follow_user" id="user-follow_<?php echo $follow_user?>">&times;</button><?php echo get_user_name_id($follow_user) ;?></div>
+
+
+
+                                                        <?php
+                                                        if ($count % 3 == 0) {
+                                                            echo "</div>";
+                                                        }
+                                                        $count++;
+                                                    }
+                                                    if ($count % 3 != 1)
+                                                        echo "</div>";
+                                                    }
+                                                    else
+                                                    {
+                                                            echo "<div class='alert alert-info'>You are not following any User. Follow them from School page to get regular updates about the user</div>";
+
+                                                    }
+                                                    ?>
+
                                                     <div class="clearfix"></div>
                                                     <div class="findschool"> Find schools to follow <input type="text" placeholder="Find Schools" class="form-control find_school_name"></div>
                                                 </div>
@@ -799,21 +818,44 @@
                                                 <div class="row"> 
 
                                                     <div class="tcol_grey f_18  mb20"> Communities you are following : </div>
-                                                    <div class="col-sm-4 col-md-4">
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> Community Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> Community Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> Community Name  </div>
-                                                    </div>
-                                                    <div class="col-sm-4 col-md-4">
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> Community Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> Community Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> Community Name  </div>
-                                                    </div>
-                                                    <div class="col-sm-4 col-md-4">
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> Community Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> Community Name  </div>
-                                                        <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> Community Name  </div>
-                                                    </div>
+                                                    
+                                                    
+                                                    
+                                                                     <?php
+                                                $count = 1;
+												if(!empty($get_user_community_detail))
+												{
+                                                foreach ($get_user_community_detail as $following_communi) {
+                                                    if ($count % 3 == 1) {
+                                                        ?>
+
+                                                        <div class="col-sm-4 col-md-4">
+
+                                                            <?php
+                                                        }
+                                                        ?>
+
+                                                        <div class="alert tabscont user_community_<?php echo $following_communi['id']; ?> button_a"> <button type="button" class="user_community" id="user-community_<?php echo $following_communi['id']; ?>">&times;</button><a  href=""><?php echo  $following_communi['cname']; ?></a></div>
+
+
+
+                                                        <?php
+                                                        if ($count % 3 == 0) {
+                                                            echo "</div>";
+                                                        }
+                                                        $count++;
+                                                    }
+                                                    if ($count % 3 != 1)
+                                                        echo "</div>";
+                                                    }
+                                                    else
+                                                    {
+                                                            echo "<div class='alert alert-info'>You are not following any Community. Follow them from Community page to get regular updates about the community</div>";
+
+                                                    }
+                                                    ?>
+
+                                                    
                                                     <div class="clearfix"></div>
                                                     <div class="findschool"> Find schools to follow <input type="text" placeholder="Find Schools" class="form-control find_school_name"></div>
                                                 </div>
@@ -833,21 +875,40 @@
                                                     <div class="row"> 
 
                                                         <div class="tcol_grey f_18  mb20"> Users following you: </div>
+                                                                                                      
+                                                                     <?php
+                                                $count = 1;
+												if(!empty($select_user_following_u))
+												{
+                                                foreach ($select_user_following_u as $user_followu) {
+                                                    if ($count % 3 == 1) {
+                                                        ?>
+
                                                         <div class="col-sm-4 col-md-4">
-                                                            <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                            <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                            <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                        </div>
-                                                        <div class="col-sm-4 col-md-4">
-                                                            <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                            <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                            <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                        </div>
-                                                        <div class="col-sm-4 col-md-4">
-                                                            <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                            <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                            <div class="alert tabscont"><button type="button" class="close_user" data-dismiss="alert">&times;</button> User Name  </div>
-                                                        </div>
+
+                                                            <?php
+                                                        }
+                                                        ?>
+
+                                                        <div class="alert tabscont user_followu_<?php echo $user_followu['id']; ?> button_a"> <a  href=""><?php echo  $user_followu['name']; ?></a></div>
+
+
+
+                                                        <?php
+                                                        if ($count % 3 == 0) {
+                                                            echo "</div>";
+                                                        }
+                                                        $count++;
+                                                    }
+                                                    if ($count % 3 != 1)
+                                                        echo "</div>";
+                                                    }
+                                                    else
+                                                    {
+                                                            echo "<div class='alert alert-info'>No user following you</div>";
+
+                                                    }
+                                                    ?>
                                                         <div class="clearfix"></div>
                                                         <div class="findschool"> Find schools to follow <input type="text" placeholder="Find Schools" class="form-control find_school_name"></div>
                                                     </div>
@@ -1029,8 +1090,9 @@
             {
                 e.preventDefault();
                 var id = $(this).attr('id');
+                //alert(id);
                 $("#main-" + id).remove();
-                $("#profile_pic").css("display", "block");
+                $("#profile_pic").css('display','block');
             });
 
             var specialKeys = new Array();
@@ -1236,11 +1298,7 @@ if (!empty($get_edu)) {
                         var newTextBoxDiv = $(document.createElement('div'))
                                 .attr("id", 'school_name_' + counter)
                                 .addClass("count_school_name");
-                        newTextBoxDiv.after().html('<br><select type="select" class="form-control new-select select_school_name_' + counter + ' _pro-school-sel" name="schoolname[]"><option value="">Select School Name</option><?php
-foreach ($get_school_name as $school_ans) {
-    echo '<option  value="' . $school_ans['id'] . '-' . $school_ans['field_study'] . '-' . $school_ans['degree'] . '">' . $school_ans['school_name'] . '-' . $school_ans['degree_name'] . ' - ' . $school_ans['field_name'] . '</option>';
-}
-?><option value="0-0-0" class="other">other</option></select><div class="school_name_' + counter + '"><div class="school_name_' + counter + '"><div class="row"><div class="col-sm-4 " ><input type="text" name="other_schoolname[]" class="mt10 form-control _pro-school-text"  placeholder="School Name" value=""> </div><div class="col-sm-4"><select type="select" class="form-control mt10 new-select  select_degree" name="school_degree[]"><option value="">Select Degree</option><option value="2">Bachelors</option><option value="1">Masters</option><option value="3">Doctorate</option></select></div><div class="col-sm-4"><select type="select" class="form-control mt10 new-select  select_degree" name="school_field[]"><option value="">Select field</option><option value="1">Management</option><option value="2">Engineering</option></select></div></div>');
+                        newTextBoxDiv.after().html('<br><select type="select" class="form-control new-select select_school_name_' + counter + ' _pro-school-sel" name="schoolname[]"><option value="">Select School Name</option><?php foreach ($get_school_name as $school_ans) { echo '<option  value="' . $school_ans['id'] . '-' . $school_ans['field_study'] . '-' . $school_ans['degree'] . '">' . $school_ans['school_name'] . '-' . $school_ans['degree_name'] . ' - ' . $school_ans['field_name'] . '</option>';} ?><option value="0-0-0" class="other">other</option></select><div class="school_name_' + counter + '"><div class="school_name_' + counter + '"><div class="row"><div class="col-sm-4 " ><input type="text" name="other_schoolname[]" class="mt10 form-control _pro-school-text"  placeholder="School Name" value=""> </div><div class="col-sm-4"><select type="select" class="form-control mt10 new-select  select_degree" name="school_degree[]"><option value="">Select Degree</option><option value="2">Bachelors</option><option value="1">Masters</option><option value="3">Doctorate</option></select></div><div class="col-sm-4"><select type="select" class="form-control mt10 new-select  select_degree" name="school_field[]"><option value="">Select field</option><option value="1">Management</option><option value="2">Engineering</option></select></div></div>');
 
                         newTextBoxDiv.appendTo(".select_school_name");
 
@@ -1421,10 +1479,10 @@ foreach ($get_school_name as $school_ans) {
                      });*/
 
 
-                    $('#profile_pic').click(function(e) {
+                    /*$('#profile_pic').click(function(e) {
                         uploader.start();
                         e.preventDefault();
-                    });
+                    });*/
 
                     uploader.init();
 
@@ -1432,7 +1490,7 @@ foreach ($get_school_name as $school_ans) {
 
 
                         $.each(files, function(i, file) {
-                            $('#container').html(
+                            $('#sub_container').html(
                                     '<div class="images temp_class"   id="' + file.id + '" >  <b></b>' +
                                     '</div>');
 

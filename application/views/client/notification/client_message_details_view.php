@@ -15,22 +15,24 @@
 
         <div class="row"> 
             <div class="col-sm-12 col-md-12"> 
-                <?php $count = count($messages);
+                <?php
+                $count = count($messages);
                 foreach ($messages as $msg) {
                     $get_user_details = get_user_details($msg["from"]);
                     if ($msg["from"] != session("client_user_id")) {
                         $to = $msg["from"];
-                    } elseif($count == 1){
+                    } elseif ($count == 1) {
                         $to = $msg["to"];
                     }
-                    
-                    
+
+
                     $pic = json_decode($get_user_details[0]["profile_pic"], true);
+
                     $pic = $pic[0] ? $pic[0] : CLIENT_IMAGES . "defaultuser.jpg";
                     ?>
                     <div class="read_panel">
                         <div class="media">
-                            <a href="#" class="pull-left"><img src="<?php echo CLIENT_IMAGES; ?>defaultuser.jpg" class="media-image"></a>
+                            <a href="#" class="pull-left"><img src="<?= $pic ?>" class="media-image"></a>
                             <div class="media-body">
                                 <span class="media-meta pull-right"><?= date("d M, h:i a", strtotime($msg["added_at"])) ?></span>
                                 <div class="text-primary mname"><?= $get_user_details[0]["name"]; ?></div>
@@ -51,10 +53,17 @@
                     <a href="<?= SITE_URL ?>/profile/<?= session("client_user_id") ?>/" class="pull-left"><img src="<?= $pic ?>" class="media-image"></a>
                     <div class="media-body">
                         <form name="message_frm" action="<?= CLIENT_SITE_URL ?>client_notification/message_insert/" method="post">
-                            <textarea class="form-control" name="msg" class="frm" placeholder="Reply Here...."></textarea>
-                            <input type="hidden" name="pid" value="<?= $pid ?>" />
-                            <input type="hidden" name="sub" value="" />
-                            <input type="hidden" name="to" value="<?= isset($to) ? $to : session("client_user_id") ?>" />
+                            <div class="row">
+                                <div class="col-sm-10 col-md-10">
+                                    <textarea class="form-control" name="msg" class="frm" placeholder="Reply Here...." required></textarea>
+                                    <input type="hidden" name="pid" value="<?= $pid ?>" />
+                                    <input type="hidden" name="sub" value="" />
+                                    <input type="hidden" name="to" value="<?= isset($to) ? $to : session("client_user_id") ?>" />
+                                </div>
+                                <div class="col-sm-2 col-md-2">
+                                    <input type="submit" class="btn btn-sm btn-info" value="Reply">
+                                </div>
+                            </div>
                         </form>
 
                     </div>
@@ -67,7 +76,7 @@
 </div>
 </div>
 <footer>
-    <?php $this->load->view(CLIENT_FOOTER); ?>
+<?php $this->load->view(CLIENT_FOOTER); ?>
 </footer>
 </div>
 

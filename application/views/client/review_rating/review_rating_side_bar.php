@@ -5,7 +5,12 @@
    
 
 ?>   
-
+    <script>
+        function goBack() {
+             parent.history.back();
+        return false;
+        }
+    </script>
     <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"> 
     <div class="modal-dialog modal-lg"> 
        <div class="modal-content">
@@ -33,8 +38,10 @@
 
 
     
-
+            
    <div class="col-sm-3 col-md-3 col-xs-12">
+        <div class="btn btn-sm"><a class="btn_back" onclick="goBack()"><i class="fa fa-caret-left col_light_blue"></i> Back</a></div><br><br>
+       
           <div class="leave_review">
             <div class="f_18 tcol_darkblue">Enter school</div>
             <input type="text" placeholder="School name" class="form-control get_review_input" id="review_school_name">

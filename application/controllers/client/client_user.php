@@ -8,6 +8,7 @@ class Client_user extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('client/client_user_model', 'model');
+         $this->load->model('client/client_college_model');
         $this->load->library('form_validation');
     }
 
@@ -77,6 +78,7 @@ class Client_user extends CI_Controller {
             'password' => '',
             'profile_id' => '',
             'profile_type' => '',
+            'profile_pic' => '',
         );
         $this->session->set_userdata($pre_register_data);
         $user_id = session('client_user_id');
@@ -85,11 +87,14 @@ class Client_user extends CI_Controller {
         $data['user_data'] = $this->model->getUserData();
         $data['get_user_save_school'] = $this->model->get_user_save_school();
         $data['get_user_following_school'] = $this->model->get_user_following_school();
-        $data['get_school_follower'] = $this->model->get_school_follower();
+        $data['get_user_community_detail'] = $this->model->select_user_community_detail($user_id);
+        $data['select_user_following_u'] = $this->model->select_user_following_u($user_id);
+        $data['get_school_follower'] = $this->model->get_school_follower($user_id);
         $data['get_user_review'] = $this->model->get_user_review();
         $data['get_school_name'] = $this->model->get_school_name();
         $data['get_edu'] = $this->model->getUserEduInfo();
         $data['get_test'] = $this->model->getUserTestInfo();
+        $data['get_user_follow_info'] = $this->client_college_model->get_user_follow_info($user_id);
         $data['master_degree'] = getMasters('master_degree');
         $data['study_field'] = getMasters('field_of_study');
         $this->load->view(CLIENT_USER_PROFILE_VIEW, $data);
@@ -213,11 +218,13 @@ class Client_user extends CI_Controller {
 	function user_show_profile() {
       
         $user_id = $this->uri->segment(4);
+        $id = session('client_user_id');
         //display($this->session->all_userdata());
         $this->model->user_id = $this->uri->segment(4);
         $data['user_data'] = $this->model->getUserData();
         $data['get_user_save_school'] = $this->model->get_user_save_school();
         $data['get_user_following_school'] = $this->model->get_user_following_school();
+        
         $data['get_school_follower'] = $this->model->get_school_follower();
         $data['get_user_review'] = $this->model->get_user_review();
         $data['get_school_name'] = $this->model->get_school_name();
@@ -232,7 +239,8 @@ class Client_user extends CI_Controller {
     {
         $json_array['error'] = 'error';
         $json_array['msg'] = 'Something Went Wrong!';
-        $data = $this->input->post();     
+        $data = $this->input->post(); 
+        //display($data);
         if(isset($data['social_type']) && $data['email'])
         {
             $create_user = $this->social_save($data['social_type'],$data);
@@ -246,28 +254,33 @@ class Client_user extends CI_Controller {
     
     function social_save($type,$data)
     {
+           // print_r($data);
         $responce_array = array('error'=>'error','type'=>$type,'redirect_path'=>'');
         if($data['email'])
         {
-            
+ 
             $this->model->email = $data['email'];
             $user_data  = $this->model->getUserData();
-            $industry_id = $data['industry_id'] = ($data['industry'] ? $this->get_industry($data['industry']):'');
+            //display($user_data);die; 
+            $industry_id = $data['industry_id'] = @($data['industry'] ? $this->get_industry($data['industry']):$user_data->industry_id);
+            $data['job_position_id'] = @$user_data->job_position_id;
             //$functionality_id = $this->get_functionality($data['']);
-            $company = $data['company'] = ($data['position'] ? $data['position']['values'][0]['company']['name'] : ''); 
+            $company = $data['company'] = @($data['position'] ? $data['position']['values'][0]['company']['name'] : $user_data->company); 
             $fileName = '';
             if(isset($data['profile_pic']) && $data['profile_pic'])
-            {
+           {
                 /*$url = $data['profile_pic'];
                 $image_data = file_get_contents($url);
                 $fileName = $data['profile_id'].'_'.$type.'.jpg';
                 $save_path = $_SERVER['DOCUMENT_ROOT'].'/public/admin/scripts/plugins/uploads/eventimg/';
                 $save_image = file_put_contents($save_path.$fileName, $image_data);*/
-                $fileName = json_encode($data['profile_pic']);
+               $fileName = ($data['profile_pic']);
             }
             
             
             $profile_pic = $data['profile_pic'] = $fileName;
+           // $profile_pic = $data['profile_pic'];
+            //display($data['profile_pic']);
             $public_profile_url = $data['public_profile_url'];
             $dob = @($data['dob'] ? date('Y-m-d',strtotime($data['dob'])) : '');
             $gender = ($data['gender'] == 'female' ? 'F' : 'M');
@@ -277,6 +290,7 @@ class Client_user extends CI_Controller {
             {
                 // pre login
                 $redirect_path = SITE_URL.'user/pre-login-view';
+                
                 $pre_register_data = array(
                 'full_name' => $name,
                 'email' => $data['email'],
@@ -289,7 +303,9 @@ class Client_user extends CI_Controller {
                 'public_profile_url' => $public_profile_url,
                 'profile_type' => $type,
                 );
+               //$this->model->create_user($pre_register_data);
                 $this->session->set_userdata($pre_register_data);
+                //$this->session->create_user($pre_register_data);
             }
             else
             {
@@ -341,8 +357,70 @@ class Client_user extends CI_Controller {
         return $industry->id; 
     }
     
-    function get_functionality()
+    function delete_user_follow()
     {
+       
+    $id = $_POST["id"];
+    //display($id);
+    $follwer_details = $this->model->user_following_details(session('client_user_id'));
+    $user_following = json_decode($follwer_details[0]['user_following'],true);
+    //display($user_following);
+    $key = array_search($id, $user_following);
+    unset($user_following[$key]);
+    $user_following = json_encode($user_following);
+    $update_user = $this->model->save_following_details($id, $user_following);
+    echo "delete";
+        
+        
+    }
+    
+    
+     function delete_user_followuser()
+    {
+       
+    $id = $_POST["id"];
+    //display($id);
+    $follwu_user = $this->model->user_followu(session('client_user_id'));
+    $user_followu = json_decode($follwu_user[0]['user_following'],true);
+    //display($user_following);
+    $key = array_search($id, $user_followu);
+    unset($user_followu[$key]);
+    $user_followu = json_encode($user_followu);
+    $update_followu = $this->model->save_following_details($id, $user_followu);
+    echo "delete";
+        
+        
+    }
+    
+    
+    function delete_user_community()
+    {
+       
+    $id = $_POST["id"];
+    //display($id);
+    $userc_details = $this->model->user_community($id);
+    //display($userc_details);
+    $user_communi = json_decode($userc_details[0]['members'],true);
+    
+    $key = array_search(session('client_user_id'), $user_communi);
+    unset($user_communi[$key]);
+    $user_communi = json_encode($user_communi);
+    $update_communi = $this->model->user_community_details($id, $user_communi);
+    echo "delete";
+        
+        
+    }
+    
+    
+    function delete_save_school()
+    {
+       
+    $id = $_POST["id"];
+   
+    $follwer_details = $this->model->delete_user_save_school($id);
+    
+    echo "delete";
+        
         
     }
 	

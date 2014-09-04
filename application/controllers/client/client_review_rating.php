@@ -59,6 +59,7 @@ class Client_Review_Rating extends CI_Controller {
      
         $this->model->row = TRUE;
         $data['get_review_rating'] = $this->model->get_review_rating();
+        $data['get_user_following_info'] = $this->model->get_user_following_info();
         //display($data['get_review_rating']);
         $this->load->view(CLIENT_COLLEGE_FULL_REVIEW_VIEW, $data);
     }
@@ -67,7 +68,7 @@ class Client_Review_Rating extends CI_Controller {
 
         $this->load->library('form_validation');
         $form_field = $_POST;
-
+        
         if (!$form_field)
             $json_array = array();
         foreach ($form_field as $key => $value) 
@@ -92,6 +93,8 @@ class Client_Review_Rating extends CI_Controller {
             //display($ans);
             $this->load->model('client/client_review_rating_model');
             $this->client_review_rating_model->insert_review_rating($ans);
+            
+            
         }
         echo json_encode($json_array);
     }

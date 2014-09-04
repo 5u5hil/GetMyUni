@@ -258,6 +258,7 @@ $(document).ready(function() {
                     var fno = parseInt($(".mnum").text());
                     fno = fno + 1;
                     $(".mnum").text(fno);
+                    fno > 1 ? $(".plural").html("s") : $(".plural").html("");
                     $('#myModalJoin').modal('hide');
                     if (ce) {
                         $("#create_event").modal();
@@ -282,7 +283,7 @@ $(document).ready(function() {
                 var fno = parseInt($(".mnum").text());
                 fno = fno - 1;
                 $(".mnum").text(fno);
-
+                fno > 1 ? $(".plural").html("s") : $(".plural").html("");
             }
         });
     });

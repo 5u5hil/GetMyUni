@@ -9,6 +9,11 @@
 <div class="row container-fluid">
     <div class="col-sm-10 col-md-10 col-xs-12">
         <div class="row">
+            <div class="col-sm-7"> 
+                <div class="btn btn-sm"><a class="btn_back back_page" onclick="javascript:history.go(-1)" ><i class="fa fa-caret-left col_light_blue"></i> Back</a></div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-sm-12">
                 <h1 class="page_title">Forums</h1>
             </div>
@@ -171,15 +176,15 @@
             }
             echo $pagination;
         } else {
-            echo "<div class='col-md-offset-2 col-sm-10 col-md-10 col-xs-12 mt20 alert alert-info'>No Discussion has been started yet!</div>";
+            echo "<div class='col-md-offset-2 col-sm-10 col-md-10 col-xs-12 mt20 alert alert-info'>No discussion threads have yet been started…Go ahead, start one!</div>";
         }
         ?>  
     </div>
 
     <div class="col-sm-2 sidebar">
-			 <?php  $this->load->view(CLIENT_TICKER_VIEW);?>
-			 <?php $this->load->view(CLIENT_ADS_VIEW); ?>
-           </div>
+        <?php $this->load->view(CLIENT_TICKER_VIEW); ?>
+        <?php $this->load->view(CLIENT_ADS_VIEW); ?>
+    </div>
 </div>
 
 <footer>
@@ -203,8 +208,8 @@
     <div class="modal-dialog modal-sm"> 
         <div class="modal-content">
             <div class="modal-body">
-             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                 <div class="text-center text-danger"><h4>Are you sure you want to report Spam? </h4> </div>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <div class="text-center text-danger"><h4>Are you sure you want to report Spam? </h4> </div>
                 <div class="text-center mt30"><button value="0" class="btn btn-primary">Report</button> <button value="1" class="btn btn-danger">Not Now</button> </div>
             </div>
         </div> 
@@ -214,11 +219,11 @@
 <div class="modal fade" id="myCSpam" tabindex="-1" role="dialog" aria-labelledby="myCSpam" aria-hidden="true"> 
     <div class="modal-dialog modal-sm"> 
         <div class="modal-content">
-             
+
             <div class="modal-body">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <div class="text-center text-danger"><h4>Are you sure you want to report Spam? </h4></div>
-                 <div class="text-center mt30"><button value="0" class="btn btn-primary">Report</button> <button value="1" class="btn btn-danger">Not Now</button> </div>
+                <div class="text-center mt30"><button value="0" class="btn btn-primary">Report</button> <button value="1" class="btn btn-danger">Not Now</button> </div>
             </div>
         </div> 
     </div>
@@ -227,12 +232,12 @@
 <div class="modal fade" id="myDel" tabindex="-1" role="dialog" aria-labelledby="myDel" aria-hidden="true"> 
     <div class="modal-dialog modal-sm"> 
         <div class="modal-content">
-           
+
             <div class="modal-body">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+
                 <div class="text-center text-danger"><h4> Are you sure you want to report Spam? </h4></div>
-                 <div class="text-center mt30"><button class="btn btn-primary" value="0">Delete</button> <button value="1" class="btn btn-danger">Not Now</button> </div>
+                <div class="text-center mt30"><button class="btn btn-primary" value="0">Delete</button> <button value="1" class="btn btn-danger">Not Now</button> </div>
             </div>
         </div> 
     </div>
@@ -241,9 +246,9 @@
 <div class="modal fade" id="myCDel" tabindex="-1" role="dialog" aria-labelledby="myCDel" aria-hidden="true"> 
     <div class="modal-dialog modal-sm"> 
         <div class="modal-content">
-            
+
             <div class="modal-body">
-             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <div class="text-center text-danger"><h4>Are you sure you want to report Spam?</h4></div>
                 <div class="text-center mt30"><button  class="btn btn-primary" value="0">Delete</button> <button class="btn btn-danger" value="1">Not Now</button> </div>
             </div>

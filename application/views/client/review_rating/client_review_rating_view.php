@@ -16,7 +16,7 @@
                     <div class="review_rating_home">
                         <div class="row">
                             <div class="col-md-offset-2 col-sm-8 col-md-8">
-                                <h1 class="tcol_white"><img src="<?php echo CLIENT_IMAGES; ?>icons/review_rating.png"> Reviews & ratings</h1>
+                                <h1 class="tcol_white"><img src="<?php echo CLIENT_IMAGES; ?>icons/review_rating.png"> Reviews and Ratings</h1>
                                 <div class="tcol_white f_16"></div>
                             </div>
                         </div>

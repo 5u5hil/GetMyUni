@@ -8,7 +8,7 @@
         </div>
       </div>
       <div class="row mt30">
-		
+                       
 			<?php $this->load->view(CLIENT_REVIEW_RATING_SIDE_BAR)?>
 			 <div id="ajax_college_review_list">
 						<?php $this->load->view(CLIENT_AJAX_REVIEW_LISTING_VIEW)?>

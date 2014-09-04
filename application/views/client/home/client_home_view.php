@@ -171,17 +171,17 @@
                 </div>
                 <div class="col-md-3 text-center">
                     <center><a href="<?php echo CLIENT_SITE_URL ?>client_forums/forum_list_view"><img src="<?php echo CLIENT_IMAGES; ?>icons/forums.jpg" class="img-responsive"></a></center>
-                    <div class="home_subtitle"><a class="home_subtitle" href="<?php echo CLIENT_SITE_URL ?>client_forums/forum_list_view">Forums</a></div>
+                    <div class="home_subtitle"><a class="home_subtitle" href="<?php echo SITE_URL ?>communities/1/">Forums</a></div>
                     <p class="font_sans home_cat">Any questions ?</p>
                 </div>
                 <div class="col-md-3 text-center">
-                    <center><img src="<?php echo CLIENT_IMAGES; ?>icons/communities.jpg" class="img-responsive"></center>
-                    <div class="home_subtitle">Communities</div>
+                    <center><a  href="<?php echo CLIENT_SITE_URL ?>client_forums/forum_list_view"><img src="<?php echo CLIENT_IMAGES; ?>icons/communities.jpg" class="img-responsive"></a></center>
+                    <div class="home_subtitle"><a class="home_subtitle" href="<?php echo CLIENT_SITE_URL ?>client_forums/forum_list_view">Communities</a></div>
                     <p class="font_sans home_cat">Meet fellow students</p>
                 </div>
                 <div class="col-md-3 text-center">
-                    <center><img src="<?php echo CLIENT_IMAGES; ?>icons/news.jpg" class="img-responsive"></center>
-                    <div class="home_subtitle">News</div>
+                    <center><a  href="<?php echo SITE_URL ?>news"><img src="<?php echo CLIENT_IMAGES; ?>icons/news.jpg" class="img-responsive"></a></center>
+                    <div class="home_subtitle"><a class="home_subtitle" href="<?php echo SITE_URL ?>news">News</a></div>
                     <p class="font_sans home_cat">Know more/be aware</p>
                 </div>
             </div>

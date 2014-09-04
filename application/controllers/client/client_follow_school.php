@@ -24,7 +24,14 @@ class Client_Follow_School extends CI_Controller
 			    //$json_error['following_count'] = $this->model->following_count();
 				$data['get_student_following_college'] = $this->model->get_student_following_college();
 				//display($data['get_student_following_college']);
-				if(!empty($data['get_student_following_college'])){foreach ($data['get_student_following_college'] as $followers) {
+                               ?>   <div id="myCarousel3" class="carousel slide">
+
+
+                                        <!-- Carousel items -->
+
+
+                                        <div class="carousel-inner " >
+				<?php if(!empty($data['get_student_following_college'])){foreach ($data['get_student_following_college'] as $followers) {
                                                 if ($count % 4 == 1) {
                                                     ?>
 
@@ -64,13 +71,28 @@ class Client_Follow_School extends CI_Controller
                                                     }
                                                     if ($count % 4 != 1)
                                                         echo "</div></div>";
-                                                   
-}
+            ?>
+                                                            
+                                                </div><!--/carousel-inner-->
+
+
+
+
+                                                <a class="left carousel-control" href="#myCarousel3" data-slide="prev"><i class="fa fa-angle-left fa-4x tcol_grey"></i></a>
+                                                <a class="right carousel-control" href="#myCarousel3" data-slide="next"><i class="fa fa-angle-right fa-4x tcol_grey"></i></a>
+                                            </div><!--/myCarousel-->
+<?php }
 else
 {
 	echo " <div class='col-sm-9 alert alert-info'> No student is currently following this school </div>";
 }
-echo "@".$data['following_count'];
+
+?>
+                                                            
+</div>
+</div>
+                                            
+<?php echo "@".$data['following_count'];
 											
 				
 				 

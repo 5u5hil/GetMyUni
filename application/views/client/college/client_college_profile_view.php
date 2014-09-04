@@ -5,7 +5,7 @@
     $ans = $get_college;
    
     $review = $get_review_rating;
-	// display($review);
+    //display($get_user_follow_info);
     /* function unique_sort($arrs, $id) 
       {
       $unique_arr = array();
@@ -109,7 +109,8 @@
 
     <script>
         function goBack() {
-            window.history.back()
+             parent.history.back();
+        return false;
         }
     </script>
     <div class="col-sm-10 col-md-10 col-xs-12">
@@ -449,7 +450,7 @@
                         <ul class="nav nav-tabs">
                             <!--li><a href="#domain" data-toggle="tab">Domains</a></li-->
                              <li class="active"><a href="#overview" data-toggle="tab">Course Overview</a></li>
-                            <li ><a href="#programs" data-toggle="tab">Programs</a></li>
+                            <li><a href="#programs" data-toggle="tab">Programs</a></li>
                             <li><a href="#key_add" data-toggle="tab">Key admission criteria</a></li>
                              <li><a href="#add" data-toggle="tab">Admission procedure</a></li>
                              <li><a href="#scholar" data-toggle="tab">Scholarships</a></li>
@@ -502,13 +503,13 @@
                         </div-->
                           
                         
-                                               <div class="tab-pane" id="overview">
+                                               <div class="tab-pane active" id="overview">
                             <div class="row">
                                 <div class="col-sm-6 col-sm-6">
                                     <h4 class="tcol_red">Course Overview</h4>
                                 </div>
                                 <div class="clearfix"></div>
-                                <div class="col-sm-12 summary-table tcol_grey f_16 text-justify">
+                                <div class="col-sm-12 summary-table tcol_grey f_16 text-justify sum_table_height">
 
 
                                     <?php
@@ -526,7 +527,7 @@
                                     }
                                     
                                     ?>
-                                    ?>
+                                    
 
 
                                     <div class="clearfix"></div>
@@ -541,7 +542,7 @@
                                     <h4 class="tcol_red">Key admission criteria</h4>
                                 </div>
                                 <div class="clearfix"></div>
-                                <div class="col-sm-12 summary-table tcol_grey f_16 text-justify">
+                                <div class="col-sm-12 summary-table tcol_grey f_16 text-justify sum_table_height">
 
 
                                     <?php
@@ -559,7 +560,7 @@
                                     }
                                     
                                     ?>
-                                    ?>
+                                   
 
 
                                     <div class="clearfix"></div>
@@ -573,7 +574,7 @@
                                     <h4 class="tcol_red">Admission procedure</h4>
                                 </div>
                                 <div class="clearfix"></div>
-                                <div class="col-sm-12 summary-table tcol_grey f_16 text-justify">
+                                <div class="col-sm-12 summary-table tcol_grey f_16 text-justify sum_table_height">
 
 
                                     <?php
@@ -606,7 +607,7 @@
                                     <h4 class="tcol_red">Scholarships</h4>
                                 </div>
                                 <div class="clearfix"></div>
-                                <div class="col-sm-12 summary-table tcol_grey f_16 text-justify">
+                                <div class="col-sm-12 summary-table tcol_grey f_16 text-justify sum_table_height">
 
 
                                     <?php
@@ -639,7 +640,7 @@
                                     <h4 class="tcol_red">Careers</h4>
                                 </div>
                                 <div class="clearfix"></div>
-                                <div class="col-sm-12 summary-table tcol_grey f_16 text-justify">
+                                <div class="col-sm-12 summary-table tcol_grey f_16 text-justify sum_table_height">
 
 
                                     <?php
@@ -662,7 +663,7 @@
                             </div>
                         </div>
                         
-                        <div class="tab-pane active" id="programs">
+                        <div class="tab-pane " id="programs">
                             <div class="row">
                                 <div class="col-sm-6 col-md-6 ">
                                     <!--onchange="location = this.options[this.selectedIndex].value;"-->
@@ -702,7 +703,7 @@
                                                     <!--div class=" tcol_grey f_18" >Batch Size : <?php echo $program_value['program_size']; ?></div>
                                                     <div class=" tcol_grey f_18" >Length : <?php echo $program_value['program_legth']; ?></div>
                                                     <div class=" tcol_grey f_18" >Type : <?php echo $program_value['program_type']; ?></div-->
-                                                     <div class=" tcol_grey f_18" >Link : <a href="<?php echo $program_value['program_link']; ?>" target_blank>Click Here </a></div>
+                                                     <div class=" tcol_grey f_18" >Link : <a href="<?php echo $program_value['program_link']; ?>" target ="_blank">Click Here </a></div>
                                                 </div>
                                                 <div class="col-sm-6">
 
@@ -788,10 +789,10 @@
                         <div class="tab-pane" id="c">
                             <div class="row">
                                 <div class="col-sm-6 col-sm-6">
-                                    <h4 class="tcol_red">Key admission criteria</h4>
+                                    <h4 class="tcol_red">Key Documentation</h4>
                                 </div>
                                 <div class="clearfix"></div>
-                                <div class="col-sm-12 summary-table lh30">
+                                <div class="col-sm-12 summary-table lh30 sum_table_height">
                                     <div class=" tcol_grey f_16" ><span class="summmary_ad_criteria"> 1</span> GMAT Scores:
                                         <?php
                                         if ($ans->gmat_score == "1") {
@@ -1153,13 +1154,14 @@
                                 echo "'" . CLIENT_IMAGES;
                             }
                             ?>/defaultuser.jpg' class="img-responsive prof_pic"></a>
-                                 <div class="tcol_grey student_name"><?php if (!empty($get_review_rating)) echo $review->name; ?></div>
-                            <a href="javascript:;" class="user_following_user" id="<?php echo $review->student_id; ?>"  <?php
+                                 <div class="tcol_grey student_name "><?php if (!empty($get_review_rating)) echo $review->name; ?></div>
+                               
+                                 <a href="javascript:;"   <?php
                               
                         $id = session('client_user_id');
                         if ($id != 0) {
                             ?>
-                            href='javascript:;' class="user_follow" id="follow_<?php echo $ans->id; ?>"
+                            href='javascript:;' class="user_following_user" id="<?php echo $review->student_id; ?>"
                             <?php
                         } else {
                             ?>
@@ -1167,28 +1169,29 @@
 
                             <?php
                         }
-                        ?> >
+                        ?> >    <!--i class="fa fa-hand-o-right"></i-->
          <!--img src="<?php echo CLIENT_IMAGES; ?>/icons/follow.png"-->  
                              <?php
                              if(isset($get_user_follow_info->user_following))
                              
                              $user_follow_data = (json_decode($get_user_follow_info->user_following));
+                             //display($user_follow_data);
                         $follow_string = 'Follow';
                         if (!empty($user_follow_data)) {
 
                             foreach ($user_follow_data as $val) {
 
-                                if ( session('client_user_id')== $val) {
+                                if ( $val == $review->student_id) {
                                    
                                         $follow_string = 'Unfollow';
                                     
                                 }
                             }
                         }
-                        echo $follow_string;
+                          echo $follow_string;
                         ?>
                             
-                            
+                          
                             
                             </a> <a href="#"> <img src="<?php echo CLIENT_IMAGES; ?>/icons/message.png"> </a>
                         </div>
@@ -1267,7 +1270,7 @@
 
 
                                 <h4 class="tcol_grey mb30"> Followers </h4>
-
+                                    <div class="follow_ajax">
 <?php if (!empty($get_student_following_college)) { ?>
                                     <div id="myCarousel3" class="carousel slide">
 
@@ -1275,7 +1278,7 @@
                                         <!-- Carousel items -->
 
 
-                                        <div class="carousel-inner follow_ajax">
+                                        <div class="carousel-inner " >
 									
                                             <?php
 										
@@ -1333,12 +1336,12 @@
                                             </div><!--/myCarousel-->
                                             <?php
                                         } else {
-                                            echo " <div class='col-sm-9 alert alert-info'> No student is currently following this school </div>";
+                                            echo " <div class='col-sm-9 alert alert-info '> No student is currently following this school </div>";
                                         }
                                         ?>
 
                                     </div>
-
+                                   </div>
                                 </div>
                                 <div class="tab-pane active" id="students">
 
