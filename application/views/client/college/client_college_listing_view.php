@@ -22,9 +22,40 @@
                         <div id="collapseOne" class="accordion-body collapse" style="height: 0px; ">
                             <div class="accordion-inner">
                                 <ul class="acc_submenu">
-                                    <li><input type="radio" name="degree" class="degree" id="bachelors" value="bachelors" <?php if (@$_POST['degree']=="bachelors"){echo "checked = true";} ?>> <label for="bachelors">Bachelors</label> </li>
+                                    
+                                    <?php
+                                    //echo @$_POST['degree'];
+                                $fdegree = $get_degree;
+                                
+                                if (is_array($fdegree)) 
+                                    {
+                                        
+                                        foreach ($fdegree as $val_degree) {
+                                            //$checked = '';
+                                           
+                                               // if($val_degree['degree_name'] == @$_POST['degree'])
+                                                
+                                                    
+                                                    //$checked = "true";
+                                                
+                                                $degree = strtolower($val_degree['degree_name']);
+                                       
+                                            ?>
+                                            
+                                             
+                                             
+                                             <li><input type="radio" name="degree" class="degree" id="<?php echo $val_degree['degree_name'];?>" value="<?php echo $val_degree['degree_name'];?>" <?php if (@$_POST['degree']=="$degree"){echo "checked = true";}?> > <label for="<?php echo $val_degree['degree_name'];?>"><?php echo $val_degree['degree_name'];?></label> </li>
+                                            <?php
+                                                
+                                        }
+                                     }
+                            
+                            ?>
+                                    
+                                    
+                                    <!--li><input type="radio" name="degree" class="degree" id="bachelors" value="bachelors" <?php if (@$_POST['degree']=="bachelors"){echo "checked = true";} ?>> <label for="bachelors">Bachelors</label> </li>
                                     <li><input type="radio" name="degree" class="degree" id="masters" value="masters" <?php if (@$_POST['degree']=="masters"){echo "checked = true";}?>> <label for="masters">Masters</label></li>
-                                    <li><input type="radio" name="degree" class="degree" id="doctorate" value="doctorate" <?php if (@$_POST['degree']=="doctorate"){echo "checked = true";}?>> <label for="doctorate">Doctorate</label></li>
+                                    <li><input type="radio" name="degree" class="degree" id="doctorate" value="doctorate" <?php if (@$_POST['degree']=="doctorate"){echo "checked = true";}?>> <label for="doctorate">Doctorate</label></li-->
                                 </ul>
                             </div>
                         </div>
@@ -93,7 +124,7 @@
 															foreach(@$_POST['course'] as $k1 => $v1)
 															{
 																if($v1 == $val['id'])
-																	$selected       = 'selected';
+																$selected       = 'selected';
 																	
 															}
 														}
@@ -152,7 +183,7 @@
                         <div id="collapseSeven" class="accordion-body collapse" style="height: 0px; ">
                             <div class="accordion-inner">
                                 <div class="acc_submenu">
-                                    <select type="select" class="form-control new-select tuition" name="tuition">
+                                    <select type="select" class="form-control new-select tuition new-select" name="tuition">
 										<option value="">Select Field</option>
 										<option value="0 AND 25000">0-25k$</option>
 										<option value="25000 AND 50000">25-50k$</option>
@@ -176,9 +207,9 @@
                                 <div class="acc_submenu">
                                       <select type="select" class="form-control new-select topschools" name="topschools">
 										<option value="">Select Field</option>
-										<option value="<=10">Top 10</option>
-										<option value="<=50">Top 50</option>
-										<option value="<=100">Top 100</option>
+										<option value=10>Top 10</option>
+										<option value=50>Top 50</option>
+										<option value=100>Top 100</option>
 									</select>
                                 </div>                 
                             </div>
@@ -202,7 +233,7 @@
 									<input id="amount" type="hidden" class="form-control" readonly style="border:0; color:#f6931f; font-weight:bold;" name="test_scores">
 									<div id="gmat" style="display:none">
                                      <p>
-											<input id="amountshow" class="form-control" readonly style="border:0; color:#f6931f; font-weight:bold;" >
+											<input id="amountshow" class="form-control" readonly style="border:0; color:#555; font-weight:bold;" >
                                          
                                     </p>
                             		<div class="row"><div class="col-md-4 pull-left">0</div> <div class="col-md-4"></div> <div class="col-md-4 pull-right">800</div></div>
@@ -214,7 +245,7 @@
 									
 									<div id="gre" style="display:none">
                                     <p>
-											<input id="amountshow1" class="form-control" readonly style="border:0; color:#f6931f; font-weight:bold;" >
+											<input id="amountshow1" class="form-control" readonly style="border:0; color:#555; font-weight:bold;" >
                                          
                                     </p>
                             		<div class="row"><div class="col-md-4 pull-left">0</div> <div class="col-md-4"></div> <div class="col-md-4 pull-right">340</div></div>
@@ -295,7 +326,8 @@
                             </div>
                          </div>
                     </div>
-					
+			<input type="hidden" name="sort_by_rank" id="rank_sort" >
+                        <input type="hidden" name="sort_by_tution" id="tution_sort" >		
                 </div>
                      </div>
                 	</form>
@@ -315,8 +347,6 @@
 								{
 							?>
 						
-  
-	
 								<div class="col-sm-3 col-md-3" >
                             	<div class="hs_number  mb10 mr3 pull-left"><?php echo $count;?></div> <span class="school_1 <?php  echo $school_details['school_id']; ?> text-center" ><?php echo $school_details['school_name'];?></span> <span class="delete_compare" id="<?php echo $school_details['school_id']; ?>">x</span>
 								<input type="hidden" value="<?php  echo $school_details['school_id'];?>" name="comapre_school[]" id=<?php  echo $school_details['school_id'];?>>
@@ -360,10 +390,10 @@
                                  	<span>Sort By:  </span>
                                 </div>
                             	<div class="col-sm-2 sort_t">
-                                 	<span class="sortby"><a href="javascript:;" > <div class="sorttext">Rank </div> <div class="w_15"><div class="row"><div class="sort_by_rank" id="asc"><i class="fa fa-lg fa-caret-up col_light_blue"></i></div><div class="sort_by_rank"  id="desc"><i class="fa fa-lg fa-caret-down col_light_blue"></i></div></div></div> </a></span>
+                                 	<span class="sortby"><a href="javascript:;" > <div class="sorttext">Rank </div> <div class="w_15"><div class="row"><div class="sort_by_rank" id="asc"><i class="fa fa-lg fa-caret-up col_light_blue"></i></div><!--div class="sort_by_rank"  id="desc"><i class="fa fa-lg fa-caret-down col_light_blue"></i></div--></div></div> </a></span>
                                 </div>
                             	<div class="col-sm-3 sort_t">
-								<span class="sortby"><a href="javascript:;"  > <div class="sorttext">Avg Tution Fees </div> <div class="w_15"><div class="row"><div class=" sort_by_tution" id="asc"><i class="fa fa-lg fa-caret-up col_light_blue"></i></div><div class="sort_by_tution" id="desc"><i class="fa fa-lg fa-caret-down col_light_blue"></i></div></div></div></a> </span>
+								<span class="sortby"><a href="javascript:;"  > <div class="sorttext">Avg Tution Fees </div> <div class="w_15"><div class="row"><div class="sort_by_tution" id="asc"><i class="fa fa-lg fa-caret-up col_light_blue"></i></div><!--div class="sort_by_tution" id="desc"><i class="fa fa-lg fa-caret-down col_light_blue"></i></div--></div></div></a> </span>
                                 </div>
                             	<div class="col-sm-2 relevance">
                                <span class="sortby"> Relevance </span>
@@ -374,10 +404,9 @@
                           
                        </div>
 					   
-					   <div id="ajax_college_list">
-						<?php $this->load->view('client/college/client_ajax_college_listing_view.php')?>
-					   </div>
-					   
+                                <div id="ajax_college_list">
+                                     <?php $this->load->view('client/college/client_ajax_college_listing_view.php')?>
+                                </div>
 						                   
                      </div>
                 </div>
@@ -445,7 +474,7 @@
 		  max: 340,
 		  slide: function( event, ui ) {
 			$( "#amount" ).val(ui.value + " and 340-gre");
-			 $( "#amountshow1" ).val(ui.value);
+			 $( "#amountshow1" ).val(ui.value + " to 340");
 		  }
 		});
 		
@@ -460,7 +489,7 @@
 		  max: 800,
 		  slide: function( event, ui ) {
 			$( "#amount" ).val(ui.value + " and 800-gmat");
-			 $( "#amountshow" ).val(ui.value);
+			 $( "#amountshow" ).val(ui.value +  " to 800");
 		  }
 		});
 		
@@ -486,8 +515,6 @@
 	  }
 	 });
 	 
-	 
-	
 	 });
 	 
   </script>

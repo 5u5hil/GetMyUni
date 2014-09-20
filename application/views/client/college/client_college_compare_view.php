@@ -1,13 +1,12 @@
-<?php $this->load->view(CLIENT_HEADER); 
-
+<?php $this->load->view(CLIENT_HEADER);
 ?>
 
 
- <script>
-        function goBack() {
-           window.location.href = "http://www.getmyuni.com/college/search";
-        }
-    </script>
+<script>
+    function goBack() {
+        window.location.href = "http://www.getmyuni.com/college/search";
+    }
+</script>
 <div class="row container-fluid">
     <div class="col-sm-10 col-md-10 col-xs-12">
         <div class="row">
@@ -115,17 +114,17 @@
                     </li>
                     <li> 
                         <ul class="givB givH" data-cid="1">
-                            
+
                         </ul>
                     </li>
                     <li> 
                         <ul class="givB givH" data-cid="2">
-                          
+
                         </ul>
                     </li>
                     <li> 
                         <ul class="givB givH" data-cid="3">
-                           
+
                         </ul>
                     </li>
                 </ul>
@@ -137,8 +136,8 @@
     </div>
 
     <div class="col-sm-2 sidebar">
-			 <?php  $this->load->view(CLIENT_TICKER_VIEW);?>
-			 <?php $this->load->view(CLIENT_ADS_VIEW); ?>
+        <?php $this->load->view(CLIENT_TICKER_VIEW); ?>
+        <?php $this->load->view(CLIENT_ADS_VIEW); ?>
     </div>
 
 </div>
@@ -160,7 +159,7 @@
 <script>
 
 
-    $(document).ready(function() {
+                    $(document).ready(function() {
 
 
 
@@ -169,61 +168,73 @@ $i = 1;
 if (isset($ids)) {
     foreach ($ids as $id) {
         ?>
-                $.ajax({
-                    type: "POST",
-                    url: CLIENT_SITE_URL + 'client_college/get_college_data',
-                    data: {id: "<?= $id ?>", col: "<?= $i ?>"},
-                    success: function(data) {
-                        $("ul[data-cid='<?= $i ?>']").html(data);
-                        $("input[data-cid='<?= $i ?>']").val($("ul[data-cid='<?= $i ?>'] li ").eq("0").text());
-                        $("ul[data-cid='<?= $i ?>'] li ").eq("0").hide();
-                    }
-                });
+                                $.ajax({
+                                    type: "POST",
+                                    url: CLIENT_SITE_URL + 'client_college/get_college_data',
+                                    data: {id: "<?= $id ?>", col: "<?= $i ?>"},
+                                    success: function(data) {
+                                        $("ul[data-cid='<?= $i ?>']").html(data);
+                                        $("input[data-cid='<?= $i ?>']").val($("ul[data-cid='<?= $i ?>'] li ").eq("0").text());
+                                        $("ul[data-cid='<?= $i ?>'] li ").eq("0").hide();
+                                        $("ul[data-cid='<?= $i ?>'] li").each(function() {
+                                            var tx = $(this).text();
+                                            if (tx == "" || tx == " " || tx == 0 || tx == "$0" || tx == "0%") {
+                                                $(this).text("No Info")
+                                            }
+                                        });
+                                    }
+                                });
         <?php
         $i++;
     }
 }
 ?>
 
-        $('.multiselect').multiselect({
-            buttonWidth: '100%',
-            maxHeight: 300,
-            enableFiltering: true,
-            enableCaseInsensitiveFiltering: true,
-            filterBehavior: 'both'
-        });
+                        $('.multiselect').multiselect({
+                            buttonWidth: '100%',
+                            maxHeight: 300,
+                            enableFiltering: true,
+                            enableCaseInsensitiveFiltering: true,
+                            filterBehavior: 'both'
+                        });
 
-        $(".searchinput_compare").autocomplete({
-            source: SITE_URL + 'client/client_college/search_college_name',
-            select: function(event, ui) {
-                var repeat = 0;
-                var cid = $(this).attr("data-cid");
-                var val = ui.item.value;
-                $("input[data-cid!='" + cid + "']").each(function() {
-                    if (val == this.value) {
-                        alert("This School has been already Selected");
-                        repeat = 1;
-                    }
-                });
-                if (repeat == 0) {
-                    $.ajax({
-                        type: "POST",
-                        url: CLIENT_SITE_URL + 'client_college/get_college_data',
-                        data: {id: ui.item.id, col: cid},
-                        success: function(data) {
-                            $("ul[data-cid='" + cid + "']").html(data);
-                            $("ul[data-cid='" + cid + "'] li ").eq("0").hide();
+                        $(".searchinput_compare").autocomplete({
+                            source: SITE_URL + 'client/client_college/search_college_name',
+                            select: function(event, ui) {
+                                var repeat = 0;
+                                var cid = $(this).attr("data-cid");
+                                var val = ui.item.value;
+                                $("input[data-cid!='" + cid + "']").each(function() {
+                                    if (val == this.value) {
+                                        alert("This School has been already Selected");
+                                        repeat = 1;
+                                    }
+                                });
+                                if (repeat == 0) {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: CLIENT_SITE_URL + 'client_college/get_college_data',
+                                        data: {id: ui.item.id, col: cid},
+                                        success: function(data) {
+                                            $("ul[data-cid='" + cid + "']").html(data);
+                                            $("ul[data-cid='" + cid + "'] li ").eq("0").hide();
+                                            $("ul[data-cid='" + cid + "'] li").each(function() {
+                                            var tx = $(this).text();
+                                            if (tx == "" || tx == " " || tx == 0 || tx == "$0" || tx == "0%") {
+                                                $(this).text("No Info")
+                                            }
+                                        });
 
-                        }
+                                        }
+                                    });
+                                } else {
+                                    return false;
+                                }
+                            }
+                        });
+
+
                     });
-                } else {
-                    return false;
-                }
-            }
-        });
-
-
-    });
 </script>
 
 </body>

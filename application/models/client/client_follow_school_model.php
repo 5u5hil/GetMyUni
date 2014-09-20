@@ -115,7 +115,7 @@ class Client_Follow_School_Model extends CI_Model{
 		{
 	
 			$this->db->insert('user_interested_in_school',$data);
-                       
+                        insert_follow_school($ans['school_id']);
 		}
 		
                 }
@@ -148,6 +148,17 @@ class Client_Follow_School_Model extends CI_Model{
 	}
 	
 	
+         function user_following_school($id)
+     {
+         
+         $query = $this->db->select('student_id')
+                 -> from('user_interested_in_school')
+                 ->where('school_id',$id)
+                 ->group_by('student_id')
+                 ->get();
+         return $query->result_array();
+        //return $query['student_id'];  
+    } 
 }
 ?>
 

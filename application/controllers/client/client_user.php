@@ -162,6 +162,45 @@ class Client_user extends CI_Controller {
         echo json_encode($json_array);
     }
 
+    
+      function validate_admin_user() {
+        $email = post('email');
+        $password = $this->input->post('password');
+        $json_array['error'] = 'error';
+        $json_array['msg'] = 'Invalid Email/Password';
+
+        if (!$email || !$password) {
+
+            echo json_encode($json_array);
+            exit;
+        }
+
+        $this->model->email = $email;
+        $this->model->password = $password;
+        $get_user = $this->model->getUserData();
+
+        if ($get_user) {
+            if ($get_user->status == 1 && $get_user->user_type == "admin_user") {
+                $json_array['error'] = 'success';
+                $json_array['msg'] = 'Success';
+                $user_session_data = array(
+                    'client_user_id' => $get_user->id,
+                    'client_email' => $get_user->email,
+                    'client_type' => $get_user->user_type,
+                    'client_user_name' => $get_user->name,
+                );
+                $this->session->set_userdata($user_session_data);
+            } else {
+                $json_array['error'] = 'error';
+                $json_array['msg'] = 'User has been blocked';
+            }
+        }
+        echo json_encode($json_array);
+    }
+    
+    
+    
+    
     function save_user() {
 	
 		$this->form_validation->set_rules('name', 'Name', 'required');
@@ -196,6 +235,8 @@ class Client_user extends CI_Controller {
         $user_session_data = array(
             'client_user_id' => '',
             'client_email' => '',
+            'client_type' => '',
+            'client_user_name' => '',
         );
         $this->session->set_userdata($user_session_data);
         redirect(SITE_URL);
@@ -224,12 +265,14 @@ class Client_user extends CI_Controller {
         $data['user_data'] = $this->model->getUserData();
         $data['get_user_save_school'] = $this->model->get_user_save_school();
         $data['get_user_following_school'] = $this->model->get_user_following_school();
-        
-        $data['get_school_follower'] = $this->model->get_school_follower();
+        $data['get_user_community_detail'] = $this->model->select_user_community_detail($user_id);
+        $data['select_user_following_u'] = $this->model->select_user_following_u($user_id);
+        $data['get_school_follower'] = $this->model->get_school_follower($user_id);
         $data['get_user_review'] = $this->model->get_user_review();
         $data['get_school_name'] = $this->model->get_school_name();
         $data['get_edu'] = $this->model->getUserEduInfo();
         $data['get_test'] = $this->model->getUserTestInfo();
+        $data['get_user_follow_info'] = $this->client_college_model->get_user_follow_info($user_id);
         $data['master_degree'] = getMasters('master_degree');
         $data['study_field'] = getMasters('field_of_study');
         $this->load->view(CLIENT_SHOW_DETAILS_VIEW, $data);
@@ -325,7 +368,9 @@ class Client_user extends CI_Controller {
                 $data['interested_domain_id'] = $user_data->interested_domain_id;
                 $data['country_id'] = $user_data->country_id;
                 $data['preferred_destination'] = $user_data->preferred_destination;
+                $data['profile_pic'] = $profile_pic;//session('profile_pic');
                 $this->model->user_id = $user_data->id;
+                //display($data);die;
                 $save_user = $this->model->save_user($data); 
                 $user_session_data = array(
                     'client_user_id' => $user_data->id,

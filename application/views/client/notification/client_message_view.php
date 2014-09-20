@@ -42,7 +42,7 @@
                                 class="pull-right mr20"><strong>Sent</strong></span> <span class="pull-right"> </span> </div>
                             <?php if ($messages) {
                                 foreach ($messages as $msg) { ?>
-                                <a href="<?= SITE_URL ?>message/<?= $msg["id"] ?>" class="list-group-item <?= $msg["read"] == 0 ? "read" : "unread" ?>">
+                                <a href="<?= SITE_URL ?>message/<?= $msg["id"] ?>" class="list-group-item <?= ($msg["read"] == 0 && $msg["from"] != session("client_user_id")) ? "read" : "unread" ?>">
                                     <span class="name frm_message" ><?= $msg["from"] == session("client_user_id") ? "You" : get_user_name_id($msg["from"]) ?></span><span class="name frm_message" ><?= $msg["to"] == session("client_user_id") ? "You" : get_user_name_id($msg["to"]) ?></span> <span class=""><?= $msg["subject"] ?></span> <span class="text-muted" style="font-size: 11px;">- <?= substr($msg["message"], 0, 20) . "..." ?></span> 
                                     <span class="badge_def"><?= date("d M h:i a", strtotime($msg["updated_at"])) ?></span> <span class="pull-right"> </span> 
                                 </a>
@@ -58,7 +58,10 @@
             <!-- Ad --> 
         </div>
     </div>
-    <div class="col-sm-2 sidebar"> <img src="<?php echo CLIENT_IMAGES; ?>ticker.jpg" class="mt20 img-responsive"> <img src="<?php echo CLIENT_IMAGES; ?>adspace.jpg" class="mt10 img-responsive"> <img src="<?php echo CLIENT_IMAGES; ?>adspace2.jpg" class="mt10 img-responsive"> <img src="<?php echo CLIENT_IMAGES; ?>adspace4.jpg" class="mt10 img-responsive"> </div>
+    <div class="col-sm-2 sidebar">
+       <?php  $this->load->view(CLIENT_TICKER_VIEW);?>
+        <?php $this->load->view(CLIENT_ADS_VIEW); ?>
+    </div>
 </div>
 </div>
 
@@ -94,7 +97,7 @@
                     <div class="form-group">
                         <div class="col-sm-4">
                             <input type="submit" value="Create" class="home_search_button">
-                            <input type="button" value="Cancel" class="btn btn-default">
+                            <input type="button" value="Cancel" class="btn btn-default cancel_msg">
                         </div>
                     </div>
                 </form>

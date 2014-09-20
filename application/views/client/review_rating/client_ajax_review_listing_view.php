@@ -18,6 +18,7 @@
 						{
 							$rating_val = array($ans_review["academic_rigor"],$ans_review["academic_exchange"],$ans_review["academic_library"],$ans_review["life_fraternities"],$ans_review["life_party"],$ans_review["life_sport"],$ans_review["infra_school"],$ans_review["infra_housing"],$ans_review["placement_career"],$ans_review["placement_intership"]);
 							$sum = array_sum($rating_val);
+                                                        $student_id = $ans_review['student_id']
 					
 				?>
 			
@@ -34,13 +35,14 @@
                           ?>
                             
                             
-                	<img src=<?php if(!empty ($ans_review["profile_pic"])){ echo $user_pic1;} else {echo "'".CLIENT_IMAGES ;}?>/defaultuser.jpg' class="img-responsive display_inline prof_pic" style="height:83px;width:84px;">
+                	<a href="<?php echo SITE_URL ?>client/client_user/user_show_profile/<?php echo $ans_review['student_id']; ?>" target="_blank"><img src=<?php if(!empty ($ans_review["profile_pic"])){ echo $user_pic1;} else {echo "'".CLIENT_IMAGES ;}?>/defaultuser.jpg' class="img-responsive display_inline prof_pic" style="height:83px;width:84px;"></a>
             	         
                     
             		<!--<img src="<?php echo CLIENT_IMAGES ;?>/user.jpg" class="img-responsive display_inline">-->
-                    <a href="javascript:;" 
+                  <?php $id = session('client_user_id'); if($id != $ans_review['student_id']) {?>
+                        <a href="javascript:;" 
                     
-                       <?php
+                       <?php 
                               
                         $id = session('client_user_id');
                         if ($id != 0) {
@@ -83,8 +85,22 @@
                              
                              
                              
-                             <a href="#"><img src="<?php echo CLIENT_IMAGES ;?>/icons/message.png"  class=""></a>
-                    
+                             <a id="<?php echo  $student_id ?>"
+                             <?php
+                            $id = session('client_user_id');
+                             if ($id != 0) {
+                                ?>
+                            class="msgg"
+                            <?php
+                        } else {
+                            ?>
+                            data-toggle="modal" data-target=".bs-example-modal-lg"
+
+                            <?php
+                        }
+                                 ?>><img src="<?php echo CLIENT_IMAGES ;?>/icons/message.png"  class=""></a>
+                  <?php }?>
+                             
                     <div class="college_review_detail mt10"> Name: <span><?php echo $ans_review["name"];?></span></div>
                     <div class="college_review_detail mt10"> Program: <span><?php echo $ans_review["program_name"];?></span></div>
                     <div class="college_review_detail mt10"> Year: <span><?php if($ans_review["year"] == ""){ echo "-";}else{ echo $ans_review["year"];}?></span></div>
@@ -151,4 +167,48 @@
 				}
 			?>
           
-          </div>
+          </div>   <!---- Message box -->
+
+                            
+                        <div class="modal fade" id="compose_message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <button type="button" class="close pull-right" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h3 class="modal-title tcol_darkblue mb30" id="myModalLabel">Compose Message</h3>
+                <form class="form-horizontal" enctype="multipart/form-data" method="post" action="<?= CLIENT_SITE_URL ?>client_notification/message_insert/">
+                  
+                    <input type="hidden" class="form-control" id="name" name="to" placeholder="Type name" value=""/>
+                    
+
+                    <div class="form-group">
+                        <label for="where" class="col-sm-3 control-label">Subject</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="where" name="sub" placeholder="Subject" required/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shortdesc" class="col-sm-3 control-label">Message</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" name="msg" required> </textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <input type="submit" value="Create" class="home_search_button">
+                            <input type="button" value="Cancel" class="btn btn-default">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+                        
+                        
+                        
+
+
+                        <!---- Message box -->

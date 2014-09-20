@@ -8,12 +8,13 @@
   <meta name="author" content="">
   <link rel="shortcut icon" href="images/favicon.png" type="image/png">
 
-  <title>GetMyUni</title>
+  <title>Get My Uni</title>
 	
   <link href="<?php echo ADMIN_CSS ;?>custom.css" rel="stylesheet">
   <link href="<?php echo ADMIN_CSS ;?>style.default.css" rel="stylesheet">
   <link href="<?php echo ADMIN_CSS ;?>jquery.datatables.css" rel="stylesheet">
   <link rel="stylesheet" href="<?php echo ADMIN_CSS ;?>bootstrap-fileupload.min.css" />
+   <link rel="shortcut icon" href="<?php echo CLIENT_IMAGES; ?>GMU_favicon.png" />
   <link rel="stylesheet" href="<?php echo ADMIN_CSS ;?>custom.css" />
   
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -24,6 +25,8 @@
    <script src="<?php echo CLIENT_SCRIPTS ;?>jquery.min.js"></script>
   <script src="<?php echo CLIENT_SCRIPTS ;?>jquery-ui.min.js"></script>
   <script src="<?php echo ADMIN_SCRIPTS ;?>jquery-1.10.2.min.js" type="text/javascript"></script>
+  <script src="<?php echo CLIENT_SCRIPTS; ?>bootbox.js"></script>
+  <script type="text/javascript" src="<?php echo ADMIN_MODULES?>admin_college_master_module_js.js"></script>
   <style type="text/css">.error{display:none;} </style>
   <script type="text/javascript">
   SITE_URL    = '<?php echo SITE_URL?>';
@@ -71,12 +74,14 @@
     </li>
     <li class="nav-parent nav-active"><a href="#"><i class="fa fa-folder"></i> Master Data <span> </span></a>
       <ul class="children" style="display: block;">
-        <li class="sub-menu "> <a data="Master_Degree" href="<?php echo ADMIN_SITE_URL?>college_master/master_degree_add_edit"><i class="fa fa-caret-right"></i> Master Degree</a></li>
-        <li class="sub-menu "> <a data="Master_Field_of_study" href="<?php echo ADMIN_SITE_URL?>college_master/master_field_add_edit"><i class="fa fa-caret-right"></i> Master Field Of Study</a></li>
-        <li class="sub-menu "> <a data="Master_Majors_Domains" href="<?php echo ADMIN_SITE_URL?>college_master/master_domain_add_edit"><i class="fa fa-caret-right"></i> Master Majors Domains</a></li>
-        <li class="sub-menu "> <a data="Master_Country" href="<?php echo ADMIN_SITE_URL?>college_master/master_country_add_edit"><i class="fa fa-caret-right"></i> Master Country</a></li>
-        <li class="sub-menu "> <a data="Master_program_name" href="<?php echo ADMIN_SITE_URL?>college_master/master_name_add_edit"><i class="fa fa-caret-right"></i> Master Program Name</a></li>
-		<li class="sub-menu "> <a data="Master_program_type" href="<?php echo ADMIN_SITE_URL?>college_master/master_type_add_edit"><i class="fa fa-caret-right"></i> Master Program Type</a></li>
+        <li class="sub-menu "> <a data="Master_Degree" href="<?php echo ADMIN_SITE_URL?>college_master/master_degree_list_view"><i class="fa fa-caret-right"></i> Master Degree</a></li>
+        <li class="sub-menu "> <a data="Master_Field_of_study" href="<?php echo ADMIN_SITE_URL?>college_master/master_field_list_view"><i class="fa fa-caret-right"></i> Master Field Of Study</a></li>
+        <li class="sub-menu "> <a data="Master_Majors_Domains" href="<?php echo ADMIN_SITE_URL?>college_master/master_domain_list_view"><i class="fa fa-caret-right"></i> Master Majors Domains</a></li>
+        <li class="sub-menu "> <a data="Master_Country" href="<?php echo ADMIN_SITE_URL?>college_master/master_country_list_view"><i class="fa fa-caret-right"></i> Master Country</a></li>
+        <li class="sub-menu "> <a data="Master_program_name" href="<?php echo ADMIN_SITE_URL?>college_master/master_name_list_view"><i class="fa fa-caret-right"></i> Master Program Name</a></li>
+        <li class="sub-menu "> <a data="Master_top_sector" href="<?php echo ADMIN_SITE_URL?>college_master/master_top_list_view"><i class="fa fa-caret-right"></i> Master Top Sectors </a></li>
+        <li class="sub-menu "> <a data="Master_forum_name" href="<?php echo ADMIN_SITE_URL?>college_master/master_forum_list_view"><i class="fa fa-caret-right"></i> Master Forums</a></li>
+        <!--li class="sub-menu "> <a data="Master_program_type" href="<?php echo ADMIN_SITE_URL?>college_master/master_type_add_edit"><i class="fa fa-caret-right"></i> Master Program Type</a></li-->
       </ul>
     </li>
   </ul>
@@ -89,7 +94,7 @@
 		<div class="headerbar">
 				<!-- Header Left -->
 	
-	<a class="menutoggle"><i class="fa fa-bars"></i></a>
+	<!--a class="menutoggle"><i class="fa fa-bars"></i></a-->
       
       
 	<!-- Header Right -->
@@ -100,22 +105,25 @@
             <div class="btn-group">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                 <img src="images/photos/blog4.jpg" alt="" />
-                Confeder
+                <?php 
+                if(session('client_user_id'))
+                 echo session('client_user_name');
+                ?>
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
-                <li><a href="#"><i class="glyphicon glyphicon-user"></i> My Profile</a></li>
+                <!--li><a href="#"><i class="glyphicon glyphicon-user"></i> My Profile</a></li>
                 <li><a href="#"><i class="glyphicon glyphicon-cog"></i> Account Settings</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i> Help</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-log-out"></i> Log Out</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i> Help</a></li-->
+                <li><a href="<?php echo SITE_URL ?>client/client_user/logout"><i class="glyphicon glyphicon-log-out"></i> Log Out</a></li>
               </ul>
             </div>
           </li>
 		  
           <li><!-- Right Panel -->
-            <button id="chatview" class="btn btn-default tp-icon chat-icon">
+            <!--button id="chatview" class="btn btn-default tp-icon chat-icon">
                 <i class="fa fa-arrow-left"></i>
-            </button>
+            </button-->
           </li>
         </ul>
       </div><!-- header-right -->

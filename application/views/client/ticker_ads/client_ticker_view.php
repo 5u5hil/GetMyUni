@@ -8,15 +8,18 @@
                     if (is_array($ticks)) {
                         foreach ($ticks as $tick) {
                             $user = get_user_details($tick["from"]);
-                            $pic = json_decode($user[0]["profile_pic"], true);
-
-                            $pic = $pic[0] ? $pic[0] : CLIENT_IMAGES . "defaultuser.jpg";
+                            //$pic = json_decode($user[0]["profile_pic"], true);
+                            //display($user[0]["profile_pic"]);
+                            $pro_pic = stripslashes(str_replace(array("[", "]", "(", ")"), " ", $user[0]["profile_pic"]));
+                            //display($pro_pic);
+                            $pic = $pro_pic ? $pro_pic : CLIENT_IMAGES . "defaultuser.jpg";
                             ?>
                             <a href="<?= $tick["link"] ?>" style="color: #2a6496;text-decoration: none;"><li class="tickerLi" data-tid="<?= $tick["id"] ?>">
-                                    <img src="<?= $pic ?>" class="img-responsive ticker-img" />
-                                    <?= $tick["message"] ?>
+                                    <img src=<?= $pic ?> class="img-responsive ticker-img" />
+                                    <?= stripslashes($tick["message"]) ?>
 
-                                </li> </a>
+                                </li> 
+                            </a>
                             <?php
                         }
                     }

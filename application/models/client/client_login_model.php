@@ -32,7 +32,7 @@ class Client_Login_Model extends CI_Model {
 
     function update_password($id, $email, $pass) {
         if (is_numeric($id)) {
-            $update = $this->db->query("Update student_signup_info set password = '$pass' where email = '$email'");
+            $update = $this->db->query("Update user set password = '$pass' where email = '$email'");
             if ($update) {
                 return TRUE;
             } else {

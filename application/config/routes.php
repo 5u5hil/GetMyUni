@@ -45,8 +45,8 @@ $route['default_controller'] = "client/client_home/home_view";
 $route['404_override'] = '';
 ######################################################################ADMIN ROUTE#############################################################
 ######################################################################ADMIN ROUTE#############################################################
-//$route['admin'] = 'admin/college/index';
-$route['admin'] = 'admin/college/add_edit';
+$route['admin'] = 'admin/admin_user/index';
+//$route['admin'] = 'admin/college/add_edit';
 
 
 ######################################################################CLIENT ROUTE#############################################################
@@ -78,6 +78,7 @@ $route['messages/(:num)'] = 'client/client_notification/message_view/$1';
 $route['message/(:num)'] = 'client/client_notification/message_detail_view/$1';
 $route['news'] = 'client/client_news/news_view';
 $route['password-reset/(:any)'] = 'client/client_login/reset_password/$1';
+$route['discussion/(:any)'] = 'client/client_forums/forum_discussion_details/$1';
 ######################################################################CLIENT ROUTE#############################################################
 
 

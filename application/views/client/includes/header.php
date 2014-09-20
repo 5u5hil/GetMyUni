@@ -10,7 +10,29 @@
         <link href="<?php echo CLIENT_CSS; ?>custom.css" rel="stylesheet">
         <link href="<?php echo CLIENT_CSS; ?>bootstrap.min.css" rel="stylesheet">
         <link href="<?php echo CLIENT_CSS; ?>bootstrap-theme.min.css" rel="stylesheet">
+		
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <link href="<?php echo CLIENT_CSS; ?>ie.css" rel="stylesheet" type="text/css" />
+    <![endif]-->
+    
+    <!--[if IE 8]>
+<style type="text/css">
+	<link href="<?php echo CLIENT_CSS; ?>ie.css" rel="stylesheet" type="text/css" />
+</style>
+<![endif]-->
 
+<!--[if lt IE 8]>
+	<link href="<?php echo CLIENT_CSS; ?>ie.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+        
+<!--[if gte IE 8]>
+	<link href="<?php echo CLIENT_CSS; ?>ie.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+        
         <link href="<?php echo CLIENT_CSS; ?>style.css" rel="stylesheet">
         <link href="<?php echo CLIENT_CSS; ?>social-buttons.css" rel="stylesheet">
         <link rel="shortcut icon" href="<?php echo CLIENT_IMAGES; ?>GMU_favicon.png" />
@@ -112,7 +134,7 @@
                                 <a href="#" class="dropdown-toggle header_top_signup" data-toggle="dropdown">Sign up <i class="fa fa-angle-down"></i></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="<?php echo SITE_URL ?>user/login-view">Student Signup</a></li>
-                                    <li><a href="#">Admin Signup</a></li>
+                                    <!--li><a href="#">Admin Signup</a></li-->
                                 </ul>
                             </li>
                         </ul>
@@ -137,9 +159,9 @@
                     ?>
                     <div class="col-xs-12 col-md-4 col-md-offset-7 mt20">
                         <div class="pull-right">
-                            <a href="/messages/1/" class="top_nav_icon mr20"><img src="<?php echo CLIENT_IMAGES; ?>icons/message.png"><span class="badge msgs"></span></a>
-                            <a href="/notifications/" class="top_nav_icon mr20"><img src="<?php echo CLIENT_IMAGES; ?>icons/light.png"><span class="badge noti"></span></a>
-                            <a href="#" class="top_nav_icon mr20  dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><img src=<?php
+                            <div class="m_div"><a href="/messages/1/" class="top_nav_icon mr20"><img src="<?php echo CLIENT_IMAGES; ?>icons/message.png" ><span class="badge msgs"></span></a></div>
+                             <div class="n_div"><a href="/notifications/" class="top_nav_icon mr20"><img src="<?php echo CLIENT_IMAGES; ?>icons/light.png"><span class="badge noti"></span></a></div>
+                             <a href="#" class="top_nav_icon mr20  dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><img src=<?php
                                 if ($pro_pic != "") {
                                     echo $pro_pic;
                                 } else {
@@ -209,7 +231,7 @@
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav nav-justified mt17 ">
                                 <li class="<?= current_url() == "http://www.getmyuni.com/index.php" ? "active" : "" ?>"><a href="<?php echo SITE_URL ?>">School Search</a></li>
-                                <li class="<?= preg_match("/review/", current_url()) ? "active" : "" ?>"><a href="<?php echo CLIENT_SITE_URL ?>client_review_rating/review_rating_view">Reviews/ Rating</a></li>
+                                <li class="<?= preg_match("/review/", current_url()) ? "active" : "" ?>"><a href="<?php echo CLIENT_SITE_URL ?>client_review_rating/review_rating_view">Reviews and Ratings</a></li>
                                 <li class="<?= preg_match("/forum/", current_url()) ? "active" : "" ?>"><a href="<?php echo SITE_URL ?>forums/1/">Forums</a></li>
                                 <li class="<?= preg_match("/communities/", current_url()) ? "active" : "" ?>"><a href="<?php echo SITE_URL ?>communities/1/">Communities</a></li>
                                 <li class="<?= preg_match("/news/", current_url()) ? "active" : "" ?>"><a href="<?php echo SITE_URL ?>news">News</a></li>

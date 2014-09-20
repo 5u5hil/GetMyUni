@@ -59,7 +59,7 @@
     </li>
     <li class="nav-parent nav-active"><a href="#"><i class="fa fa-folder"></i> Master Data <span> </span></a>
       <ul class="children" style="display: block;">
-        <li class="sub-menu "> <a data="Master_Degree" href="<?php echo ADMIN_MASTER_VIEW ?>collge/master_add_edit"><i class="fa fa-caret-right"></i> Master Degree</a></li>
+        <li class="sub-menu "> <a data="Master_Degree" href="<?php echo ADMIN_MASTER_VIEW ?>collge_master/master_degree_list_view"><i class="fa fa-caret-right"></i> Master Degree</a></li>
         <li class="sub-menu "> <a data="Master_Field_of_study" href="#"><i class="fa fa-caret-right"></i> Master Field Of Study</a></li>
         <li class="sub-menu "> <a data="Master__Majors_Domains" href="#"><i class="fa fa-caret-right"></i> Master Majors Domains</a></li>
         <li class="sub-menu "> <a data="Master_Country" href="#"><i class="fa fa-caret-right"></i> Master Country</a></li>

@@ -1,4 +1,4 @@
-					
+<!--?php print_r($this->session->all_userdata()); ?-->		
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"> 
     <div class="modal-dialog modal-lg"> 
        <div class="modal-content">
@@ -249,7 +249,7 @@ if (!empty($ans)) {
       <li><a href="#">4</a></li>
       <li><a href="#">5</a></li>
       <li><a href="#">&raquo;</a></li>
-    </ul>--><?php echo @$pagination ?>
+    </ul>--><?php echo @$pagination ;  ?>
 
     <?php
 } else {

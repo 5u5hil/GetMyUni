@@ -382,6 +382,21 @@ function get_user_name_id($id) {
     return $name[0]['name'];
 }
 
+function get_forum_name_id($id) {
+    $CI = & get_instance();
+    $get_user = $CI->db->query("select fname from master_forums where id='$id'");
+    $name = $get_user->result_array();
+    return $name[0]['fname'];
+}
+
+
+function get_school_name($id) {
+    $CI = & get_instance();
+    $get_user = $CI->db->query("select school_name from college_info where id='$id'");
+    $name = $get_user->result_array();
+    return $name[0]['school_name'];
+}
+
 function get_ticker_notifications() {
     $CI = & get_instance();
     $CI->load->model('client/client_notification_model', 'notification');
@@ -434,4 +449,284 @@ function insert_user_follow_school() {
     $params = json_encode(array($class_name, $function_name, $get_params, $post_params, $uri_params));
 
     $CI->notification->notification_insert(session("client_user_id"), $follow, addslashes($message), $link, $type, $params, date("Y-m-d H:i:s"));
+}
+
+function insert_university_notification($school_name,$id) {
+    $CI = & get_instance();
+    $class_name = $CI->router->fetch_class();
+    $function_name = $CI->router->fetch_method();
+    $uri_params = $CI->uri->segment_array();
+    $get_params = $CI->input->get();
+    $post_params = $CI->input->post();
+
+    $CI->load->model('client/client_notification_model', 'notification');
+    
+
+    $message = "$school_name is now on GMU";
+    $link = SITE_URL . "college/".clean_string($school_name)."/$id";
+    $type = "School Added";
+    $params = json_encode(array($class_name, $function_name, $get_params, $post_params, $uri_params));
+    $CI->notification->ticker_insert(0,0, addslashes($message), $link, $type, $params, date("Y-m-d H:i:s"));
+
+}
+
+
+function insert_university_event_notification($id) {
+    $CI = & get_instance();
+    $class_name = $CI->router->fetch_class();
+    $function_name = $CI->router->fetch_method();
+    $uri_params = $CI->uri->segment_array();
+    $get_params = $CI->input->get();
+    $post_params = $CI->input->post();
+
+    $CI->load->model('client/client_notification_model', 'notification');
+    
+
+    $message = "New Events happening in ".(get_school_name($id));
+    $link = SITE_URL . "college/".clean_string(get_school_name($id))."/$id";
+    $type = "Event added in school";
+    $params = json_encode(array($class_name, $function_name, $get_params, $post_params, $uri_params));
+    $CI->notification->ticker_insert(0,0, addslashes($message), $link, $type, $params, date("Y-m-d H:i:s"));
+
+}
+
+
+function insert_university_update_notification($id) {
+    $CI = & get_instance();
+    $class_name = $CI->router->fetch_class();
+    $function_name = $CI->router->fetch_method();
+    $uri_params = $CI->uri->segment_array();
+    $get_params = $CI->input->get();
+    $post_params = $CI->input->post();
+
+    $CI->load->model('client/client_notification_model', 'notification');
+    
+
+    $message = "Check what's happening in ".(get_school_name($id));
+    $link = SITE_URL . "college/".clean_string(get_school_name($id))."/$id";
+    $type = "Update to school page";
+    $params = json_encode(array($class_name, $function_name, $get_params, $post_params, $uri_params));
+    $CI->notification->ticker_insert(0,0, addslashes($message), $link, $type, $params, date("Y-m-d H:i:s"));
+
+}
+
+
+
+
+function insert_new_user_notification($name,$id) {
+    $CI = & get_instance();
+    $class_name = $CI->router->fetch_class();
+    $function_name = $CI->router->fetch_method();
+    $uri_params = $CI->uri->segment_array();
+    $get_params = $CI->input->get();
+    $post_params = $CI->input->post();
+
+    $CI->load->model('client/client_notification_model', 'notification');
+    
+
+    $message = "$name joined GMU";
+    $link = SITE_URL . "client/client_user/user_show_profile/$id";
+    
+    $type = "User Added";
+    $params = json_encode(array($class_name, $function_name, $get_params, $post_params, $uri_params));
+    $CI->notification->ticker_insert(0,0, addslashes($message), $link, $type, $params, date("Y-m-d H:i:s"));
+
+}
+
+
+function insert_user_review_notification($university_name,$university_id,$id) {
+    $CI = & get_instance();
+    $class_name = $CI->router->fetch_class();
+    $function_name = $CI->router->fetch_method();
+    $uri_params = $CI->uri->segment_array();
+    $get_params = $CI->input->get();
+    $post_params = $CI->input->post();
+     $CI->load->model('client/client_user_model', 'user');
+    $CI->load->model('client/client_notification_model', 'notification');
+    $get_follow_details = $CI->user->user_followu(session("client_user_id"));
+    $CI->load->model('client/client_follow_school_model', 'school');
+
+    $foloow_school = $CI->school->user_following_school($id);
+   
+    $user_id = array();
+    if(!empty($foloow_school))
+    {
+        
+        foreach($foloow_school as $username) {
+        $user_id[] = $username['student_id'];
+      }
+    }
+    $followers1 = json_decode($get_follow_details[0]["user_following"], true);
+    
+    $followers  = array_unique(array_merge(($user_id),($followers1)));
+    $message = get_user_name_id(session("client_user_id")) . "  just wrote a review for".get_school_name($university_id);
+    $link = SITE_URL . "client/client_review_rating/review_full_details_view/$id";
+   
+    $type = "Review Added";
+    $params = json_encode(array($class_name, $function_name, $get_params, $post_params, $uri_params));
+    foreach ($followers as $follow) {
+        if ($follow != session("client_user_id")) {
+            $CI->notification->ticker_insert(session("client_user_id"), $follow, addslashes($message), $link, $type, $params, date("Y-m-d H:i:s"));
+        }
+    }
+}
+
+
+
+function insert_user_follow_user($user_name) {
+    $CI = & get_instance();
+    $class_name = $CI->router->fetch_class();
+    $function_name = $CI->router->fetch_method();
+    $uri_params = $CI->uri->segment_array();
+    $get_params = $CI->input->get();
+    $post_params = $CI->input->post();
+
+    $CI->load->model('client/client_user_model', 'user');
+    $CI->load->model('client/client_notification_model', 'notification');
+    $get_follow_details = $CI->user->user_followu(session("client_user_id"));
+   
+
+    $followers = json_decode($get_follow_details[0]["user_following"], true);
+    
+    $message = get_user_name_id(session("client_user_id"))." started following ".get_user_name_id($user_name);
+    $link = SITE_URL . "client/client_user/user_show_profile/$user_name";
+    $type = "Users followed user";
+    $params = json_encode(array($class_name, $function_name, $get_params, $post_params, $uri_params));
+    foreach ($followers as $follow) {
+        if ($follow != session("client_user_id")) {
+            $CI->notification->ticker_insert(session("client_user_id"), $follow, addslashes($message), $link, $type, $params, date("Y-m-d H:i:s"));
+        }
+    }
+}
+
+function insert_follow_school($id) {
+    $CI = & get_instance();
+    $class_name = $CI->router->fetch_class();
+    $function_name = $CI->router->fetch_method();
+    $uri_params = $CI->uri->segment_array();
+    $get_params = $CI->input->get();
+    $post_params = $CI->input->post();
+
+    $CI->load->model('client/client_user_model', 'user');
+    $CI->load->model('client/client_notification_model', 'notification');
+    $get_follow_details = $CI->user->user_followu(session("client_user_id"));
+    $CI->load->model('client/client_follow_school_model', 'school');
+
+    $foloow_school = $CI->school->user_following_school($id);
+    $user_id = array();
+    if(!empty($foloow_school))
+    {
+        
+        foreach($foloow_school as $username) {
+        $user_id[] = $username['student_id'];
+      }
+    }
+    $followers1 = json_decode($get_follow_details[0]["user_following"], true);
+    //display($followers1);
+    $followers  = array_unique(array_merge(($user_id),($followers1)));
+   //display($followers);
+    $message = get_user_name_id(session("client_user_id"))." Started Following ".get_school_name($id);
+    $link = SITE_URL . "college/".clean_string(get_school_name($id))."/$id";
+    $type = "Users followed school";
+    $params = json_encode(array($class_name, $function_name, $get_params, $post_params, $uri_params));
+    foreach ($followers as $follow) {
+        if ($follow != session("client_user_id")) {
+            $CI->notification->ticker_insert(session("client_user_id"), $follow, addslashes($message), $link, $type, $params, date("Y-m-d H:i:s"));
+        }
+    }
+}
+
+
+
+function insert_user_follow_community() {
+    $CI = & get_instance();
+    $class_name = $CI->router->fetch_class();
+    $function_name = $CI->router->fetch_method();
+    $uri_params = $CI->uri->segment_array();
+    $get_params = $CI->input->get();
+    $post_params = $CI->input->post();
+
+     $CI->load->model('client/client_communities_model', 'comm');
+ 
+    $CI->load->model('client/client_user_model', 'user');
+    $CI->load->model('client/client_notification_model', 'notification');
+    $get_follow_details = $CI->user->user_followu(session("client_user_id"));
+    $get_comm_details = $CI->comm->get_community_details($post_params["cid"]);
+   
+
+    $followers = json_decode($get_follow_details[0]["user_following"], true);
+    
+    $message = get_user_name_id(session("client_user_id"))."  joined a community  ".substr($get_comm_details[0]["cname"], 0, 25) . "'";
+    $link = SITE_URL . "client/client_user/user_show_profile/$user_name";
+    $type = "Users followed community";
+    $params = json_encode(array($class_name, $function_name, $get_params, $post_params, $uri_params));
+    foreach ($followers as $follow) {
+        if ($follow != session("client_user_id")) {
+            $CI->notification->ticker_insert(session("client_user_id"), $follow, addslashes($message), $link, $type, $params, date("Y-m-d H:i:s"));
+        }
+    }
+}
+
+
+function insert_user_discussion_notification() {
+    $CI = & get_instance();
+    $class_name = $CI->router->fetch_class();
+    $function_name = $CI->router->fetch_method();
+    $uri_params = $CI->uri->segment_array();
+    $get_params = $CI->input->get();
+    $post_params = $CI->input->post();
+
+     $CI->load->model('client/client_user_model', 'user');
+    $CI->load->model('client/client_forums_model', 'forum');
+    $CI->load->model('client/client_notification_model', 'notification');
+    $get_topic_details = $CI->forum->get_topic_details($post_params["id"]);
+     $get_follow_details = $CI->user->user_followu(session("client_user_id"));
+   
+
+    $followers = json_decode($get_follow_details[0]["user_following"], true);
+    
+
+
+    //$followers =  $CI->user->user_followu(session("client_user_id"));
+    $message = "New Discussion has been initiated by " . get_user_name_id(session("client_user_id")) . " in '" . substr($get_topic_details[0]["topic"], 0, 25) . "'";
+    $link = SITE_URL . "discussion/" . session("discussion_insert_id") . "/";
+    $type = "Followee Discussion Added";
+    $params = json_encode(array($class_name, $function_name, $get_params, $post_params, $uri_params));
+    foreach ($followers as $follow) {
+        if ($follow != session("client_user_id")) {
+            $CI->notification->ticker_insert(session("client_user_id"), $follow, addslashes($message), $link, $type, $params, date("Y-m-d H:i:s"));
+        }
+    }
+}
+
+
+function insert_user_newtopic_notification($id) {
+    $CI = & get_instance();
+    $class_name = $CI->router->fetch_class();
+    $function_name = $CI->router->fetch_method();
+    $uri_params = $CI->uri->segment_array();
+    $get_params = $CI->input->get();
+    $post_params = $CI->input->post();
+
+     $CI->load->model('client/client_user_model', 'user');
+    $CI->load->model('client/client_forums_model', 'forum');
+    $CI->load->model('client/client_notification_model', 'notification');
+    //$get_topic_details = $CI->forum->get_topic_details($post_params["id"]);
+     $get_follow_details = $CI->user->user_followu(session("client_user_id"));
+   
+
+    $followers = json_decode($get_follow_details[0]["user_following"], true);
+    
+
+
+    //$followers =  $CI->user->user_followu(session("client_user_id"));
+    $message = get_user_name_id(session("client_user_id"))."  started a new Topic in  ".get_forum_name_id($id);
+    $link = SITE_URL . "discussion/" . session("discussion_insert_id") . "/";
+    $type = "Followee New Topic Added";
+    $params = json_encode(array($class_name, $function_name, $get_params, $post_params, $uri_params));
+    foreach ($followers as $follow) {
+        if ($follow != session("client_user_id")) {
+            $CI->notification->ticker_insert(session("client_user_id"), $follow, addslashes($message), $link, $type, $params, date("Y-m-d H:i:s"));
+        }
+    }
 }

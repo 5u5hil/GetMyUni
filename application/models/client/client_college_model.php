@@ -10,40 +10,19 @@ class Client_college_Model extends CI_Model {
     public $offset = 0;
     public $total = NULL;
     public $college_id = NULL;
+   
+   
+    
 
-    function field_of_study() {
-        $query = $this->db->get('field_of_study');
-
-        if ($query->num_rows == 0) {
-            return "no";
-        } else {
-            return $query->result_array();
-        }
-    }
-
-    function get_majors_domains() {
-        $query = $this->db->get('master_majors_domains');
-        if ($query->num_rows == 0) {
-            return "no";
-        } else {
-            return $query->result_array();
-        }
-    }
-
-    function get_master_country() {
-        $query = $this->db->get('country');
-        if ($query->num_rows == 0) {
-            return "no";
-        } else {
-            return $query->result_array();
-        }
-    }
-	
-	function get_college_degree()
+    function field_of_study()
 	{
-		 $query = $this->db->get('master_degree');
-		 
-		 if($query->num_rows==0)
+		
+                
+                $query = $this->db->select('*')
+                     ->from("field_of_study")
+                     ->where("status",1)
+                     ->get();
+		 if($query->num_rows ==0)
 		{
 			return "no";
 			
@@ -54,8 +33,73 @@ class Client_college_Model extends CI_Model {
 			return $ans;
 		}
 		
+		
 	}	
+
+   function get_majors_domains()
+	{
+	    
+                
+                $query = $this->db->select('*')
+                     ->from("master_majors_domains")
+                     ->where("status",1)
+                     ->order_by("domains_name",'asc')
+                     ->get();
+		 if($query->num_rows ==0)
+		{
+			return "no";
+			
+		}
+		else
+		{
+			$ans = $query->result_array();
+			return $ans;
+		}
+            
+		
+	}	
+
+    function get_master_country()
+	{
+		
+                  $query = $this->db->select('*')
+                     ->from("country")
+                     ->where("status",1)
+                     ->order_by("country_name",'asc')
+                     ->get();
+		 if($query->num_rows ==0)
+		{
+			return "no";
+			
+		}
+		else
+		{
+			$ans = $query->result_array();
+			return $ans;
+		}
+		
+	}
 	
+	function get_college_degree()
+	{
+              $query = $this->db->select('*')
+                     ->from("master_degree")
+                     ->where("status",1)
+                     ->get();
+		 if($query->num_rows ==0)
+		{
+			return "no";
+			
+		}
+		else
+		{
+			$ans = $query->result_array();
+			return $ans;
+		}
+            
+            
+		
+	}	
 
   /*  function get_college_program() {
 
@@ -123,7 +167,7 @@ class Client_college_Model extends CI_Model {
 							C_P.program_legth,
 							C_P.program_type_id,
 							C_P.program_size,
-                                                        C_P.program_link,
+                            C_P.program_link,
 							M_P.program_name,
 							
 																				')
@@ -181,7 +225,10 @@ class Client_college_Model extends CI_Model {
     }
 
     function get_college($type = NULL, $course = NULL, $country = NULL, $degree = NULL, $word = NULL, $tuition = NULL, $topschools = NULL, $verbalability = NULL, $quantability = NULL, $test_scores = NULL, $topsector = NULL, $sort_by_rank = NULL, $sort_by_tution = NULL) {
-
+            
+          if (!is_null($this->limit)) {
+            $this->db->limit($this->offset, $this->limit);
+			}
         if ($type)
             $this->db->where("(F_S.field_name LIKE '%$type%')");
         if ($country) {
@@ -196,7 +243,7 @@ class Client_college_Model extends CI_Model {
         if ($tuition)
             $this->db->where("(C_I.avg_tution BETWEEN $tuition)");
         if ($topschools)
-            $this->db->where("(C_I.rank $topschools)");
+            $this->db->where("C_I.rank <=" ,$topschools);
         if ($verbalability)
             $this->db->where("(C_I.verbal_ability LIKE '%$verbalability%')");
         if ($quantability)
@@ -210,17 +257,18 @@ class Client_college_Model extends CI_Model {
             $this->db->where('(C_T.topsector_id IN (' . implode(',', $topsector) . '))');
 
         if ($sort_by_rank)
-            $this->db->order_by("C_I.rank", $sort_by_rank);
-
+        {
+           $this->db->order_by('C_I.rank',$sort_by_rank);
+        }
+       
         if ($sort_by_tution)
             $this->db->order_by("C_I.avg_tution", $sort_by_tution);
 
-        if (!is_null($this->limit)) {
-            $this->db->limit($this->offset, $this->limit);
-        }
+        
 
         if ($this->college_id)
             $this->db->where('C_I.id', $this->college_id);
+        //if()
 
         $query = $this->db
                 ->select(
@@ -260,21 +308,24 @@ class Client_college_Model extends CI_Model {
                         C_I.verbal_ability,
                         C_I.quant_ability,
                         C_I.key_eligibility,
+                        C_I.document,
                         GROUP_CONCAT(DISTINCT(C_D.domain_id ))as domain,
 						GROUP_CONCAT(DISTINCT(M_TOP.top_sectors	))as topsector,
                         GROUP_CONCAT(DISTINCT(C_P.program_name_id ))as program'
                 )
                 ->from('college_info as  C_I')
-                ->join('college_has_domain as C_D', 'C_I.id = C_D.college_id')
-                ->join('college_has_program as C_P', 'C_I.id = C_P.college_id')
-                ->join('college_has_topsectors as C_T', 'C_I.id = C_T.college_id')
+                ->join('college_has_domain as C_D', 'C_I.id = C_D.college_id','left')
+                ->join('college_has_program as C_P', 'C_I.id = C_P.college_id','left')
+                ->join('college_has_topsectors as C_T', 'C_I.id = C_T.college_id','left')
                 ->join('field_of_study as F_S', 'C_I.field_study = F_S.id')
                 ->join('country', 'C_I.country= country.country_id')
                 ->join('master_degree as M_DGREE', 'C_I.degree= M_DGREE.id')
-                ->join('master_top_sectors as M_TOP', 'C_T.topsector_id= M_TOP.id')
+                ->join('master_top_sectors as M_TOP', 'C_T.topsector_id= M_TOP.id','left')
                 ->group_by('C_D.college_id')
                 ->group_by('C_P.college_id')
+                ->where('C_I.status',1)
                 ->get();
+                
         //show_query();
         if ($this->row)
             return $query->row();
@@ -378,6 +429,7 @@ class Client_college_Model extends CI_Model {
                 )
                 ->from('school_events as  S_E')
                 ->where('S_E.event_school_id', $this->college_id)
+                 ->where('S_E.status', '1')
                 ->get();
 
         return $query->result_array();
@@ -392,7 +444,8 @@ class Client_college_Model extends CI_Model {
                 ->like('school_name', $q)
                 ->from('college_info as C_I')
                 ->join('field_of_study as F_S', 'C_I.field_study = F_S.id')
-                ->join('master_degree as M_D', 'C_I.degree = M_D.id') 
+                ->join('master_degree as M_D', 'C_I.degree = M_D.id')
+                ->where('C_I.status',1)
                 ->get();
 
         if ($query->num_rows > 0) {

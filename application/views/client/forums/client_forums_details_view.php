@@ -77,7 +77,7 @@
                     echo "<div class='alert alert-info mtm50'>No discussion threads have yet been started…Go ahead, start one</div>";
                 }
                 ?>  
-                <div class="new_topic mt20">
+                <div class="new_topic mt20 mb20">
                     <a href="#" data-toggle="modal" data-target="#<?= session('client_user_id') ? "myModal" : "myModalLogin" ?>"><i class="fa fa-plus"></i> New Topic</a>
                 </div>
                 <?= $pagination ?>

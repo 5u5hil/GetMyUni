@@ -40,9 +40,9 @@ class Client_news extends CI_Controller
       <div >
       <div class="col-sm-9 col-md-9"> 
           <div class="row">
-            <h3 class="tcol_darkblue mt0"><a href="<?php echo $get_country_news_topic['link']; ?>" target="_blank"  style="display:inline;text-decoration:none" ><?php echo $get_country_news_topic['title']; ?></a> </h3>
+            <h3 class="tcol_darkblue mt0"><a href="<?php echo $get_country_news_topic['link']; ?>" target="_blank"  style="display:inline;text-decoration:none" ><?php echo html_entity_decode( $get_country_news_topic['title'], ENT_QUOTES, "UTF-8"); ?></a> </h3>
             <div class="news_source"><?php echo $get_country_news_topic['source']; ?>  <span> <?php echo $get_country_news_topic['date_time']; ?></span></div>
-            <div class="news_desc "> <?php echo $get_country_news_topic['desc']; ?></div>
+            <div class="news_desc "> <?php echo html_entity_decode($get_country_news_topic['desc'], ENT_QUOTES, "UTF-8");  ?></div>
             
             </div>
       </div>
@@ -75,9 +75,9 @@ class Client_news extends CI_Controller
       <div >
       <div class="col-sm-9 col-md-9"> 
           <div class="row">
-            <h3 class="tcol_darkblue mt0"><a href="<?php echo $get_news_topic['link']; ?>" target="_blank"  style="display:inline;text-decoration:none" ><?php echo $get_news_topic['title']; ?></a> </h3>
+            <h3 class="tcol_darkblue mt0"><a href="<?php echo $get_news_topic['link']; ?>" target="_blank"  style="display:inline;text-decoration:none" ><?php echo html_entity_decode($get_news_topic['title'], ENT_QUOTES, "UTF-8");  ?></a> </h3>
             <div class="news_source"><?php echo $get_news_topic['source']; ?>  <span> <?php echo $get_news_topic['date_time']; ?></span></div>
-            <div class="news_desc "> <?php echo $get_news_topic['desc']; ?></div>
+            <div class="news_desc "> <?php echo html_entity_decode($get_news_topic['desc'], ENT_QUOTES, "UTF-8");; ?></div>
             
             </div>
       </div>

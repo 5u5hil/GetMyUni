@@ -1,7 +1,11 @@
 <?php $this->load->view(ADMIN_HEADER);?>
+
 <script type="text/javascript" src="<?php echo ADMIN_MODULES?>admin_college_module_js.js"></script>
+
 	<script type="text/javascript" src="<?php echo ADMIN_PLUGINS?>plupload.full.min.js"></script>
-	<div class="pageheader">
+        <script type="text/javascript" src="<?php echo ADMIN_PLUGINS?>ckeditor_4.4.4_standard/ckeditor/ckeditor.js"></script>
+	 <link href="<?php echo ADMIN_PLUGINS ;?>ckeditor_4.4.4_standard/ckeditor/style.css" rel="stylesheet">
+        <div class="pageheader">
 		  <h2><i class="fa fa-home"></i> Manage College <!--span>All elements to manage your School...</span--></h2>
 		  <!--div class="breadcrumb-wrapper">
 			<span class="label">You are here:</span>
@@ -17,8 +21,7 @@
 		
 			<div class="row">
 		<div class="col-md-12">
-          
-					
+          	
             
                     <form  id="college_form" >
 						<?php
@@ -167,7 +170,7 @@
                     <label for="domain" class="error" id="domains_err">This field is required.</label>
                   </div>
                 </div>
-				
+                           
 				  <div class="col-sm-6">
 					<div class="form-group">
 						<label class="control-label">College Images <span class="asterisk">*</span></label>
@@ -175,7 +178,7 @@
 						  <div class='controls'><div id='filelist' ></div>
 										<div style='clear:both;'></div>
 										<div id='container'>
-										<?php if(isset($ans->college_logo)){ if(is_array(json_decode($ans->college_logo))){ foreach ((json_decode($ans->college_logo)) as $key=>$val ) {echo "<div class='display_image' id='main-$key'><image src='$val'  height='100px' width='100px'><br><input type='hidden' id='college_logo' value='$val' name='college_logo[]' id='filename'> <a class='remove_logo' id='$key' href='javascript:;'>Remove</a></div>";}}}?>
+										<?php if(isset($ans->college_logo)){ if(is_array(json_decode($ans->college_logo))){ foreach ((json_decode($ans->college_logo)) as $key=>$val ) {echo "<div class='display_image' id='main-$key'><image src='/public/admin/scripts/plugins/uploads/collegelogo/$val'  height='100px' width='100px'><br><input type='hidden' id='college_logo' value='$val' name='college_logo[]' id='filename'> <a class='remove_logo' id='$key' href='javascript:;'>Remove</a></div>";}}}?>
 										<br>
 										<div style="clear:both;"></div>
 										<a id='collegelogo' href='javascript:;'><button><b>Choose File</b></button></a>
@@ -199,7 +202,7 @@
                     <label class="control-label">Address <span class="asterisk">*</span></label>
                     <input type="address" name="address" class="form-control" value="<?php echo isset($ans->address)  ? $ans->address : ''?>"/>
                     <label for="address" class="error" id="address_err">This field is required.</label>
-
+                   
                   </div>
                 </div><!-- col-sm-6 -->
                 <div class="col-sm-6">
@@ -300,16 +303,18 @@
                 </div><!-- col-sm-6 -->
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label class="control-label">Test Scores <span class="asterisk">*</span></label>
-                    <input type="text" name="test_score" class="form-control" value="<?php echo isset($ans->test_score)  ? $ans->test_score : ''?>"/>
+                    <label class="control-label">Test Name <span class="asterisk">*</span></label>
+                    <input type="text" name="test_score" id="test_name" class="form-control" value="<?php echo isset($ans->test_score)  ? $ans->test_score : ''?>"/>
                     <label for="testscore" class="error" id="test_score_err">This field is required.</label>
+                     <input type="hidden" name="verbal_ability" id="verbal_ability" class="form-control" value="<?php echo isset($ans->verbal_ability)  ? $ans->verbal_ability : ''?>"/>
+                      <input type="hidden" name="quant_ability" id="quant_ability" class="form-control" value="<?php echo isset($ans->verbal_ability)  ? $ans->verbal_ability : ''?>"/>
                   </div>
                 </div><!-- col-sm-6 -->
                 
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label class="control-label">Avg Test Scores  </label>
-                    <input type="text" name="avg_test_score" class="form-control" value="<?php echo isset($ans->avg_test_score)  ? $ans->avg_test_score : ''?>"/>
+                    <input type="text" name="avg_test_score" class="form-control" id="avg_score" value="<?php echo isset($ans->avg_test_score)  ? $ans->avg_test_score : ''?>"/>
                   </div>
                 </div><!-- col-sm-6 -->
                 <div class="col-sm-6">
@@ -367,40 +372,74 @@
                 <div class="col-sm-6">
                   <div class="form-group">
 				      <?php if(isset($ans->topsector)){$topsector = $ans->topsector; $array_topsector=explode(",",$topsector);}?>
-                    <label class="control-label">Top sectors (~70% students placed)<span class="asterisk">*</span></label>
+                    <label class="control-label">Top sectors (~70% students placed)<span class="asterisk"></span></label>
 		                <div class="ckbox ckbox-default">
+                             
 						<select type="select" class="form-control" name="top_sectors[]" multiple="multiple" size="5">
 							<option value="">Select Top Sectors</option>
 							<?php 
 
-									
-										$fans = $get_topsectors;
-									
-									if(is_array($fans))
-											{
-												foreach($fans as $val)
-												{
-													$selected       = '';
-														if( isset($ans->topsector))
-														{
-															foreach($array_topsector as $k1 => $v1)
-															{
-																echo $v1;
-																if($v1 == $val['id'])
-																	$selected       = 'selected';
-																	
-															}
-														}
-														echo '<option '.$selected.' value="'.$val['id'].'" >'.$val['top_sectors'].'</option>';
-												}
-											}
+                                                        
+                                                            $fans = $get_topsectors;
+
+                                                            foreach($fans as $val) {
+                                                                                    echo "<option" ;
+                                                                                    $found = false;
+                                                                                    if(isset($ans->topsector))
+                                                                                    {
+                                                                                    foreach($get_college_top_sector as $val_top) {
+                                                                                            if ($val_top['topsector_id'] == $val['id'])
+                                                                                            {
+
+                                                                                                    $found == true;
+                                                                                                    echo " selected=\"selected\"";
+                                                                                                    break;
+                                                                                            }
+                                                                                    }
+                                                                                    }
+                                                                                    if (!$found) echo " value=$val[id]>";
+                                                                                    echo $val['top_sectors'] . "</option>";
+											}  
+                                                            
+                                                             
+                                                                                        
 							?>
 						</select>
 					  </div>
                     <label for="topsectors" class="error" id="top_sectors_err">This field is required.</label>
                   </div>
+                     
                 </div><!-- col-sm-6 -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                    <label class="control-label"> Course overview </label>
+                    <textarea  name="course_overview" id="course_overview" class="form-control ckeditor"  style="height:100px;"/><?php echo isset($ans->course_overview)  ? $ans->course_overview : ''?></textarea>
+                    <label for="name" class="error" id="course_overview_err">This field is required.</label>
+                  </div>
+                  </div>
                 
+                <div class="col-sm-6">
+                    <div class="form-group">
+                    <label class="control-label"> Admission procedure </label>
+                   <textarea name="admission_procedure"  id="admission_procedure" class="form-control ckeditor" style="height:100px;"/><?php echo isset($ans->admission_procedure)  ? $ans->admission_procedure : ''?></textarea>
+                    <label for="name" class="error" id="admission_procedure_err">This field is required.</label>
+                  </div>
+                  </div>
+                 <div class="col-sm-6">
+                    <div class="form-group">
+                    <label class="control-label">Scholarships </label>
+                    <textarea name="scholarships" id="scholarships" class="form-control ckeditor" style="height:100px;"/><?php echo isset($ans->scholarships)  ? $ans->scholarships : ''?></textarea>
+                    <label for="name" class="error" id="scholarships_err">This field is required.</label>
+                  </div>
+                  </div>
+                
+                 <div class="col-sm-6">
+                    <div class="form-group">
+                    <label class="control-label">  Careers </label>
+                    <textarea name="careers" id="careers" class="form-control ckeditor" style="height:100px;"><?php echo isset($ans->careers)  ? $ans->careers : ''?> </textarea>
+                    <label for="name" class="error" id="careers_err">This field is required.</label>
+                  </div>
+                  </div>
                 
               </div><!-- row -->
 			</div><!-- panel-body -->
@@ -411,7 +450,22 @@
 			
 				
               <div class="row">
-                <div class="col-sm-3">
+                  <div class="main_program_name">
+                     
+                   <?php 
+                   //display($get_college_program);
+                   //display($get_program_name);
+                  
+                       
+                        if(($get_college_program != "no"))
+                        {
+                               $pro_count = 1;
+                            foreach ($get_college_program as $program_val)
+                            {
+                   ?>
+                       <div class="sub_program_name_<?php echo $pro_count;?>">
+                               <div class="col-sm-5">
+                   
                   <div class="form-group">
                     <label class="control-label">Program Name <span class="asterisk">*</span></label>
                      <div class="ckbox ckbox-default" id="ckbox-program-name">
@@ -421,12 +475,82 @@
 								<?php 
 
 										$fans = $get_program_name;
-										if(is_array($fans))
+										if(!empty($fans))
+                                                                                {
+                                                                                 foreach($fans as $val)
+                                                                                    {
+                                                                                         $selected       = '';
+                                                                                            if($val['id'] == $program_val['program_name_id'])
+                                                                                           
+                                                                                                    $selected       = 'selected';
+                                                                                           
+                                                                                   
+                                                                          
+                                                                            echo '<option '.$selected.' value="'.$val['id'].'" >'.$val['program_name'].'</option>';
+                                                                                }}
+								?>
+							</select>
+						</div>
+					  </div>
+                    <label for="programname" class="error" id="program_name_err">This field is required.</label>
+                  </div>
+                </div>
+                  <div class="col-sm-5">
+                  <div class="form-group">
+                    <label class="control-label">Program Link </label>
+					 <div class="ckbox ckbox-default" id="ckbox-program-length">
+						<div class="program-link" id="program-link-1">
+                                                    <input type="text" name="program_link[]" class="form-control prog_link_1"  value="<?php echo $program_val['program_link'];?>"/>
+						</div>
+					</div>
+                  </div>
+                </div>
+               
+                
+              
+                 <?php
+                 if($pro_count == 1)
+                 {?>
+                  <div class="col-sm-1 btn btn-primary mt27 add_prog">
+                  Add
+                </div>
+                 <?php
+                 }
+                 else
+                 {
+                     ?>
+                          <div class="col-sm-1 btn btn-primary mt27 remove" id="remove-btn-<?php echo $pro_count;?>" >
+                  Remove
+                </div>
+                 <?php          
+                 }
+                 ?>
+                  
+                 </div>
+                   <?php
+                            $pro_count++;
+                            }
+                        }
+                 
+                        else
+                        {
+                       ?>
+                <div class="col-sm-5">
+                    
+                  <div class="form-group">
+                    <label class="control-label">Program Name <span class="asterisk">*</span></label>
+                     <div class="ckbox ckbox-default" id="ckbox-program-name">
+						<div class="program-name" id="program-name-1">
+						  <select type="select" class="form-control select_pro_1" name="program_name[]">
+						  <option value="">Select Program Name</option>
+								<?php 
+
+										$fans = $get_program_name;
+										if(!empty($fans))
 										{
 											foreach($fans as $val)
 											{
-												
-												?>
+											?>
 													
 												<option value="<?php echo $val['id'];?>"><?php echo $val['program_name'];?></option>
 										<?php
@@ -440,76 +564,78 @@
                     <label for="programname" class="error" id="program_name_err">This field is required.</label>
                   </div>
                 </div>
-                
-                <div class="col-sm-3">
+                  <div class="col-sm-5">
                   <div class="form-group">
-                    <label class="control-label">Program length </label>
+                    <label class="control-label">Program Link </label>
 					 <div class="ckbox ckbox-default" id="ckbox-program-length">
-						<div class="program-length" id="program-length-1">
-							<input type="text" name="program_length[]" class="form-control prog_length_1"  value=""/>
+						<div class="program-link" id="program-link-1">
+							<input type="text" name="program_link[]" class="form-control prog_link_1"  value=""/>
 						</div>
 					</div>
                   </div>
                 </div>
+               
                 
-                <div class="col-sm-3">
-                  <div class="form-group">
-                    <label class="control-label">Program Type <span class="asterisk">*</span></label>
-                    <div class="ckbox ckbox-default" id="ckbox-program-type">
-                            <div class="program-name" id="program-type-1">
-                                    <select type="select" class="form-control select_type_1" name="program_type[]">
-									<option value="">Select Program Type</option>
-                                            <?php 
-												$fans = $get_program_type;
-												if(is_array($fans))
-												{
-													foreach($fans as $val)
-													{
-														
-														?>
-															
-														<option value="<?php echo $val['id'];?>"><?php echo $val['program_type'];?></option>
-												<?php
-													}
-												}
-									
-                                            ?>
-                                    </select>
-                            </div>
-                    </div>
-                    <label for="programtype" class="error" id="program_type_err">This field is required.</label>
-                  </div>
-                </div><!-- col-sm-6 -->
                 
-                <div class="col-sm-2">
-                  <div class="form-group">
-                    <label class="control-label">Program size </label>
-					<div class="ckbox ckbox-default" id="ckbox-program-size">
-						<div class="program-length" id="program-size-1">
-							<input type="text" name="program_size[]" class="form-control prog_size_1" />
-						</div>
-					</div>
-                  </div>
-                </div>
                 <div class="col-sm-1 btn btn-primary mt27 add_prog">
                   Add
                 </div>
-				
-				 <div id="remove">
-					
-				 </div>
-				
-				
+			
+		<?php
+                
+                        }
+                   
+                ?>		
               </div>
-			  
+              </div>
 			  <!-- row -->
               </div>
             </div>   
             
             <div class="panel panel-default">
             <div class="panel-body">
-              <div class="row">
                 
+                
+                 <div class="row">
+                        <div class="col-sm-12">
+                    <div class="form-group">
+                    <label class="control-label">Key Eligibility Criteria</label>
+                    <textarea name="key_eligibility" id="key_eligibility" class="form-control ckeditor" style="height:100px;"><?php echo isset($ans->key_eligibility)  ? $ans->key_eligibility  : ''?> </textarea>
+                    <label for="name" class="error" id="key_eligibility_err">This field is required.</label>
+                  </div>
+                  </div>
+              
+                </div>
+                 </div>
+                 </div>
+                
+                        
+                  <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                        <div class="col-sm-12">
+                    <div class="form-group">
+                    <label class="control-label">Key Documentation</label>
+                    <div class='controls'><div id='doc_filelist' ></div>
+										<div style='clear:both;'></div>
+										<div id='doc_container'>
+										<?php if(isset($ans->document)){ if(is_array(json_decode($ans->document))){ foreach ((json_decode($ans->document)) as $key=>$val ) { $key_id = str_replace(' ', '', $key); echo '<div class="display_doc" id="main-doc-'.$key_id.'"><div class="profile_doc"  ><a href="/public/admin/scripts/plugins/uploads/college_doc/'.$val.'" style="font-color:#000;">'.$val.'</a><br><a class="remove_doc" id="'.$key_id.'" >Remove</a></div>';}}}?>
+										<br>
+										<div style="clear:both;"></div>
+										<a id='collegedoc' href='javascript:;'><button><b>Choose File</b></button></a>
+											
+										</div>
+										<span id="image1_err"  class="error"></span> <span id="imgerror" class="error"></span>
+						</div>
+                  </div>
+                  </div>
+              
+                </div>
+                
+                
+                
+              <!--div class="row">
+               
                 
                 <div class="col-sm-6">
                   <div class="form-group">
@@ -540,7 +666,7 @@
 					  </div>
                     <label for="kcresume" class="error">This field is required.</label>
                   </div>
-                </div><!-- col-sm-6 -->
+                </div>
                 
                 <div class="col-sm-6">
                   <div class="form-group">
@@ -588,12 +714,12 @@
                 </div>
                 
 
-              </div><!-- row -->
+              </div--><!-- row -->
               </div>
             </div>         
             <div class="panel-footer">
                 <input type="hidden" name="hidden_college_id" id="hidden_college_id" value="<?php echo $this->uri->segment(4);?>">
-                <button class="btn btn-primary" id="school_btn" type="submit">Submit</button>
+                <button class="btn btn-primary" id="school_btn" type="submit" onClick="CKupdate();">Submit</button>
             </div>
               </form>
               
@@ -615,86 +741,139 @@
 
 <?php $this->load->view(ADMIN_FOOTER);?>
 
+
+
 <script type="text/javascript">
 
 $(document).ready(function(){
  
-    var counter = 2;
+ $("#avg_score").keyup(function(){
+     
+    var test_name =  $("#test_name").val();
+     //alert(test_name);
+     var test_score = $(this).val();
+     //alert(test_score);
+     if(test_name == "GMAT" || test_name == "Gmat" || test_name == "gmat")
+     {
+         if(test_score < 600)
+         {
+             $("#quant_ability").val("Average");
+             $("#verbal_ability").val("Average");
+             
+             
+         }
+         else if(test_score >=600 && test_score <=670)
+         {
+             
+            $("#quant_ability").val("Good");
+             $("#verbal_ability").val("Good");
+             
+         }
+         
+         else if(test_score >=670)
+         {
+             
+             $("#quant_ability").val("Excellent");
+            $("#verbal_ability").val("Excellent");
+             
+         }
+         
+     }
+     else if(test_name == "GRE" || test_name == "Gre" || test_name == "gre")
+     {
+         if(test_score < 250 )
+         {
+             $("#quant_ability").val("Average");
+             $("#verbal_ability").val("Average");
+             
+             
+         }
+         else if(test_score >=250 && test_score <=300)
+         {
+             
+             $("#quant_ability").val("Good");
+             $("#verbal_ability").val("Good");
+             
+         }
+         
+         else if(test_score >=300)
+         {
+             
+             $("#quant_ability").val("Excellent");
+             $("#verbal_ability").val("Excellent");
+             
+         }
+         
+     }
+         
+ });
  
-	var counter = 2;
- 
+    <?php
+    
+        if(!empty($get_college_program))
+        {
+            
+            $count = count($get_college_program)+1;
+            
+        }
+        else
+        {
+            
+             $count = 2;
+            
+        }
+        
+    ?>
+	
+        var counter = <?php echo $count;?>
+       
     $(".add_prog").click(function (e) {
- 
+       // alert(123);
 	if(counter>10){
             alert("Only 10 textboxes allow");
             return false;
 	}   
  
 	var newTextBoxDiv = $(document.createElement('div'))
-	     .attr("id",'program-name-' + counter);
+	     .attr("class",'sub_program_name_' + counter);
  
-	newTextBoxDiv.after().html('<br><select type="select" class="form-control select_pro_'+counter+'" name="program_name[]"> <option value="">Select Program Name</option><?php $fans = $get_program_name;if(is_array($fans)){foreach($fans as $val){?><option value="<?php echo $val['id'];?>"><?php echo $val['program_name'];?></option><?php }}?></select>');
- 
-	newTextBoxDiv.appendTo("#ckbox-program-name");
+	newTextBoxDiv.after().html('<div class="col-sm-5"><div class="form-group"> <label class="control-label">Program Name <span class="asterisk">*</span></label><div class="ckbox ckbox-default" id="ckbox-program-name"><div class="program-name" id="program-name-1"><select type="select" class="form-control select_pro_1" name="program_name[]"><option value="">Select Program Name</option><?php $fans = $get_program_name;if(is_array($fans)){foreach($fans as $val){?><option value="<?php echo $val['id'];?>"><?php echo $val['program_name'];?></option><?php }}?></select></div></div> <label for="programname" class="error" id="program_name_err">This field is required.</label></div></div><div class="col-sm-5"><div class="form-group"><label class="control-label">Program Link </label><div class="ckbox ckbox-default" id="ckbox-program-length"><div class="program-link" id="program-link-1"><input type="text" name="program_link[]" class="form-control prog_link_1"  value=""/></div></div></div> </div> <div class="col-sm-1 btn btn-primary mt27 remove" id="remove-btn-'+counter+'" >Remove</div>');
+                
+     	newTextBoxDiv.appendTo(".main_program_name");
 	
-	var newTextBoxDiv = $(document.createElement('div'))
-	     .attr("id",'program-type-' + counter);
- 
-	newTextBoxDiv.after().html('<br><select type="select" class="form-control select_type_'+counter+'" name="program_type[]"><option value="">Select Program Type</option><?php $fans = $get_program_type;if(is_array($fans)){foreach($fans as $val){?><option value="<?php echo $val['id'];?>"><?php echo $val['program_type'];?></option><?php } }?></select>');
-		
-	newTextBoxDiv.appendTo("#ckbox-program-type");
-	
-	var newTextBoxDiv = $(document.createElement('div'))
-	     .attr("id",'program-legnth-' + counter);
- 
-	newTextBoxDiv.after().html('<br><input type="text" name="program_length[]" class="form-control prog_length_'+counter+'" />');
- 
-	newTextBoxDiv.appendTo("#ckbox-program-length");
-	
-	
-		var newTextBoxDiv = $(document.createElement('div'))
-	     .attr("id",'program-size-' + counter);
- 
-	newTextBoxDiv.after().html('<br>	<input type="text" name="program_size[]" class="form-control prog_size_'+counter+'" />');
- 
-	newTextBoxDiv.appendTo("#ckbox-program-size");
-	
-	
-		var newTextBoxDiv = $(document.createElement('div'))
-	     .attr("class",'col-sm-1 btn btn-primary mt27 remove-btn-'+ counter);
-	newTextBoxDiv.id = 'remove-btn'+counter;
-	newTextBoxDiv.after().html('Remove');
-	newTextBoxDiv.appendTo("#remove");
 
 	counter++;
      });
  
-     $("#remove").live('click',function () {
-		var idq = $(this).children('div').attr('class');
-		var fid = idq.slice(-1);
-		
+     $(".remove").live('click',function () {
+         
+		var idq = $(this).attr('id');
+		var fid = idq.split('-');;
+		//alert(fid);
 	if(counter==1){
           alert("No more textbox to remove");
           return false;
        }   
  
 	
-        $(".remove-btn-" + fid).remove();
-		$("#program-legnth-" + fid).remove();
-		$("#program-type-" + fid).remove();
-		$("#program-name-" + fid).remove();
-		$("#program-size-" + fid).remove();
- 
+        $("#remove-btn-" + fid[2]).remove();
+		$(".sub_program_name_" + fid[2]).remove();
+		
+	counter--;	
+        
      });
 	 });
 
 
 </script>
- <script src="<?php echo ADMIN_SCRIPTS ;?>plugins/plupload.full.min.js" type="text/javascript"></script>
+
+
+
+ 
 <script type="text/javascript">
 // Custom example logic
 $(function() {
-        var site_url                                                            = 'http://192.168.2.148/GMU/';//$("#hidden_site_url").val(); 
+        var site_url                                                            = '<?php echo SITE_URL;?>';//$("#hidden_site_url").val(); 
         var uploader                                                            = new plupload.Uploader({
         runtimes                                                                : 'gears,html5,flash,silverlight,browserplus',
         browse_button                                                           : 'collegelogo',
@@ -798,5 +977,127 @@ $(function() {
 });
 
 </script>
+
+
+
+ 
+<script type="text/javascript">
+// Custom example logic
+$(function() {
+        var site_url                                                            = '<?php echo SITE_URL;?>';//$("#hidden_site_url").val(); 
+        var uploader                                                            = new plupload.Uploader({
+        runtimes                                                                : 'gears,html5,flash,silverlight,browserplus',
+        browse_button                                                           : 'collegedoc',
+        container                                                               : 'doc_container',
+        max_file_size                                                           : '10mb',
+        url                                                                     : '<?php echo ADMIN_SCRIPTS ;?>plugins/upload.php/?image_type=college_doc',//site_url+'admin/breed/process_image',
+        flash_swf_url                                                           : site_url+'ui/admin/scripts/plugin/plupload/js/plupload.flash.swf',
+        silverlight_xap_url                                                     : site_url+'ui/admin/scripts/plugin/plupload/js/plupload.silverlight.xap',
+        filters : [
+                {title : "Doc files", extensions : "doc,pdf,xlsx,txt,docx,png,jpeg,jpg,gif,word"},
+                {title : "Zip files", extensions : "zip"},
+                //{title : "Video files", extensions : "mp4"}
+        ],
+        resize                                                          : {width : 768, height : 500, quality : 100}
+	});
+
+	uploader.bind('Init', function(up, params) {
+		//$('#filelist').html("<div>Current runtime: " + params.runtime + "</div>");
+	});
+
+	$('#collegedoc').click(function(e) {
+		uploader.start();
+		e.preventDefault();
+	});
+
+	uploader.init();
+
+	uploader.bind('FilesAdded', function(up, files) {
+           
+            
+                $.each(files, function(i, file) {
+                                $('#doc_filelist').append(
+                                        '<div class="doc temp_doc"   id="' + file.id + '" style="float:left;margin-right:10px;">  <b></b>' +
+                                '</div>');
+                                });
+            
+            
+                                
+		uploader.start();
+                uploader.refresh();
+                //setTimeout(function () { up.start(); });
+		//up.refresh(); // Reposition Flash/Silverlight
+	});
+
+	uploader.bind('UploadProgress', function(up, file) {
+            //alert('test');
+		$('#' + file.id + " b").html(file.percent + "%");
+           
+	});
+
+	uploader.bind('Error', function(up, err) {
+		$('#doc_filelist').append("<div>Error: " + err.code +
+			", Message: " + err.message +
+			(err.file ? ", File: " + err.file.name : "") +
+			"</div>"
+		);
+
+		up.refresh(); // Reposition Flash/Silverlight
+	});
+
+	uploader.bind('FileUploaded', function(up, file,info) {
+                var obj = JSON.parse(info.response);
+		$('#' + file.id + " b").html("100%");
+		$('#' + file.id ).html('<img src="ui/admin/images/ajax-loader.gif">');
+                var image_width                                                         = $("#hidden_image_width").val();
+                var image_height                                                        = $("#hidden_image_height").val();
+        
+                //alert(site_url);
+                //alert(image_width+image_height);
+                var filename                                                    = obj.result.cleanFileName;              
+                $.ajax({
+                    type                                                        : 'POST',
+                    url                                                         : '<?php echo ADMIN_SCRIPTS ;?>plugins/file_rename_resize.php',
+                    data                                                        : {filename:filename,file_id:file.id,filetype:'collegedoc',site_url:'<?php echo SITE_URL;?>'},
+                    dataType                                                    : 'json',        
+                    success: function(data)
+                    {
+                        value                                                   = eval(data);
+						//alert(value.image);
+                        $('#' + file.id ).html('');
+                        $('#' + file.id).removeClass("temp_doc");
+						$('#' + file.id  ).html(value.image);
+                        if(value.error == 'success')
+                        {
+                           
+                           $('#' + file.id  ).html(value.image);
+                             $('#image_err').html('');
+                        }
+                        else
+                        {
+                            $('#image_err').html(value.image);
+                        }
+                        
+                    }
+                });
+               
+	});
+        
+        
+        
+});
+
+</script>
+
+<script>
+    function CKupdate()
+    {
+            for ( instance in CKEDITOR.instances )
+            CKEDITOR.instances[instance].updateElement();
+
+
+    }
+</script>
+
 
  

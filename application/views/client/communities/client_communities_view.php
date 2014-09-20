@@ -48,7 +48,7 @@
                             <div class="form-group">
                                 <div class="col-sm-offset-8 col-sm-4">
                                     <input type="submit" value="Create" class="home_search_button">
-                                    <input type="button" value="Cancel" class="btn btn-default">
+                                    <input type="button" value="Cancel" class="btn btn-default cancel_community">
                                 </div>
                             </div>
                         </form>
@@ -63,7 +63,8 @@
 
         <div class="row mt50">
 
-            <?php foreach ($communities as $community) { ?>
+            <?php if(!empty($communities))
+                {foreach ($communities as $community) { ?>
                 <a href="<?= SITE_URL . "communities/" . urlclean(strtolower($community["cname"])) . "/" . $community["id"] . "/" ?>">  <div class="community col-sm-3 col-md-3 col-xs-6 pull-left mb30">
                         <img src="<?= $community["pic"] != '' ? SITE_URL . 'uploads/comm_pics/' . $community["pic"] : CLIENT_IMAGES . "default_community.jpg" ?>" class="communityimg img-responsive">
                         <h3 class="tcol_darkblue"><?= $community["cname"] ?></h3>
@@ -71,7 +72,17 @@
                         <h4 class="tcol_darkblue"> Created: <?= date("d M y", strtotime($community["added_at"])) ?></h4>
                     </div> 
                 </a>
-            <?php } ?>
+            <?php 
+            
+            }
+            
+                }
+            else {
+                    echo "<br /><br /><br /><div class='alert alert-info mtm50'>No communities have yet been started…Go ahead, start one</div>";
+                }
+            
+            
+            ?>
 
 
         </div>
@@ -112,6 +123,7 @@
 <script src="<?php echo CLIENT_SCRIPTS; ?>bootstrap-multiselect.js"></script>
 <script src="<?php echo CLIENT_SCRIPTS; ?>jquery-ui.min.js"></script>
 <script type="text/javascript" src="<?php echo CLIENT_MODULES ?>client_user_module_js.js"></script>
+<script type="text/javascript" src="<?php echo CLIENT_MODULES ?>client_community_module.js"></script>
 
 
 </body>

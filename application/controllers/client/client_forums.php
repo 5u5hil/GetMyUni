@@ -61,7 +61,7 @@ class Client_Forums extends CI_Controller {
         $forum_id = $_POST['forum_id'];
         $followers = json_encode(array());
         $insert = $this->client_forums_model->insert_new_topic($forum_id, session('client_user_id'), addslashes($_POST['tname']), date("Y-m-d H:i:s"), $followers);
-        insert_user_newtopic_notification($forum_id);
+        insert_user_newtopic_notification($forum_id,$insert);
         if ($insert) {
             $this->session->set_userdata('topic_insert_id', $insert);
             $forum_details = $this->client_forums_model->get_forum_details($forum_id);

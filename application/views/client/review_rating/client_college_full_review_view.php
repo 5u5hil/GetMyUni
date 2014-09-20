@@ -109,9 +109,11 @@ function goBack() {
                        
                           ?>
                            
-                	<img src=<?php if(!empty ($review->profile_pic)){ echo $user_pic1;} else {echo "'".CLIENT_IMAGES ;}?>/defaultuser.jpg' class="img-responsive prof_pic">
-                    <div class="tcol_grey student_name"><?php echo $review->name;?></div>
+                	<a href="<?php echo SITE_URL ?>client/client_user/user_show_profile/<?php echo $review->student_id; ?>" target ="_blank"><img src=<?php if(!empty ($review->profile_pic)){ echo $user_pic1;} else {echo "'".CLIENT_IMAGES ;}?>/defaultuser.jpg' class="img-responsive prof_pic"> </a>
+                    <div class="tcol_grey student_name"><a href="<?php echo SITE_URL ?>client/client_user/user_show_profile/<?php echo $review->student_id; ?>" target ="_blank"><?php echo $review->name;?></a></div>
                     
+                       <?php $id = session('client_user_id'); if($id != $review->student_id) {?> 
+                        
                     <a href="javascript:;"
                        <?php 
                          $id = session('client_user_id');
@@ -152,7 +154,24 @@ function goBack() {
                             
                     
                     
-                    </a> <a href="#"><img src="<?php echo CLIENT_IMAGES ;?>/icons/message.png"></a>
+                    </a> <a id="<?= $review->student_id ?>" 
+                                    <?php
+                            $id = session('client_user_id');
+                             if ($id != 0) {
+                                ?>
+                            class="msgg"
+                            <?php
+                        } else {
+                            ?>
+                            data-toggle="modal" data-target=".bs-example-modal-lg" class="msgg_box"
+                            
+                            <?php
+                        }
+                        ?>>
+                             
+                        <img src="<?php echo CLIENT_IMAGES ;?>/icons/message.png"></a>
+                        
+                       <?php }?>
                 </div>
                 
                 <div class="col-sm-9 col-md-9">
@@ -312,6 +331,54 @@ function goBack() {
      </div>
   </div>
  
+ <!---- Message box -->
+
+                            
+                        <div class="modal fade" id="compose_message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <button type="button" class="close pull-right" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h3 class="modal-title tcol_darkblue mb30" id="myModalLabel">Compose Message</h3>
+                <form class="form-horizontal" enctype="multipart/form-data" method="post" action="<?= CLIENT_SITE_URL ?>client_notification/message_insert/">
+                  
+                    <input type="hidden" class="form-control" id="name" name="to" placeholder="Type name" value=""/>
+                    
+
+                    <div class="form-group">
+                        <label for="where" class="col-sm-3 control-label">Subject</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="where" name="sub" placeholder="Subject" required/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shortdesc" class="col-sm-3 control-label">Message</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" name="msg" required> </textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <input type="submit" value="Create" class="home_search_button">
+                            <input type="button" value="Cancel" class="btn btn-default">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+                        
+                        
+                        
+
+
+                        <!---- Message box -->
+
+
+
   <footer>
     <?php $this->load->view(CLIENT_FOOTER);?>
   </footer>

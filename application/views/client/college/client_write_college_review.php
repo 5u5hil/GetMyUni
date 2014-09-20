@@ -51,7 +51,7 @@
                             <div class="form-group mb10">
                                 <label for="year" class="col-sm-4 control-label tcol_grey">Year</label>
                                 <div class="col-sm-8 mb10">
-                                    <input type="text" placeholder="Year" class="form-control year_input" name="year">
+                                    <input type="text" placeholder="Year" class="form-control year_input" name="year" onkeypress="return IsNumeric(event);">
                                     <!--select name="year" class="form-control new-select">
                                       <option>Please Select Year</option>
                                       <option value="1st year">1st year</option>
@@ -61,6 +61,7 @@
                                       <option value="5th year">5th year</option>
                                     </select-->
                                     <label class="error" id="year_err"></label>
+                                    <label id="year_main_err" class="error">Please enter digit only</label>
                                 </div>
                             </div>
 
@@ -99,6 +100,7 @@
                                 <label for="school" class="col-sm-4 control-label tcol_grey">Select Program</label>
                                 <div class="col-sm-8 mb10">
                                     <select name="program_id" class="form-control  new-select">
+                                        <option value=''>Select program</option>
                                         <?php
                                         if (is_array($get_college_program)) {
 
@@ -108,9 +110,10 @@
                                             }
                                         }
                                         ?>
-                                    </select>                              
+                                    </select>   
+                                     <label class="error" id="program_id_err"></label>  
                                 </div>
-                                <label class="error" id="program_id_err"></label>  
+                               
                             </div>
 
 
@@ -431,11 +434,25 @@
 <script src="<?php echo CLIENT_SCRIPTS; ?>bootbox.js"></script>
 <script src="<?php echo CLIENT_SCRIPTS; ?>jquery-ui.min.js"></script>
 <script src="<?php echo CLIENT_MODULES; ?>client_rating_passcode_module_js.js"></script>
+
+<script>
+    
+    var specialKeys = new Array();
+        specialKeys.push(8); //Backspace
+        function IsNumeric(e) {
+            var keyCode = e.which ? e.which : e.keyCode
+            var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1);
+            document.getElementById("year_main_err").style.display = ret ? "none" : "inline";
+            return ret;
+             
+    }
+</script>
+
 <script>
     var coll_dom = "<?= $get_college[0]["email_domain"] ?>";
     $('.popover-dismiss').popover({
         trigger: 'hover'
-    })
+    });
 
     $(document).ready(function() {
 
@@ -460,24 +477,9 @@
         $("#field_10-0").attr('checked', true);
         $("#field_10-0").val("");
         $(".c_0").css('display', 'none');
-    });
-
-    var specialKeys = new Array();
-    specialKeys.push(8); //Backspace
-    $(function() {
-
-        $(".year_input").bind("keypress", function(e) {
-
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57))
-            {
-
-                bootbox.alert("Plase enter digit only", function() {
-                    return false;
-                });
-            }
-
-        });
-        var i = 0;
+        
+        
+         var i = 0;
         $("input#email").focus(function() {
             if (i == 0) {
                 $(this).val("@<?= @$get_college[0]["email_domain"] ?>");
@@ -487,6 +489,7 @@
 
     });
 
+   
 </script>
 
 </body>

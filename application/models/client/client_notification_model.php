@@ -14,7 +14,7 @@ class Client_Notification_Model extends CI_Model {
     }
 
     function get_ticker_notifications($user) {
-        $ticks = $this->db->query("select * from ticker where `to` = $user order by `datetime` desc limit 0,20");
+        $ticks = $this->db->query("select * from ticker where `to` = $user or `to` = 0 order by `datetime` desc limit 0,20");
         if ($ticks->num_rows == 0) {
             return FALSE;
         } else {
@@ -23,7 +23,7 @@ class Client_Notification_Model extends CI_Model {
     }
 
     function get_new_ticker_notifications($user, $id) {
-        $ticks = $this->db->query("select * from ticker where `to` = $user and id > $id order by `datetime` desc limit 0,20");
+        $ticks = $this->db->query("select * from ticker where (`to` = $user or `to` = 0) and id > $id order by `datetime` desc limit 0,20");
         if ($ticks->num_rows == 0) {
             return FALSE;
         } else {
@@ -54,7 +54,7 @@ class Client_Notification_Model extends CI_Model {
     }
 
     function get_unread_notifications($user) {
-        $ticks = $this->db->query("select * from notification where `to` = $user  order by datetime desc");
+        $ticks = $this->db->query("select *, CONVERT_TZ(datetime,'+00:00','". $_SESSION["timeZone"]."') as datetime from notification where `to` = $user  order by datetime desc");
         if ($ticks->num_rows == 0) {
             return "";
         } else {
@@ -92,7 +92,8 @@ class Client_Notification_Model extends CI_Model {
     }
 
     function get_all_messages($user, $offset, $limit) {
-        $msgs = $this->db->query("select * from messages where (`to` = $user or `from` = $user) and mid = 0 order by updated_at desc limit $offset,$limit");
+        
+        $msgs = $this->db->query("select *, CONVERT_TZ(updated_at,'+00:00','". $_SESSION["timeZone"]."') as updated_at from messages where (`to` = $user or `from` = $user) and mid = 0 order by updated_at desc limit $offset,$limit");
         if ($msgs->num_rows == 0) {
             return FALSE;
         } else {
@@ -101,7 +102,7 @@ class Client_Notification_Model extends CI_Model {
     }
 
     function get_message_thread($id) {
-        $msgs = $this->db->query("select * from messages where id=$id or mid = $id order by id asc");
+        $msgs = $this->db->query("select *, CONVERT_TZ(added_at,'+00:00','". $_SESSION["timeZone"]."') as added_at from messages where id=$id or mid = $id order by id asc");
         if ($msgs->num_rows == 0) {
             return FALSE;
         } else {

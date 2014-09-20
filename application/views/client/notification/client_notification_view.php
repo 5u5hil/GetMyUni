@@ -16,7 +16,9 @@
         <div class="row"> 
 
             <div class="col-sm-12 col-md-12"> 
-                <?php foreach ($notifications as $noti) { ?>
+                <?php if(!empty($notifications))
+                    {
+                    foreach ($notifications as $noti) { ?>
                     <div class="notifications">
                         <a href="<?= $noti["link"] ?>">
                             <?= noti_icon($noti["type"]) ?>
@@ -24,12 +26,24 @@
                             <div class="noti_desc"><?= $noti["message"] ?></div>
                         </a>
                     </div>
-                <?php } ?>
+                <?php 
+                
+                }
+                
+                }
+                else 
+                 {
+                   echo "<div class='col-sm-10 col-md-12 col-xs-12 mt20 alert alert-info'>You haven't received any noticications yet!</div>"; 
+                }
+                ?>
             </div>
             <!-- Ad --> 
         </div>
     </div>
-    <div class="col-sm-2 sidebar"> <img src="<?php echo CLIENT_IMAGES; ?>ticker.jpg" class="mt20 img-responsive"> <img src="<?php echo CLIENT_IMAGES; ?>adspace.jpg" class="mt10 img-responsive"> <img src="<?php echo CLIENT_IMAGES; ?>adspace2.jpg" class="mt10 img-responsive"> <img src="<?php echo CLIENT_IMAGES; ?>adspace4.jpg" class="mt10 img-responsive"> </div>
+    <div class="col-sm-2 sidebar"> 
+        <?php  $this->load->view(CLIENT_TICKER_VIEW);?>
+	<?php $this->load->view(CLIENT_ADS_VIEW); ?>
+    </div>
 </div>
 </div>
 <footer>

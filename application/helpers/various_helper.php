@@ -207,6 +207,42 @@ function client_pagiantion($pagination_url, $total_row, $per_page, $current_page
     return $pagination;
 }
 
+
+function client_pagiantion2($pagination_url, $total_row, $per_page, $current_page, $uri_segment) {
+
+    $CI = & get_instance();
+    $CI->load->library('pagination');
+    $config['base_url'] = $pagination_url;
+    $config['per_page'] = $per_page;
+    $config['cur_page'] = $current_page;
+    $config['total_rows'] = $total_row;
+    $config['uri_segment'] = $uri_segment;
+    $config['first_url'] = '1';
+    $config['full_tag_open'] = '<ul class="pagination pull-right" id="searchpage">';
+    $config['full_tag_close'] = '</ul>';
+    $config['first_tag_open'] = '<li>';
+    $config['first_tag_close'] = '</li>';
+    $config['last_tag_open'] = '<li>';
+    $config['last_tag_close'] = '</li>';
+    $config['cur_tag_open'] = '<li class="active"><a class="active" href="javascript:;">';
+    $config['cur_tag_close'] = '</li></a>';
+    $config['next_tag_open'] = '<li>';
+    $config['next_tag_close'] = '</li>';
+    $config['prev_tag_open'] = '<li>';
+    $config['prev_tag_close'] = '</li>';
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+    $config['first_link'] = 'First';
+    $config['next_link'] = 'Next';
+    $config['prev_link'] = 'Prev';
+    $config['last_link'] = 'Last';
+    $config['use_page_numbers'] = TRUE;
+    $CI->pagination->initialize($config);
+    $pagination = $CI->pagination->create_links();
+    return $pagination;
+}
+
+
 function client_pagiantion1($pagination_url, $total_row, $per_page, $current_page, $uri_segment) {
 
     $CI = & get_instance();
@@ -237,8 +273,8 @@ function client_pagiantion1($pagination_url, $total_row, $per_page, $current_pag
     $config['last_link'] = 'Last';
     $config['use_page_numbers'] = TRUE;
     $CI->pagination->initialize($config);
-    $pagination = $CI->pagination->create_links();
-    return $pagination;
+    $pagination1 = $CI->pagination->create_links();
+    return $pagination1;
 }
 
 function date_time_diff($date) {

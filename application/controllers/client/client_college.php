@@ -83,6 +83,7 @@ class Client_college extends CI_Controller {
         $data['get_field'] = $this->admin_college_model->field_of_study();
         $data['get_topsectors'] = $this->admin_college_model->get_topsectors();
         $data['get_user_following_info'] = $this->model->get_user_following_info();
+        $data['get_degree']              = $this->model->get_college_degree();
 
         if ($id) {
             

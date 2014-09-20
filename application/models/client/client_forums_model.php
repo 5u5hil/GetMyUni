@@ -156,6 +156,19 @@ class Client_Forums_Model extends CI_Model {
         }
     }
 
+    function get_discussion_details_indi($id) {
+        if (is_numeric($id)) {
+            $discussion_details = $this->db->query("select d.*, d.id as did, d.added_by d_by,u.name,u.profile_pic  from user_forum_topic_discussions d, user_forum_topics t , master_forums f, user u where d.id=$id and d.added_by = u.id and d.topic_id = t.id and d.forum_id = f.id limit 1");
+            if ($discussion_details->num_rows == 0) {
+                return FALSE;
+            } else {
+                return $discussion_details->result_array(); 
+            }
+        } else {
+            return FALSE;
+        }
+    }
+    
     function update_discussion_comments($id, $comments) {
         if (is_numeric($id)) {
             $update = $this->db->query("update user_forum_topic_discussions set comments = '$comments', updated_at = '" . date("Y-m-d H:i:s") . "' where id=$id");
@@ -263,7 +276,7 @@ class Client_Forums_Model extends CI_Model {
 
     function get_all_school_discussions($id, $pageno, $limit) {
         if (is_numeric($id) && is_numeric($pageno) && is_numeric($limit)) {
-            $discussions = $this->db->query("select d.*, u.name, u.profile_pic from school_walls d, user u where d.school_id = $id and d.added_by = u.id order by d.updated_at desc limit $pageno, $limit");
+            $discussions = $this->db->query("select d.*, u.name, u.profile_pic from school_walls d, user u where d.school_id = $id and d.a_by = u.id order by d.updated_at desc limit $pageno, $limit");
             if ($discussions->num_rows == 0) {
                 return FALSE;
             } else {
@@ -290,6 +303,7 @@ class Client_Forums_Model extends CI_Model {
     function update_wall_discussion_comments($id, $comments) {
         if (is_numeric($id)) {
             $update = $this->db->query("update school_walls set comments = '$comments', updated_at = '" . date("Y-m-d H:i:s") . "' where id=$id");
+           
             if ($update) {
                 return TRUE;
             } else {
@@ -303,6 +317,7 @@ class Client_Forums_Model extends CI_Model {
     function update_wall_discussion_likes($id, $likes) {
         if (is_numeric($id)) {
             $update = $this->db->query("update school_walls set likes = '$likes', updated_at = '" . date("Y-m-d H:i:s") . "' where id=$id");
+             
             if ($update) {
                 return TRUE;
             } else {
@@ -315,7 +330,8 @@ class Client_Forums_Model extends CI_Model {
 
     function insert_new_wall_discussion($school_id, $user_id, $title, $time, $comments, $likes) {
         if (is_numeric($school_id) && is_numeric($user_id)) {
-            $insert = $this->db->query("insert into school_walls(`school_id`,`disc`,`added_by`,`added_at`,`updated_at`,`comments`,`likes`) values($school_id,'$title','$user_id','$time','$time','$comments','$likes')");
+            $insert = $this->db->query("insert into school_walls(`school_id`,`disc`,`a_by`,`added_at`,`updated_at`,`comments`,`likes`) values($school_id,'$title','$user_id','$time','$time','$comments','$likes')");
+           
             if ($insert) {
                 return $this->db->insert_id();
             } else {

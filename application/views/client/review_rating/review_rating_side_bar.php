@@ -107,7 +107,7 @@
 		<div class="filter_search">
           	<div class="degree_type">
             	<div class="f_18 mb10">MAJORS</div>
-                <select name="majors" class="form-control">
+                <select name="majors" class="form-control new-select">
                 	 <option value="">Select Field</option>
                             <?php		
                                    $data['get_domain']	= $this->model->get_majors_domains(); 
@@ -129,7 +129,7 @@
 		<div class="filter_search">
           	<div class="degree_type">
             	<div class="f_18 mb10">COUNTRY/ CITY</div>
-                <select name="country" class="form-control">
+                <select name="country" class="form-control new-select">
                 	<option value=""> Country/ City </option>
                 	<?php 
 

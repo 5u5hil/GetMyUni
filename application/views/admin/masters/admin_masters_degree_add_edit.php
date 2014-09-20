@@ -1,24 +1,40 @@
 <?php $this->load->view(ADMIN_HEADER);?>
-		
+		<div class="pageheader">
+		  <h2><i class="fa fa-home"></i>Master Degree<!--span>All elements to manage your School...</span--></h2>
+		  <!--div class="breadcrumb-wrapper">
+			<span class="label">You are here:</span>
+			<ol class="breadcrumb">
+			  <li><a href="index.php">GetMyUni</a></li>
+			  <li class="active">Manage College</li>
+			</ol>
+		  </div-->
+		</div>
 			<div class="row">
 		<div class="col-md-12">
-          
-            
-            
-            <form action="#" method="post" >
+          <?php
+							
+                if($this->uri->segment(4))
+                {
+                        $ans = $get_master_degree;
+                        //display($ans);
+                        //display(json_decode($ans->college_logo));
+                }
+          ?>
+            <form action="#" method="post" id="degree_form">
             <div class="panel panel-default">
             <div class="panel-body">
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label class="control-label">Master Degree <span class="asterisk">*</span></label>
-                    <input type="text" name="schoolname" class="form-control" />
-                    <label for="name" class="error">This field is required.</label>
+                    <input type="text" name="master_degree" class="form-control" value="<?php echo isset($ans->degree_name)  ? $ans->degree_name : ''?>"/>
+                    <label for="name" id="master_degree_err" class="error">This field is required.</label>
                   </div>
                 </div>
+                  <input type="hidden" name="hidden_master_deree_id" id="hidden_master_deree_id" value="<?php echo $this->uri->segment(4);?>">
                 <div class="clearfix"></div>
                 <div class="col-sm-6">
-                  <div class="form-group">
+                  <!--div class="form-group">
                     <label class="control-label">Status <span class="asterisk">*</span></label>
                     <div class="ckbox ckbox-default">
 						<select type="select" class="form-control">
@@ -28,23 +44,15 @@
 						</select>
 					  </div>
                     <label for="degree" class="error">This field is required.</label>
-                  </div>
+                  </div-->
                 </div>
                 	 <div class="clearfix"></div>
-                   <div class="col-sm-4"><input type="submit" class="btn btn-danger btn-block" value="Cancel"></div>
-                   <div class="col-sm-4"><input type="submit" class="btn btn-primary btn-block" value="Submit"></div>
+                   <div class="col-sm-4"><input type="reset" class="btn btn-danger btn-block" value="Cancel"></div>
+                   <div class="col-sm-4"><input type="submit" class="btn btn-primary btn-block" value="Submit" id="submit_degree"></div>
             
-
-                
-               
-                
               </div><!-- row -->
               </div>
             </div> 
-            
-             
-              
-            
             
            </form>
         </div>
@@ -52,64 +60,11 @@
       </div>
 			
 			
-			
-			
-		
 		</div><!-- contentpanel -->
     
 	</div><!-- mainpanel -->
   
-	<!--<div class="rightpanel">
-		<?php //include('rightpanel.php') ?>
-	</div>--><!-- rightpanel -->
-  
-	<!-- Import xls/csv -->
-	<div class="modal fade" id="import" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	  <div class="modal-dialog">
-		<div class="modal-content">
-		  <div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h4 class="modal-title" id="myModalLabel">Import Exhibitors - xls/csv</h4>
-		  </div>
-		  <div class="modal-body">
-			<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
-			aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo
-			enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui
-			ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
-			adipisci velit.</p>
-			
-			<div class="row mb10">
-				<div class="col-sm-6">
-					<div class="fileupload fileupload-new" data-provides="fileupload">
-					  <div class="input-append">
-						<div class="uneditable-input">
-						  <i class="glyphicon glyphicon-file fileupload-exists"></i>
-						  <span class="fileupload-preview"></span>
-						</div>
-						<span class="btn btn-default btn-file">
-						  <span class="fileupload-new">Browse</span>
-						  <span class="fileupload-exists">Change</span>
-						  <input type="file" />
-						</span>
-					  </div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-6">
-					<button type="button" class="btn btn-primary btn-block">Download Sample File</button>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6 col-md-6">
-					<button type="button" class="btn btn-primary btn-block">Upload with over-right</button>
-				</div>
-				<div class="col-sm-6 col-md-6">
-					<button type="button" class="btn btn-primary btn-block">Upload</button>
-				</div>
-			</div>
-		  </div>
-		</div>
-	  </div>
-	</div>
+	
 	
 </section>
 <?php $this->load->view(ADMIN_FOOTER);?>

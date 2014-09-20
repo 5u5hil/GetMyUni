@@ -6,6 +6,7 @@ if (!defined('BASEPATH'))
 class client_review_rating_model extends CI_Model {
 
     function insert_review_rating($ans) {
+        $university_name = ucwords(str_replace("-", " ", $this->uri->segment(4)));
         $data = array
             (
             'college_id' => $ans['college_id'],
@@ -32,6 +33,10 @@ class client_review_rating_model extends CI_Model {
         );
 
         $this->db->insert('college_review_rating', $data);
+        $max_id = $this->db->insert_id();
+        insert_user_review_notification($university_name,$ans['college_id'],$max_id);
+        return $max_id;
+        
         //show_query();
     }
 

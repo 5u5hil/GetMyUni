@@ -1,4 +1,3 @@
-	 
 
 <?php $this->load->view(CLIENT_HEADER); ?>
 
@@ -13,9 +12,32 @@
                     </div>
                     <div class="col-xs-12 col-md-6">
                         <ul class="homesearch_submenu">
-                            <li><a href="javascript:;"  id="bachelors" onClick="chk_active('bachelors')">BACHELORS</a></li>
+                            <?php
+                                $fdegree = $get_degree;
+                                
+                                if (is_array($fdegree)) 
+                                    {
+                                        
+                                        foreach ($fdegree as $val_degree) {
+                                            $class = '';
+                                           
+                                                if($val_degree['degree_name'] == "Masters")
+                                                
+                                                    
+                                                    $class = "active";
+                                       
+                                            ?>
+                                            
+                                             <li><a href="javascript:;" class='<?php echo $class;?>' id="<?php echo $val_degree['degree_name'];?>" onClick="chk_active('<?php echo $val_degree['degree_name'];?>')"><?php echo $val_degree['degree_name'];?></a></li>
+                                            <?php
+                                                
+                                        }
+                                     }
+                            
+                            ?>
+                            <!--li><a href="javascript:;"  id="bachelors" onClick="chk_active('bachelors')">Bachelors</a></li>
                             <li><a href="javascript:;" id="masters" class="active"  onClick="chk_active('masters')">Masters</a></li>
-                            <li><a href="javascript:;" id="doctorate" onClick="chk_active('doctorate')">Doctorate</a></li>
+                            <li><a href="javascript:;" id="doctorate" onClick="chk_active('doctorate')">Doctorate</a></li-->
                         </ul>
                     </div>
                 </div>
@@ -65,7 +87,7 @@
                                             <div class="col-sm-12">
                                                 <div class="form-group">
                                                     <label class="control-label home_search_label">Select your majors</label>
-                                                    <select class="multiselect" name="course[]" multiple="multiple">
+                                                    <select class="new-select multiselect " name="course[]" multiple="multiple">
 
                                                         <?php
                                                         $fans = $get_domain;
@@ -93,7 +115,7 @@
                                             <div class="col-sm-12">
                                                 <div class="form-group">
                                                     <label class="control-label home_search_label">Where would you like to study?</label>
-                                                    <select class="form-control country multiselect" name="country[]" multiple="multiple">
+                                                    <select class="new-select form-control country multiselect " name="country[]" multiple="multiple">
 
                                                         <?php
                                                         $fans = $get_country;
@@ -166,17 +188,17 @@
             <div class="row">
                 <div class="col-md-3 text-center">
                     <center><a href="<?php echo CLIENT_SITE_URL ?>client_review_rating/review_rating_view"><img src="<?php echo CLIENT_IMAGES; ?>icons/review_rating.jpg" class="img-responsive"></a></center>
-                    <div class="home_subtitle"><a  class="home_subtitle" href="<?php echo CLIENT_SITE_URL ?>client_review_rating/review_rating_view">Reviews & Ratings</a></div>
+                    <div class="home_subtitle"><a  class="home_subtitle" href="<?php echo CLIENT_SITE_URL ?>client_review_rating/review_rating_view">Reviews and Ratings</a></div>
                     <p class="font_sans home_cat">Peer opinion/student’s voice </p>
                 </div>
                 <div class="col-md-3 text-center">
                     <center><a href="<?php echo CLIENT_SITE_URL ?>client_forums/forum_list_view"><img src="<?php echo CLIENT_IMAGES; ?>icons/forums.jpg" class="img-responsive"></a></center>
-                    <div class="home_subtitle"><a class="home_subtitle" href="<?php echo SITE_URL ?>communities/1/">Forums</a></div>
+                    <div class="home_subtitle"><a class="home_subtitle" href="<?php echo SITE_URL ?>client_forums/forum_list_view ">Forums</a></div>
                     <p class="font_sans home_cat">Any questions ?</p>
                 </div>
                 <div class="col-md-3 text-center">
-                    <center><a  href="<?php echo CLIENT_SITE_URL ?>client_forums/forum_list_view"><img src="<?php echo CLIENT_IMAGES; ?>icons/communities.jpg" class="img-responsive"></a></center>
-                    <div class="home_subtitle"><a class="home_subtitle" href="<?php echo CLIENT_SITE_URL ?>client_forums/forum_list_view">Communities</a></div>
+                    <center><a  href="<?php echo SITE_URL ?>communities/1/"><img src="<?php echo CLIENT_IMAGES; ?>icons/communities.jpg" class="img-responsive"></a></center>
+                    <div class="home_subtitle"><a class="home_subtitle" href="<?php echo SITE_URL ?>communities/1/">Communities</a></div>
                     <p class="font_sans home_cat">Meet fellow students</p>
                 </div>
                 <div class="col-md-3 text-center">

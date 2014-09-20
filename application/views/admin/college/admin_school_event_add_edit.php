@@ -17,6 +17,21 @@
 		<div class="col-md-12">
  
             <form id="school_event_form">
+                
+                <?php
+				
+                   // $ans = $get_school_event_id;
+                                //display($ans);
+                        if($this->uri->segment(4))
+                        {
+                                $ans = $get_school_event_id;
+                               // display($ans);
+                                //display(json_decode($ans->college_logo));
+                        }
+
+		?>
+                
+                
             <div class="panel panel-default">
             <div class="panel-body">
               <div class="row">
@@ -28,7 +43,7 @@
 					  <div class='controls'><div id='filelist' ></div>
 									<div style='clear:both;'></div>
 									<div id='container'>
-									
+                                                                            <?php if(isset($ans->event_img)){ if(!empty($ans->event_img)){ $logo = $ans->event_img; $ans_file_name = (explode(".",$logo)); echo "<div class='display_image' id='main-$ans_file_name[0]'><image src='/public/admin/scripts/plugins/uploads/event_img/$logo'  height='100px' width='100px'><br><input type='hidden' id='event_img' name='event_img' id='filename' value='$logo'> <a class='remove_logo' id='$ans_file_name[0]' href='javascript:;'>Remove</a></div>";}}?>
 									<br>
 									<div style="clear:both;"></div>
 									<a id='eventimg' href='javascript:;'><button><b>Choose File</b></button></a>
@@ -41,17 +56,17 @@
 				
                   <div class="form-group">
                     <label class="control-label">Event Name <span class="asterisk">*</span></label>
-                    <input type="text" name="event_name" class="form-control" />
+                    <input type="text" name="event_name" class="form-control" value="<?php echo isset($ans->event_name)  ? $ans->event_name : ''?>"/>
                     <label for="name" class="error" id="event_name_err">This field is required.</label>
                   </div>
 				  <div class="form-group">
                     <label class="control-label">Event Date <span class="asterisk">*</span></label>
-                    <input type="text" name="event_date" class="form-control"  id="event_date"/>
+                    <input type="text" name="event_date" class="form-control"  id="event_date" value="<?php echo isset($ans->event_date)  ? $ans->event_date : ''?>"/>
                     <label for="name" class="error" id="event_date_err">This field is required.</label>
                   </div>
 				   <div class="form-group">
                     <label class="control-label">Event Location <span class="asterisk">*</span></label>
-                    <input type="text" name="event_location" class="form-control" />
+                    <input type="text" name="event_location" class="form-control" value="<?php echo isset($ans->event_location)  ? $ans->event_location : ''?>"/>
                     <label for="name" class="error" id="event_location_err">This field is required.</label>
                   </div>
                 </div>
@@ -69,8 +84,20 @@
 									foreach($get_school as $val)
 									{
 									
+                                                                            $selected       = '';
+                                                                            if( $ans != "no")
+                                                                            {
+
+
+                                                                                if($ans->event_school_id == $val['id'])
+                                                                                        $selected       = 'selected';
+
+                                                                                ?>
+                                                                                <option <?php echo $selected;?> value="<?php echo $val['id']?>"><?php echo $val['school_name']."-".$val['field_name']?></option>
+                                                      <?php
+                                                                            }
 							?>
-										<option value="<?php echo $val['id']?>"><?php echo $val['school_name']."-".$val['field_name']?></option>
+										
 										
 							<?php		}
 									
@@ -83,6 +110,7 @@
 					  </div>
                     <label for="degree" class="error" id="school_name_err">This field is required.</label>
                   </div>
+                     
                 </div>
 				
 				 <input type="hidden" name="hidden_event_id" id="hidden_college_id" value="<?php echo $this->uri->segment(4);?>">
@@ -116,7 +144,7 @@ $(function() {
         browse_button                                                           : 'eventimg',
         container                                                               : 'container',
         max_file_size                                                           : '10mb',
-        url                                                                     : '<?php echo ADMIN_SCRIPTS ;?>plugins/upload.php/?image_type=eventimg',//site_url+'admin/breed/process_image',
+        url                                                                     : '<?php echo ADMIN_SCRIPTS ;?>plugins/upload.php/?image_type=event_img',//site_url+'admin/breed/process_image',
         flash_swf_url                                                           : site_url+'ui/admin/scripts/plugin/plupload/js/plupload.flash.swf',
         silverlight_xap_url                                                     : site_url+'ui/admin/scripts/plugin/plupload/js/plupload.silverlight.xap',
         filters : [

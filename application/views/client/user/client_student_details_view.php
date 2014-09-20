@@ -23,17 +23,10 @@
                           
 
                             <?php
-                            if (isset($user_data->profile_pic) && (($user_data->profile_pic != '[""]'))) {
-                                if (is_array(json_decode($user_data->profile_pic))) {
-                                    foreach ((json_decode($user_data->profile_pic)) as $key => $val) {
-                                        echo "<div class='display_image' id='main-$key'><div class=''><image src='$val'  class='studentprofilepic img-responsive'></div><br><input type='hidden'  value='$val' name='profile_pic[]'> <div class='text-center'><a class='remove_logo' id='$key' href='javascript:;'>Remove</a></div></div>";
-                                    }
-                                }
-								else{?>
-								<div class='display_image '><div class=''><img class="studentprofilepic" src=<?php echo CLIENT_IMAGES ;?>defaultuser.jpg></div></div>
-                           <?php                          
+                            if (isset($user_data->profile_pic) && (($user_data->profile_pic != ""))) {
+                                $pro_pic = stripslashes(str_replace(array("[", "]", "(", ")"), " ", $user_data->profile_pic));
+                                        echo "<div class='display_image' id='main-0'><div class=''><image src=$pro_pic  class='studentprofilepic img-responsive'></div><br><input type='hidden'  value=$pro_pic name='profile_pic[]'> <div class='text-center'><a class='remove_logo' id='0' href='javascript:;'>Remove</a></div></div>";
                             }
-							}
 							else
 							{
                             ?>

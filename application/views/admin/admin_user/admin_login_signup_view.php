@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="<?php echo CLIENT_IMAGES ;?>GMU_favicon.png" />
     <link rel="stylesheet" href="<?php echo CLIENT_FONTS ;?>font-awesome/css/font-awesome.min.css">
     <script src="<?php echo ADMIN_SCRIPTS ;?>jquery-1.10.2.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="<?php echo ADMIN_MODULES?>admin_user_module_js.js"></script>
+    <script type="text/javascript" src="<?php echo ADMIN_MODULES?>admin_college_module_js.js"></script>
     <script type="text/javascript">
     SITE_URL    = '<?php echo SITE_URL?>';
     CLIENT_SIGNUP_LOGIN_VIEW = '<?php echo CLIENT_SIGNUP_LOGIN_VIEW?>'

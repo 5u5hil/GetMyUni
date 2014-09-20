@@ -11,7 +11,7 @@
                 <h1 class="page_title">Profile</h1>
             </div>
         </div>
-        <form class="form-horizontal student_profile" id="save_user_profile" onsubmit="return false">
+       <form class="form-horizontal student_profile" id="save_user_profile" onsubmit="return false">
             <div class="row mt20">
                 <div class="col-sm-3 col-md-3 text-center">
 
@@ -19,40 +19,31 @@
                     <div class='controls'><div id='filelist' ></div>
                         <div style='clear:both;'></div>
                         <div id='container'>
-
-                            <!-- <div id="hexagon">
-                                                                     <img src="<?php echo CLIENT_IMAGES; ?>icons/default_profile.png" class="img-responsive" id="hexagon"></div>-->
-
-<!--<div class="hexa gon"> <img src="<?php echo CLIENT_IMAGES; ?>adspace.jpg" class="img-responsive" > </div>-->
+                               <div id="sub_container">
+                          
 
                             <?php
-                            if (isset($user_data->profile_pic) && (($user_data->profile_pic != '[""]'))) {
-                                if (is_array(json_decode($user_data->profile_pic))) {
-                                    foreach ((json_decode($user_data->profile_pic)) as $key => $val) {
-                                        echo "<div class='display_image' id='main-$key'><div class=''><image src='$val'  class='studentprofilepic img-responsive'></div><br><input type='hidden'  value='$val' name='profile_pic[]'> <div class='text-center'></div></div>";
-                                    }
-                                }
-								else{?>
-								<div class='display_image '><div class=''><img class="studentprofilepic" src=<?php echo CLIENT_IMAGES ;?>defaultuser.jpg></div></div>
-                           <?php                          
+                            if (isset($user_data->profile_pic) && (($user_data->profile_pic != ""))) {
+                                $pro_pic = stripslashes(str_replace(array("[", "]", "(", ")"), " ", $user_data->profile_pic));
+                                        echo "<div class='display_image' id='main-0'><div class=''><image src=$pro_pic  class='studentprofilepic img-responsive'></div><br><input type='hidden'  value=$pro_pic name='profile_pic[]'> <div class='text-center'></div></div>";
                             }
-							}
 							else
 							{
                             ?>
 							<div class='display_image '><div class=''><img class="studentprofilepic" src=<?php echo CLIENT_IMAGES ;?>defaultuser.jpg></div></div>
 							<?php }?>
                             <br><br>
+                            </div>
                             <div style="clear:both;"></div>
-
-                           
+                            
+                          
 
                         </div>
+                        
                         <span id="image1_err"  class="error"></span> <span id="imgerror" class="error"></span>
                     </div>
 					
-					
-                    
+		
                 </div>
                 <div class="col-sm-8 col-md-8">
                     <h2 class="tcol_darkblue mb20"> Personal Info </h2>
@@ -120,10 +111,13 @@
                                 $country = getMasters('country');
                                 if ($country) {
 
-                                    foreach ($country as $con1) {
+                                    foreach ($country as $con) {
                                      
-                                        if ($con1['country_id'] == $user_data->preferred_destination)
+                                            
+                                        if ($con['country_id'] == $user_data->preferred_destination)
                                         {
+                                                //echo $con1['country_id'];
+                                             //echo $user_data->preferred_destination;
                                          ?>
                                             <label  class="control-label"><?php echo $con['country_name'] ?></label>
                                       <?php 
@@ -141,7 +135,7 @@
                     <h2 class="tcol_darkblue mb30 mt30"> Educational Info </h2>
 
                     <div class="form-group">
-                        <label  class="col-sm-12">Qualification</label>
+                        <!--label  class="col-sm-12">Qualification</label-->
                         <div class="col-sm-12">
                             <div class="row mt10">
                                 <div class="">
@@ -153,37 +147,39 @@
                                 if (!empty($get_edu)) {
                                     
                                     ?>
-                                     <div  class="col-sm-9 select_school_name">
+                                     <div  class="col-sm-13 select_school_name">
                                     <?php $i = 1;
                                     foreach ($get_edu as $edu_info) {
                                         ?>
                                        
                                             <div id="school_name_<?php echo $i ?>" class="count_school_name">
                                                 
-                                                    <select type="select" class="form-control new-select select_school_name_<?php echo $i ?> _pro-school-sel" name="schoolname[]">
-                                                        <option value="00-00-00">Select School Name</option>
+                                                   
                                                         <?php
                                                         foreach ($get_school_name as $school_ans) {
 
-                                                            $pre_selected = '';
+                                                            
                                                             if ($school_ans['id'] == $edu_info['college_id'])
-                                                                $pre_selected = 'selected';
-
-                                                            echo '<option ' . $pre_selected . ' value="' . $school_ans['id'] . '-' . $school_ans['field_study'] . '-' . $school_ans['degree'] . '">' . $school_ans['school_name'] . ' - ' . $school_ans['degree_name'] . ' - ' . $school_ans['field_name'] . '</option>';
+                                                            {
+                                                            ?>
+                                                           
+                                                        <label  ><?php echo $school_ans['school_name'] . ' - ' . $school_ans['degree_name'] . ' - ' . $school_ans['field_name']  ?></label>
+                                                      
+                                                           
+                                                        <?php 
+                                                            
+                                                        }
                                                         }
                                                         ?>
-                                                        <option value="0-0-0" <?php if($edu_info['college_id'] == 0) { echo "selected = selected";}?>class="other">other</option>
-                                                        
-                                                    </select> 
+                                                      
                                                   
                                                 <div class="school_name_<?php echo $i; ?>" <?php if ($edu_info['other'] == "") { ?> style='display:none;' <?php } ?>>
                                                     <div class="row">
                                                         <div class="col-sm-4 " >
-                                                            <input type="text" name="other_schoolname[]" class="mt10 form-control _pro-school-text"  placeholder="School Name" value="<?php echo $edu_info['other']; ?>"> 
+                                                            <label  name="other_schoolname[]" class="control-label" ><?php echo $edu_info['other']; ?></label> 
                                                         </div>
                                                         <div class="col-sm-4">
-                                                            <select type="select" class="form-control new-select select_degree mt10" name="school_degree[]">
-                                                                <option value="">Select Degree</option>
+                                                            
                                                                 <?php
                                                                 foreach ($master_degree as $degree) {
 
@@ -191,16 +187,20 @@
                                                                     if ($edu_info['other'] != "") {
                                                                         if ($degree['id'] == $edu_info['degree']) {
                                                                             $pre_selected = 'selected';
-                                                                        }
+                                                                        
+                                                                    
+                                                                    ?>
+                                                                   
+                                                                     <label><?php echo $degree['degree_name']; ?></label>
+                                                               <?php
                                                                     }
-                                                                    echo '<option ' . $pre_selected . ' value="' . $degree['id'] . '">' . $degree['degree_name'] . '</option>';
+                                                                }
                                                                 }
                                                                 ?>
-                                                            </select>
+                                                          
                                                         </div>
                                                         <div class="col-sm-4">
-                                                            <select type="select" class="form-control new-select select_field mt10" name="school_field[]"> 
-                                                                <option value="">Select field</option>
+                                                          
                                                                 <?php
                                                                 foreach ($study_field as $field) {
 
@@ -208,12 +208,18 @@
                                                                     if ($edu_info['other'] != "") {
                                                                         if ($field['id'] == $edu_info['field_study'])
                                                                             $pre_selected = 'selected';
+                                                                    
+                                                                 ?>
+                                                                    
+                                                                     <label><?php echo $field['field_name']; ?></label>
+                                                                <?php 
                                                                     }
-                                                                    echo '<option ' . $pre_selected . ' value="' . $field['id'] . '">' . $field['field_name'] . '</option>';
-                                                                }
+                                                                     }
+                                                                     
+                                                                   
                                                                 ?>
 
-                                                            </select>
+                                                          
                                                         </div>
                                                     </div>
                                                 </div>
@@ -229,7 +235,7 @@
                                
                                             
 
-                                        <div class="col-sm-3">   <input type="button" class="btn btn-primary" value="Add" id="add_school_name">
+                                        <div class="col-sm-3">   
                                              <div class="remove_school" >
                                                   <?php $i = 1;
                                     foreach ($get_edu as $edu_info) {
@@ -238,9 +244,7 @@
                                              
                                             <?php } else {  if(($edu_info["other"] == "")){?>
 
-                                              
-											   
-											   
+                                              				   
 													<div class="school_name_<?php echo $i;?>" style='height:22px; display:block;'>&nbsp;
                                         </div>
 													
@@ -253,7 +257,7 @@
 													
 												
 
-                                                    <div class="eduaddbtn btn btn-primary mt27 remove-btn-<?php echo $i ?>" style="margin:1px 0 0;">Remove</div>
+                                                  
 
 
                                                 
@@ -268,224 +272,10 @@
 
                                         <?php
                                    
-                                } else {
+                                        } 
                                     ?>
 
-                                    <div class="col-sm-9 select_school_name">
-                                        <div id="school_name_0" >
-                                            <select type="select" class="form-control new-select select_school_name_0 _pro-school-sel" name="schoolname[]">
-                                                <option value="">Select School Name</option>
-                                                <?php
-                                                foreach ($get_school_name as $school_ans) {
-
-                                                    echo '<option  value="' . $school_ans['id'] . '-' . $school_ans['field_study'] . '-' . $school_ans['degree'] . '">' . $school_ans['school_name'] . ' - ' . $school_ans['degree_name'] . ' - ' . $school_ans['field_name'] . '</option>';
-                                                }
-                                                ?>
-                                                <option value="0-0-0" class="other">other</option>
-                                            </select>   
-                                            <div class="school_name_0">
-                                                <div class="row">
-                                                    <div class="col-sm-4 " >
-                                                        <input type="text" name="other_schoolname[]" class="mt10 form-control _pro-school-text"  placeholder="School Name"   value=""> 
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <select type="select" class="form-control new-select select_degree mt10" name="school_degree[]">
-                                                            <option value="">Select Degree</option>
-                                                            <?php
-                                                            foreach ($master_degree as $degree) {
-
-                                                                $pre_selected = '';
-
-
-                                                                echo '<option ' . $pre_selected . ' value="' . $degree['id'] . '">' . $degree['degree_name'] . '</option>';
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <select type="select" class="mt10 form-control new-select select_field" name="school_field[]">
-                                                            <option value="">Select field</option>
-
-
-                                                            <?php
-                                                            foreach ($study_field as $field) {
-
-                                                                $pre_selected = '';
-
-
-                                                                echo '<option ' . $pre_selected . ' value="' . $field['id'] . '">' . $field['field_name'] . '</option>';
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div> 
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-3" id=" hide_div" >
-
-                                        <!--input type="button" class="btn btn-primary" value="Add" id="add_school_name"-->
-
-                                        <div class="school_name_0" style="height:44px; display:block;">
-                                            &nbsp;
-                                        </div>
-
-
-                                        <div class="remove_school">
-
-                                        </div>
-
-                                    </div>
-                                    <?php
-                                }
-                                ?>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group mt20">
-                        <label  class="col-sm-12">Test taken and scores</label>
-                        <div class="col-sm-12">
-                            <div class="row mt10 mb30">
-                                <?php
-                                if (!empty($get_test)) {
-                                    ?>
-                                    <div class="col-sm-5">
-                                        <!--label> Test Name</label-->
-
-                                        <div id="select_test_name" >
-                                            <?php
-                                            $i = 1;
-                                            foreach ($get_test as $edu_test) {
-                                                ?>
-
-                                                <div id="test_name_<?php echo $i; ?>" class="test_name">
-
-                                                    <select type="select" class="form-control new-select mb10 pro_test_sel" name="test_name[]">
-                                                        <option value="">Test Name</option>
-                                                        <?php
-                                                        $exam_type = getMasters('exam_type');
-
-                                                        if ($exam_type) {
-                                                            foreach ($exam_type as $exam_name) {
-                                                                $pre_selected = '';
-                                                                if ($exam_name['id'] == $edu_test['test_name'])
-                                                                    $pre_selected = 'selected';
-                                                                echo '<option  ' . $pre_selected . ' value="' . $exam_name['id'] . '">' . $exam_name['name'] . '</option>';
-                                                            }
-                                                        }
-                                                        ?>				
-                                                    </select> 
-
-
-                                                </div>
-                                                <?php
-                                                $i++;
-                                            }
-                                            ?>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-
-                                        <div id="test_score_text">
-                                            <?php
-                                            $i = 1;
-                                            foreach ($get_test as $edu_test) {
-                                                ?>
-
-                                                <div id="test_score_<?php echo $i; ?>" class="test_name">
-                                                    <input type="text" name="tsetscore[]" class="form-control testscore mb10"   placeholder="Test Score"  value="<?php echo $edu_test['test_score'] ?>"> 
-                                                </div>
-                                                <?php
-                                                $i++;
-                                            }
-                                            ?>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-3">
-                                        <label> &nbsp;</label>
-                                        <!--input type="button" class="btn btn-primary" value="Add" id="add_test"--><br/>
-
-                                        <div id="remove">
-
-                                            <?php
-                                            $i = 1;
-                                            foreach ($get_test as $edu_test) {
-
-                                                if ($i >= 2) {
-                                                    ?>
-
-                                                   
-                                                    <div class="eduaddbtn btn btn-primary mt27 r-btn-<?php echo $i; ?>" style="margin:8px 0 0;">Remove</div>
-
-                                                    <?php
-                                                }
-                                                $i++;
-                                            }
-                                            ?>
-                                        </div>
-                                    </div>
-
-                                    <?php
-                                } else {
-                                    ?>
-
-
-                                    <div class="col-sm-5">
-                                        <!--label> Test Name</label-->
-
-                                        <div id="select_test_name">
-
-                                            <div id="test_name_1" class="test_name">
-                                                <select type="select" class="form-control new-select mb10 pro_test_sel" name="test_name[]">
-                                                    <option value="">Test Name</option>
-                                                    <?php
-                                                    $exam_type = getMasters('exam_type');
-
-                                                    if ($exam_type) {
-                                                        foreach ($exam_type as $exam_name) {
-
-                                                            echo '<option  value="' . $exam_name['id'] . '">' . $exam_name['name'] . '</option>';
-                                                        }
-                                                    }
-                                                    ?>				
-                                                </select> 
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-
-                                        <div id="test_score_text">
-
-
-                                            <div id="test_score_1" class="test_name">
-                                                <input type="text" name="tsetscore[]" class="form-control testscore mb10"   placeholder="Test Score"> 
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-2">
-                                      
-                                        <!--input type="button" class="btn btn-primary" value="Add" id="add_test"--><br/>
-
-                                        <div id="remove">
-
-
-                                        </div>
-                                    </div>
-
-                                    <?php
-                                }
-                                ?>
+                                    
                             </div>
                         </div>
                     </div>
@@ -675,7 +465,7 @@
                                 <li><a href="#reviews" data-toggle="tab">Your Reviews</a></li>
                             </ul>
                         </div>
-                        <div class="tab-content col-sm-8">
+                                <div class="tab-content col-sm-8">
                             <div class="tab-pane" id="savedschool">
                                 <div class="row"> 
                                     <div id="tabs1">
@@ -703,7 +493,7 @@
                                                         }
                                                         ?>
 
-                                                        <div class="alert tabscont follow_<?php echo $save_school['id']; ?>"> <button type="button" class="close_user" id="user-intrest_<?php echo $save_school['id']; ?>" >&times;</button><?php echo (strlen($save_school['school_name']) > 20) ? substr($save_school['school_name'], 0, 20) . '...' : $save_school['school_name']; ?></div>
+                                                        <div class="alert tabscont save_school_<?php echo $save_school['id']; ?> button_a"> <a><?php echo (strlen($save_school['school_name']) > 20) ? substr($save_school['school_name'], 0, 20) . '...' : $save_school['school_name']; ?></a></div>
 
                                                         <!-- data-toggle="modal" data-target=".bs-example-modal-sm"   for boot strap dialog-->
 
@@ -716,14 +506,13 @@
                                                     if ($count % 3 != 1)
                                                         echo "</div>";
 														
-													}
-													else
-													{
-													
-														echo " <div class='alert alert-info'>You have not saved any Schools. Save them from School page to get regular updates about the school.</div>";
-													}
+								}
+                                                                else
+                                                                {
+                                                                    echo " <div class='alert alert-info'>You have not saved any Schools. Save them from School page to get regular updates about the school.</div>";
+                                                                }
                                                     ?>
-
+                                                        
                                                     <div class="clearfix"></div>
                                                     <div class="findschool"> Find schools <input type="text" placeholder="Find Schools" class="form-control find_school_name"></div>
                                                 </div>
@@ -745,8 +534,8 @@
 
                                                 <?php
                                                 $count = 1;
-												if(!empty($get_user_following_school))
-												{
+						if(!empty($get_user_following_school))
+						{
                                                 foreach ($get_user_following_school as $following_school) {
                                                     if ($count % 3 == 1) {
                                                         ?>
@@ -757,7 +546,7 @@
                                                         }
                                                         ?>
 
-                                                        <div class="alert tabscont follow_<?php echo $following_school['id']; ?>"><?php echo (strlen($following_school['school_name']) > 20) ? substr($following_school['school_name'], 0, 20) . '...' : $following_school['school_name']; ?></div>
+                                                        <div class="alert tabscont follow_<?php echo $following_school['id']; ?> button_a"> <a><?php echo (strlen($following_school['school_name']) > 20) ? substr($following_school['school_name'], 0, 20) . '...' : $following_school['school_name']; ?></a></div>
 
 
 
@@ -769,12 +558,12 @@
                                                     }
                                                     if ($count % 3 != 1)
                                                         echo "</div>";
-													}
-													else
-													{
-														echo "<div class='alert alert-info'>You are not following any Schools. Follow them from School page to get regular updates about the school</div>";
-													
-													}
+                                                    }
+                                                    else
+                                                    {
+                                                            echo "<div class='alert alert-info'>You are not following any Schools. Follow them from School page to get regular updates about the school</div>";
+
+                                                    }
                                                     ?>
 
 
@@ -786,21 +575,42 @@
                                                 <div class="row"> 
 
                                                     <div class="tcol_grey f_18  mb20"> Users you are following : </div>
-                                                    <div class="col-sm-4 col-md-4">
-                                                        <div class="alert tabscont"> User Name  </div>
-                                                        <div class="alert tabscont"> User Name  </div>
-                                                        <div class="alert tabscont"> User Name  </div>
-                                                    </div>
-                                                    <div class="col-sm-4 col-md-4">
-                                                        <div class="alert tabscont"> User Name  </div>
-                                                        <div class="alert tabscont"> User Name  </div>
-                                                        <div class="alert tabscont"> User Name  </div>
-                                                    </div>
-                                                    <div class="col-sm-4 col-md-4">
-                                                        <div class="alert tabscont"> User Name  </div>
-                                                        <div class="alert tabscont"> User Name  </div>
-                                                        <div class="alert tabscont"> User Name  </div>
-                                                    </div>
+                                                <?php
+                                                $count = 1;
+						$user_follow_data = (json_decode($get_user_follow_info->user_following));		
+                                                //display($user_follow_data);
+                                                if(!empty($user_follow_data))
+												{
+                                                foreach ($user_follow_data as $follow_user) {
+                                                    if ($count % 3 == 1) {
+                                                        ?>
+
+                                                        <div class="col-sm-4 col-md-4">
+
+                                                            <?php
+                                                        }
+                                                        ?>
+
+                                                        <div class="alert tabscont user_follow_<?php echo $follow_user; ?>"><?php echo get_user_name_id($follow_user) ;?></div>
+
+
+
+                                                        <?php
+                                                        if ($count % 3 == 0) {
+                                                            echo "</div>";
+                                                        }
+                                                        $count++;
+                                                    }
+                                                    if ($count % 3 != 1)
+                                                        echo "</div>";
+                                                    }
+                                                    else
+                                                    {
+                                                            echo "<div class='alert alert-info'>You are not following any User. Follow them from School page to get regular updates about the user</div>";
+
+                                                    }
+                                                    ?>
+
                                                     <div class="clearfix"></div>
                                                     <div class="findschool"> Find schools to follow <input type="text" placeholder="Find Schools" class="form-control find_school_name"></div>
                                                 </div>
@@ -809,21 +619,44 @@
                                                 <div class="row"> 
 
                                                     <div class="tcol_grey f_18  mb20"> Communities you are following : </div>
-                                                    <div class="col-sm-4 col-md-4">
-                                                        <div class="alert tabscont"> Community Name  </div>
-                                                        <div class="alert tabscont"> Community Name  </div>
-                                                        <div class="alert tabscont"> Community Name  </div>
-                                                    </div>
-                                                    <div class="col-sm-4 col-md-4">
-                                                        <div class="alert tabscont"> Community Name  </div>
-                                                        <div class="alert tabscont"> Community Name  </div>
-                                                        <div class="alert tabscont"> Community Name  </div>
-                                                    </div>
-                                                    <div class="col-sm-4 col-md-4">
-                                                        <div class="alert tabscont"> Community Name  </div>
-                                                        <div class="alert tabscont"> Community Name  </div>
-                                                        <div class="alert tabscont"> Community Name  </div>
-                                                    </div>
+                                                    
+                                                    
+                                                    
+                                                                     <?php
+                                                $count = 1;
+												if(!empty($get_user_community_detail))
+												{
+                                                foreach ($get_user_community_detail as $following_communi) {
+                                                    if ($count % 3 == 1) {
+                                                        ?>
+
+                                                        <div class="col-sm-4 col-md-4">
+
+                                                            <?php
+                                                        }
+                                                        ?>
+
+                                                        <div class="alert tabscont user_community_<?php echo $following_communi['id']; ?> button_a"> <a ><?php echo  $following_communi['cname']; ?></a></div>
+
+
+
+                                                        <?php
+                                                        if ($count % 3 == 0) {
+                                                            echo "</div>";
+                                                        }
+                                                        $count++;
+                                                    }
+                                                    if ($count % 3 != 1)
+                                                        echo "</div>";
+                                                    }
+                                                    else
+                                                    {
+                                                            echo "<div class='alert alert-info'>You are not following any Community. Follow them from Community page to get regular updates about the community</div>";
+
+                                                    }
+                                                    ?>
+
+                                                    
                                                     <div class="clearfix"></div>
                                                     <div class="findschool"> Find schools to follow <input type="text" placeholder="Find Schools" class="form-control find_school_name"></div>
                                                 </div>
@@ -843,21 +676,40 @@
                                                     <div class="row"> 
 
                                                         <div class="tcol_grey f_18  mb20"> Users following you: </div>
+                                                                                                      
+                                                                     <?php
+                                                $count = 1;
+												if(!empty($select_user_following_u))
+												{
+                                                foreach ($select_user_following_u as $user_followu) {
+                                                    if ($count % 3 == 1) {
+                                                        ?>
+
                                                         <div class="col-sm-4 col-md-4">
-                                                            <div class="alert tabscont"> User Name  </div>
-                                                            <div class="alert tabscont"> User Name  </div>
-                                                            <div class="alert tabscont"> User Name  </div>
-                                                        </div>
-                                                        <div class="col-sm-4 col-md-4">
-                                                            <div class="alert tabscont"> User Name  </div>
-                                                            <div class="alert tabscont"> User Name  </div>
-                                                            <div class="alert tabscont"> User Name  </div>
-                                                        </div>
-                                                        <div class="col-sm-4 col-md-4">
-                                                            <div class="alert tabscont"> User Name  </div>
-                                                            <div class="alert tabscont"> User Name  </div>
-                                                            <div class="alert tabscont"> User Name  </div>
-                                                        </div>
+
+                                                            <?php
+                                                        }
+                                                        ?>
+
+                                                        <div class="alert tabscont user_followu_<?php echo $user_followu['id']; ?> button_a"> <a><?php echo  $user_followu['name']; ?></a></div>
+
+
+
+                                                        <?php
+                                                        if ($count % 3 == 0) {
+                                                            echo "</div>";
+                                                        }
+                                                        $count++;
+                                                    }
+                                                    if ($count % 3 != 1)
+                                                        echo "</div>";
+                                                    }
+                                                    else
+                                                    {
+                                                            echo "<div class='alert alert-info'>No user following you</div>";
+
+                                                    }
+                                                    ?>
                                                         <div class="clearfix"></div>
                                                         <div class="findschool"> Find schools to follow <input type="text" placeholder="Find Schools" class="form-control find_school_name"></div>
                                                     </div>
@@ -894,7 +746,7 @@
                                                                 }
                                                                 ?>
 
-                                                                <div class="alert tabscont follow_<?php echo $user_review['id']; ?>"> <button type="button" class="close_user"  id="user-review_<?php echo $user_review['id']; ?>">&times;</button><?php echo (strlen($user_review['school_name']) > 20) ? substr($user_review['school_name'], 0, 20) . '...' : $user_review['school_name']; ?></div>
+                                                                <div class="alert tabscont follow_<?php echo $user_review['id']; ?>"> <?php echo (strlen($user_review['school_name']) > 20) ? substr($user_review['school_name'], 0, 20) . '...' : $user_review['school_name']; ?></div>
 
 
 
@@ -930,7 +782,11 @@
 
                         </div>
                         <div class="col-sm-3"></div>
-                                   
+                        <div class="col-sm-9 mt20 mb30">
+                        
+                           
+                            <!--<input type="reset" value="Reset" class="btn btn-info ">-->
+                        </div>                
 
                         </form>
 						 <!--p>Content here. <a class="alert" href=#>Alert!</a></p-->
@@ -942,6 +798,12 @@
 					</div>
 
                     </div>
+
+                </div>
+
+                        <div class="col-sm-3"></div>
+                                   
+
 
                 </div>
 

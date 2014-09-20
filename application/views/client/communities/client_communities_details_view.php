@@ -21,35 +21,54 @@
             </div>
         </div>
         <hr>
-
-        <!--Members-->
+              <!--Members-->
         <div class="row mt30">
             <div class="col-sm-3 col-md-3 col-xs-12 ">
                 <h3 class="tcol_darkblue mt0">Members</h3>
-                <div class="f_16 tcol_grey"> There <span class="mnum f_24 col_light_blue"><?= count($members) ?></span> member<span class="plural"><?= count($members) > 1 ? 's' : '' ?></span> in this group</div>
+                <div class="f_16 tcol_grey"> <span class="mnum f_24 col_light_blue"><?= count($members) ?></span> member<span class="plural"><?= count($members) > 1 ? '(s)' : '' ?></span> in this group</div>
             </div>
             <div class="col-sm-9 col-md-9 col-xs-12 ">
-                <div id="myCarousel" class="carousel slide">
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            <?php
+            	<div class="row">
+        	<div class="col-sm-12">
+                    <?php if(!empty($members)) {?>
+            <div class="owl-wrapper">
+              <div id="owl-example" class="owl-carousel">
+  
+  
+   <?php
                             foreach ($members as $memeber) {
                                 $udetails = get_user_details($memeber);
+                                //display($udetails);
                                 $name = $udetails[0]["name"];
-                                $pic = json_decode($udetails[0]["profile_pic"], true);
-                                $pic = $pic[0];
+                                //$pic = json_decode($udetails[0]["profile_pic"], true);
+                                //$pic = $pic[0];
+                                $pic =  $pro_pic = stripslashes(str_replace(array("[", "]", "(", ")"), " ", $udetails[0]["profile_pic"]));
                                 ?> 
-                                <div class="col-sm-3 col-md-3 col-xs-6"> <a href="#x" class="thumbnail text-center"> <img src= "<?= $pic ? $pic : CLIENT_IMAGES . "defaultuser.jpg"; ?>" alt="Image" class="img-responsive commprof"> <span class="tcol_dark_blue f_16"><?= $name ?></span> </a> </div>
+                                <div class="item"> <a href="<?php echo SITE_URL ?>client/client_user/user_show_profile/<?php echo $memeber; ?>" class="thumbnail text-center" target ="_blank"> <img src= <?= $pic ? $pic : CLIENT_IMAGES . "defaultuser.jpg"; ?> alt="Image" class="img-responsive stprof"> <span class="tcol_dark_blue f_16"><?= $name ?></span> </a> </div>
                             <?php }
                             ?>
 
+</div>
+ 
+<div class="customNavigation">
+  <a class="btn prev owl-prev"><i class="fa fa-angle-left fa-4x tcol_grey"></i></a>
+  <a class="btn next owl-next"><i class="fa fa-angle-right fa-4x tcol_grey"></i></a>
+</div>
+</div>
+                    <?php 
+                    }
+                    
+                    else {
 
-                        </div>
-
-                    </div>
-                    <!--/carousel-inner--> 
-
-                    <a class="left carousel-control" href="#myCarousel" data-slide="prev"><i class="fa fa-angle-left fa-4x tcol_grey"></i></a> <a class="right carousel-control" href="#myCarousel" data-slide="next"><i class="fa fa-angle-right fa-4x tcol_grey"></i></a> </div>
+                            echo "<div class='col-sm-12 alert alert-info'>No Members Yet!</div>";
+                    }
+                        
+                    ?>
+                
+                </div>
+        </div>
+            
+                
             </div>
         </div>
         <!--Members-->
@@ -144,42 +163,57 @@
                 </div>
             </div>
             <div class="col-sm-9 col-md-9 col-xs-12 ">
-                <div id="myCarousel1" class="carousel slide">
-                    <div class="carousel-inner">
+                <?php  if (!empty($events)) {?>
+<div class="owl-wrapper">
+
+               <div id="owl-example2" class="owl-carousel1">
+                    
                         <?php
-                        if (!empty($events)) {
+                       
                             foreach ($events as $event) {
                                 ?>
-                                <div class="item active">
-                                    <div class="col-sm-4 col-md-4 col-xs-6">
+                                 <div class="item">
+                                    
                                         <div class="thumbnail">
-                                            <div class="event_icon"> <img src="<?= $event["pic"] != '' ? SITE_URL . 'uploads/comm_pics/' . $event["pic"] : CLIENT_IMAGES . "icons/calendar-icon.png" ?>"  class="img-responsive"> </div>
+                                            <div class="event_icon1"> <img src="<?= $event["pic"] != '' ? SITE_URL . 'uploads/comm_pics/' . $event["pic"] : CLIENT_IMAGES . "icons/calendar-icon.png" ?>"  class="img-responsive"> </div>
                                             <div class="event_detail">
-                                                <div>Event name: <?= $event["ename"] ?></div>
+                                                <div class="comm_event">Event name: <?= $event["ename"] ?></div>
                                                 <div>Date: <?= date("d M Y", strtotime($event["edate"])) ?> </div>
                                                 <div> Location: <?= $event["location"] ?> </div>
-                                                <div class="mt10"> 
-                                                    <a href="javascript:void();" class="event_social"> <i class="fa fa-facebook tcol_darkblue"> </i></a> 
+                                                <div > 
+                                                    <!--a href="javascript:void();" class="event_social"> <i class="fa fa-facebook tcol_darkblue"> </i></a> 
                                                     <a href="javascript:void();" class="event_social"><i class="fa  fa-linkedin tcol_darkblue"></i></a> 
-                                                    <a href=javascript:void(); class="event_social"><i class="fa  fa-google-plus tcol_darkblue"></i></a> 
-                                                    <a href=javascript:void(); onclick="event_invite('<?= $event["ename"] ?>')" class="event_social"><i class="fa  fa-google-twitter tcol_darkblue"></i></a> 
+                                                    <a href=javascript:void(); class="event_social"><i class="fa  fa-google-plus tcol_darkblue"></i></a--> 
+                                                    <a href=javascript:void(); onclick="event_invite('<?= $event["ename"] ?>')" class="event_social1">Invite</a> 
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                   
                                 </div>
                                 <?php
                             }
-                        } else {
-                            echo "No Events Yet!";
-                        }
+                      
                         ?> 
-                    </div>
+                  
+
                     <!--/carousel-inner--> 
 
-                    <a class="left carousel-control" href="#myCarousel1" data-slide="prev"><i class="fa fa-angle-left fa-4x tcol_grey"></i></a> <a class="right carousel-control" href="#myCarousel1" data-slide="next"><i class="fa fa-angle-right fa-4x tcol_grey"></i></a> </div>
+                     </div>
+                      <div class="customNavigation">
+  <a class="btn prev owl-prev1"><i class="fa fa-angle-left fa-4x tcol_grey"></i></a>
+  <a class="btn next owl-next1"><i class="fa fa-angle-right fa-4x tcol_grey"></i></a>
+</div>
             </div>
+                
+                <?php 
+                
+                      } else {
+                            echo "<div class='col-sm-12 alert alert-info'>No Events Yet!</div>";
+                        }
+                ?>
+                
         </div>
+        <div class="clearfix"></div>
 
         <hr>
         <div class="row mb50">
@@ -196,14 +230,15 @@
         </div>
 
     </div>
-    <div class="col-sm-2 sidebar">
-        <?php $this->load->view(CLIENT_TICKER_VIEW); ?>
-        <?php $this->load->view(CLIENT_ADS_VIEW); ?>
-    </div>
+    
 
 
 </div>
 
+<div class="col-sm-2 sidebar">
+        <?php $this->load->view(CLIENT_TICKER_VIEW); ?>
+        <?php $this->load->view(CLIENT_ADS_VIEW); ?>
+    </div>
 <footer>
     <?php $this->load->view(CLIENT_FOOTER); ?>
 </footer>
@@ -320,12 +355,97 @@
 <!-- Include all compiled plugins (below), or include individual files as needed --> 
 <script src="<?php echo CLIENT_SCRIPTS; ?>bootstrap.min.js"></script>
 <link href="<?php echo CLIENT_CSS; ?>bootstrap-multiselect.css" rel="stylesheet">
-<link href="<?php echo CLIENT_CSS; ?>bootstrap_hexagone.css" rel="stylesheet">
+<link href="<?php echo CLIENT_CSS; ?>owl.carousel.css" rel="stylesheet">
+<link href="<?php echo CLIENT_CSS; ?>owl.theme.css" rel="stylesheet">
 <script src="<?php echo CLIENT_SCRIPTS; ?>bootstrap-multiselect.js"></script> 
 <script src="<?php echo CLIENT_SCRIPTS; ?>jquery-ui.min.js"></script> 
 <script type="text/javascript" src="<?php echo CLIENT_MODULES ?>client_user_module_js.js"></script> 
 <script src="<?php echo CLIENT_SCRIPTS; ?>bootbox.js"></script>
 <script type="text/javascript" src="<?php echo CLIENT_MODULES ?>client_community_module.js"></script> 
+<script src="<?php echo CLIENT_SCRIPTS; ?>owl.carousel.js"></script>
+
+<script>
+  	$(document).ready(function() {
+ 
+ var owlWrap = $('.owl-wrapper');
+    // checking if the dom element exists
+    if (owlWrap.length > 0) {
+        // check if plugin is loaded
+        if (jQuery().owlCarousel) {
+            owlWrap.each(function(){
+                var carousel= $(this).find('.owl-carousel'),
+                    navigation = $(this).find('.customNavigation'),
+                    nextBtn = navigation.find('.next'),
+                    prevBtn = navigation.find('.prev'),
+                    playBtn = navigation.find('.play'),
+                    stopBtn = navigation.find('.stop');
+                
+              carousel.owlCarousel({
+                  itemsCustom : [
+						[0, 1],
+						[479, 2],
+						[768, 2],
+						//[995, 2],
+						[1200, 5]
+					],
+					navigation  : false,
+					stopOnHover : true,
+					autoPlay    : false
+              });
+             
+              // Custom Navigation Events
+              nextBtn.click(function(){
+                carousel.trigger('owl.next');
+              });
+              prevBtn.click(function(){
+                carousel.trigger('owl.prev');
+              });
+             
+            });
+        };
+    };
+    
+    
+    if (owlWrap.length > 0) {
+        // check if plugin is loaded
+        if (jQuery().owlCarousel) {
+            owlWrap.each(function(){
+                var carousel= $(this).find('.owl-carousel1'),
+                    navigation = $(this).find('.customNavigation'),
+                    nextBtn = navigation.find('.next'),
+                    prevBtn = navigation.find('.prev'),
+                    playBtn = navigation.find('.play'),
+                    stopBtn = navigation.find('.stop');
+                
+              carousel.owlCarousel({
+                  itemsCustom : [
+						[0, 1],
+						[479, 2],
+						[768, 2],
+						//[995, 2],
+						[1200, 4]
+					],
+					navigation  : false,
+					stopOnHover : true,
+					autoPlay    : false
+              });
+             
+              // Custom Navigation Events
+              nextBtn.click(function(){
+                carousel.trigger('owl.next');
+              });
+              prevBtn.click(function(){
+                carousel.trigger('owl.prev');
+              });
+             
+            });
+        };
+    }; 
+    
+    
+});
+  </script> 
+
 <script type="text/javascript">
     $(document).ready(function() {
         //                        $('#myCarousel. #myCarousel1').carousel({
@@ -391,6 +511,18 @@
                 });
             }
         });
+        
+         $(function() 
+		 {
+			$( "#date" ).datepicker({
+                            
+                            minDate: 0
+                            
+                        });
+                        
+		});
+        
+        
 
     });
 

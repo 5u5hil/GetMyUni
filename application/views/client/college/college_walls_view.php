@@ -82,8 +82,10 @@
         <?php
         if ($discussions) {
             foreach ($discussions as $discussion) {
-                $pic = json_decode($discussion["profile_pic"], true);
-                $pic = $pic[0];
+                //$pic = json_decode($discussion["profile_pic"], true);
+                //$pic = $pic[0];
+                $pic = stripslashes(str_replace(array("[", "]", "(", ")"), " ", $discussion["profile_pic"]));
+                //display($pic);
                 ?>
 
                 <div class="row mt30 mb30">
@@ -92,7 +94,7 @@
                             <div class="mb10 default_div">
                                 <div class="mb10">
                                     <div class="col-sm-9 col-md-9">
-                                        <div class="profilepic"><img src="<?= $pic ? $pic : CLIENT_IMAGES . "defaultuser.jpg"; ?>"></div>
+                                        <div class="profilepic"><img src=<?= $pic ? $pic : CLIENT_IMAGES . "defaultuser.jpg"; ?>></div>
                                         <div class="tcol_blue f_18"><?= $discussion['name'] ?></div>
                                         <div class="tcol_grey"> <i class="fa fa-clock-o"> </i><?= date_time_diff($discussion['updated_at']) ?> </div>
                                     </div>
@@ -115,10 +117,10 @@
                                 <div class="comments"><?= $postt[0] ?></div>
                                 <?php $comments = json_decode($discussion['comments'], true); ?>
                                 <div class="commentactions">
-                                    <a href="javascript:void();" class="shwCm<?= $discussion['id'] ?>"> 
+                                    <a href="javascript:;" class="shwCm<?= $discussion['id'] ?>"> 
                                         <i class="fa fa-comment"></i> <span class="cmNo<?= $discussion['id'] ?>"><?= count($comments) > 0 ? count($comments) : "" ?></span> Comment<?= count($comments) > 1 ? "s" : "" ?></a> - 
                                     <?php $likes = json_decode($discussion['likes'], true); ?>
-                                    <a href="javascript:void();" class="<?= in_array(session('client_user_id'), $likes) ? 'unlike' : 'like' ?>" data-did="<?= $discussion['id'] ?>" data-sid="<?= $discussion['school_id'] ?>" > <?= in_array(session('client_user_id'), $likes) ? 'Unlike' : '<i class="fa fa-thumbs-up"> </i> Like' ?>  </a>
+                                    <a href="javascript:;" class="<?= in_array(session('client_user_id'), $likes) ? 'unlike' : 'like' ?>" data-did="<?= $discussion['id'] ?>" data-sid="<?= $discussion['school_id'] ?>" > <?= in_array(session('client_user_id'), $likes) ? 'Unlike' : '<i class="fa fa-thumbs-up"> </i> Like' ?>  </a>
                                 </div>
                             </div>  
 
@@ -131,15 +133,17 @@
                                             foreach ($comments as $comment) {
                                                 $udetails = get_user_details($comment["uid"]);
                                                 $name = $udetails[0]["name"];
-                                                $pic = json_decode($udetails[0]["profile_pic"], true);
-                                                $pic = $pic[0];
+                                               // $pic = json_decode($udetails[0]["profile_pic"], true);
+                                               // $pic = $pic[0];
+                                                $pic = stripslashes(str_replace(array("[", "]", "(", ")"), " ", $udetails[0]["profile_pic"]));
+                                                //display($pic);
                                                 ?>
 
                                                 <div class="subcommentbox" id="default_comment_div">
 
                                                     <div class="row mb10">
                                                         <div class="col-sm-10 col-md-10">
-                                                            <div class="profilepic"><img src="<?= $pic ? $pic : CLIENT_IMAGES . "defaultuser.jpg"; ?>"></div>
+                                                            <div class="profilepic"><img src=<?= $pic ? $pic : CLIENT_IMAGES . "defaultuser.jpg"; ?>></div>
                                                             <div class="tcol_blue f_16"><?= $name ?></div>
                                                             <div class="tcol_grey f_12"> <i class="fa fa-clock-o"> </i> <?= date_time_diff($comment['time']) ?></div>
                                                             <div class="subcomments"><?= $comment['comment'] ?></div>
@@ -148,7 +152,7 @@
                                                             <div class="pull-right">
                                                                 <i class="fa fa-caret-square-o-down dropdown-toggle tcol_darkblue " data-toggle="dropdown"  class="hidden_comment_div"></i>
                                                                 <ul class="dropdown-menu" role="menu">
-                                                                    <li><a href="javascript:void();" class="cspam" data-did="<?= $discussion['id'] ?>" data-cid="<?= $comment['cid'] ?>"> <i class="fa fa-warning"></i> Spam</a></li>
+                                                                    <li><a href="javascript:;" class="cspam" data-did="<?= $discussion['id'] ?>" data-cid="<?= $comment['cid'] ?>"> <i class="fa fa-warning"></i> Spam</a></li>
                                                                     <?php if (session('is_admin') && session('client_user_id')) { ?>   <li><a href="javascript:void();" class="cdel" data-did="<?= $discussion['id'] ?>" data-cid="<?= $comment['cid'] ?>"><i class="fa fa-trash-o"></i> Delete</a></li> <?php } ?>       
                                                                 </ul>
                                                             </div>

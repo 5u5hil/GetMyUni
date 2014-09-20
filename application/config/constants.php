@@ -77,12 +77,21 @@ define('ADMIN_COLLEGE_EVENT_ADD_EDIT_VIEW', ADMIN_COLLEGE_FOLDER . 'admin_school
 
 define('ADMIN_MASTER_FOLDER', ADMIN . 'masters/');
 define('ADMIN_MASTER_DEGREE_ADD_EDIT_VIEW', ADMIN_MASTER_FOLDER . 'admin_masters_degree_add_edit.php');
+define('ADMIN_MASTER_DEGREE_LIST_VIEW', ADMIN_MASTER_FOLDER . 'admin_master_degree_list_view.php');
 define('ADMIN_MASTER_FIELD_ADD_EDIT_VIEW', ADMIN_MASTER_FOLDER . 'admin_masters_field_add_edit.php');
+define('ADMIN_MASTER_FIELD_LIST_VIEW', ADMIN_MASTER_FOLDER . 'admin_masters_field_list_view.php');
 define('ADMIN_MASTER_DOMAIN_ADD_EDIT_VIEW', ADMIN_MASTER_FOLDER . 'admin_masters_domain_add_edit.php');
+define('ADMIN_MASTER_DOMAIN_LIST_VIEW', ADMIN_MASTER_FOLDER . 'admin_master_domain_list_view.php');
 define('ADMIN_MASTER_COUNTRY_ADD_EDIT_VIEW', ADMIN_MASTER_FOLDER . 'admin_masters_country_add_edit.php');
+define('ADMIN_MASTER_COUNTRY_LIST_VIEW', ADMIN_MASTER_FOLDER . 'admin_master_country_list_view.php');
 define('ADMIN_MASTER_TYPE_ADD_EDIT_VIEW', ADMIN_MASTER_FOLDER . 'admin_masters_type_add_edit.php');
 define('ADMIN_MASTER_NAME_ADD_EDIT_VIEW', ADMIN_MASTER_FOLDER . 'admin_masters_name_add_edit.php');
-
+define('ADMIN_MASTER_TOP_ADD_EDIT_VIEW', ADMIN_MASTER_FOLDER . 'admin_masters_top_add_edit.php');
+define('ADMIN_MASTER_TOP_LIST_VIEW', ADMIN_MASTER_FOLDER . 'admin_master_top_list_view.php');
+define('ADMIN_MASTER_FORUM_ADD_EDIT_VIEW', ADMIN_MASTER_FOLDER . 'admin_masters_forum_add_edit.php');
+define('ADMIN_MASTER_FORUM_LIST_VIEW', ADMIN_MASTER_FOLDER . 'admin_master_forum_list_view.php');
+define('ADMIN_MASTER_NAME_LIST_VIEW', ADMIN_MASTER_FOLDER . 'admin_masters_name_list_view.php');
+define('ADMIN_EMAIL',  'sushil@infiniteit.biz');
 
 /* * *****************************************admin views ************************** */
 
@@ -172,6 +181,10 @@ define('CLIENT_MESSAGE_DETAIL_VIEW', CLIENT_NOTIFICATION_FOLDER . 'client_messag
 define('CLIENT_NEWS_FOLDER', CLIENT . 'news/');
 define('CLIENT_NEWS_VIEW', CLIENT_NEWS_FOLDER . 'client_news_view.php');
 
+
+
+
+define('MANDRILL_API_KEY','nOBJIc6VJN27PcHl1o8o0w');
 /*******************************************views ***************************/
 /*******************************************views ***************************/
 

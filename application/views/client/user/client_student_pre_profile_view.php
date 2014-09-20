@@ -7,7 +7,7 @@
                 <h1 class="page_title">Profile</h1>
             </div>
         </div>
-       <?php  display($this->session->all_userdata());?>
+       
         <div class="row mt20">
             <div class="col-sm-12 col-md-12 mb20">
                 <h3 class="tcol_darkblue"> <?php echo session('full_name') ?>, let's get started on your profile </h3>

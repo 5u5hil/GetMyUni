@@ -82,8 +82,9 @@
         <?php
         if ($discussions) {
             foreach ($discussions as $discussion) {
-                $pic = json_decode($discussion["profile_pic"], true);
-                $pic = $pic[0];
+               // $pic = json_decode($discussion["profile_pic"], true);
+                //$pic = $pic[0];
+                $pic = stripslashes(str_replace(array("[", "]", "(", ")"), " ", $discussion["profile_pic"]));
                 ?>
 
                 <div class="row mt30 mb30">
@@ -92,7 +93,7 @@
                             <div class="mb10 default_div" >
                                 <div class="mb10">
                                     <div class="col-sm-9 col-md-9">
-                                        <div class="profilepic"><img src="<?= $pic ? $pic : CLIENT_IMAGES . "defaultuser.jpg"; ?>"></div>
+                                        <div class="profilepic"><img src=<?= $pic ? $pic : CLIENT_IMAGES . "defaultuser.jpg"; ?>></div>
                                         <div class="tcol_blue f_18"><?= $discussion['name'] ?></div>
                                         <div class="tcol_grey"> <i class="fa fa-clock-o"> </i><?= date_time_diff($discussion['updated_at']) ?> </div>
                                     </div>

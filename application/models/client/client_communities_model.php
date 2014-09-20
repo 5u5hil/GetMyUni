@@ -167,9 +167,10 @@ class Client_Communities_Model extends CI_Model {
             return FALSE;
         }
     }
-
-    function get_users($term) {
-        $get = $this->db->query("select email as id, name as label, email as value  from user where name like '%$term%'");
+    
+    function get_users($term,$session_id) {
+     
+        $get = $this->db->query("select email as id, name as label, email as value  from user where name like '%$term%' and id != $session_id");
         if ($get->num_rows == 0) {
             return FALSE;
         } else {

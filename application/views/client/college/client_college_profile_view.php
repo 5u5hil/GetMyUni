@@ -5,7 +5,7 @@
     $ans = $get_college;
    
     $review = $get_review_rating;
-    //display($get_user_follow_info);
+    //display($review);
     /* function unique_sort($arrs, $id) 
       {
       $unique_arr = array();
@@ -81,7 +81,8 @@
                // interval: 500
 			   AutoPlay: true
             });
-
+            
+           
 
         });
 
@@ -151,22 +152,31 @@
             <div class="col-sm-4 col-md-4 col-xs-12">
                 <div class="unv_name"><?php echo $ans->school_name; ?></div>
                 <div class="unv_location"><?php echo $ans->address; ?></div>
-                <div class="unv_location"><a href="<?php echo $ans->website; ?>"><?php echo $ans->website; ?></a></div>
+                <div class="unv_location"><a href="<?php echo $ans->website; ?>" target="_blank"><?php echo $ans->website; ?></a></div>
                 <div class="follower"><span class="tcol_red total_follow"><?php echo $following_count; ?> </span><span class="col_light_blue">&nbsp;Student(s) Following</span></div>
                 <div class="unv_review btn btn-sm">
-                    <a   <?php
-                    $id = session('client_user_id');
-                    if ($id != 0) {
-                        ?>
-                            href='<?php echo CLIENT_SITE_URL ?>client_college/college_review/<?php echo clean_string($ans->school_name); ?>/<?php echo $ans->id; ?>'
-                            <?php
-                        } else {
-                            ?>
-                            data-toggle="modal" data-target=".bs-example-modal-lg"
+                    <a   
+                                    <?php
+                                    $id = session('client_user_id');
+                                    if ($id != 0) {
 
-                            <?php
-                        }
-                        ?> >Review this school</a></div>
+
+                                        if ($get_student_college_review_count >= 1) {
+
+                                            echo "data-toggle='modal' data-target='.bs-example-modal-sm'";
+                                        } else {
+                                            ?>
+                                            href="<?php echo CLIENT_SITE_URL ?>client_college/college_review/<?php echo clean_string($ans->school_name); ?>/<?php echo $ans->id; ?>"
+                                            <?php
+                                        }
+                                    } else {
+                                        ?>
+                                        data-toggle="modal" data-target=".bs-example-modal-lg"
+
+                                        <?php
+                                    }
+                                    ?> 
+ >Review this school</a></div>
                 <div class="unv_follow btn btn-sm">
                     <a 
 
@@ -410,7 +420,7 @@
                     <div class="col-sm-4 col-md-4 text-center"> <img src="<?php echo CLIENT_IMAGES; ?>icons/avgsalary.jpg" class="img-responsive img-center">
                         <div class="qfright_border">
                             <div class="quick_facts_details">Average Salary</div>
-                            <h3 class="tcol_darkblue mt0"><?php if((number_format($ans->avg_tution) == 0)) { echo "N/A" ;} else {echo "$".number_format($ans->avg_tution);} ?></h3>
+                            <h3 class="tcol_darkblue mt0"><?php if((number_format($ans->avg_salary) == 0)) { echo "N/A" ;} else {echo "$".number_format($ans->avg_salary);} ?></h3>
                         </div>
                     </div>
                     <div class="col-sm-4 col-md-4 text-center"> <img src="<?php echo CLIENT_IMAGES; ?>icons/employement.jpg" class="img-responsive img-center">
@@ -435,10 +445,13 @@
                 <div class="big_title">Summary <span>
                         <?php
                         $program = $ans->program;
+                        //display($program);
+                        if($program != 0)
+                        {
                         $array_domain = explode(",", $program);
-                        echo count($array_domain);
+                        echo count($array_domain);}
                         ?>
-                        programs offered</span></div>
+                        program(s) offered</span></div>
                 <div class="clearfix"></div>
             </div>
             <div class="col-sm-12 col-md-12"  data-toggle="collapse" data-target="#toggle-summary" id="#togg">
@@ -491,7 +504,7 @@
                                     else
                                     {
                                         
-                                         echo "<div class='col-sm-12 alert alert-info'>Sorry, no Data found</div>";
+                                         echo "<div class='col-sm-12 alert alert-info'>Sorry, no data found</div>";
                                         
                                     }
                                     ?>
@@ -509,26 +522,27 @@
                                     <h4 class="tcol_red">Course Overview</h4>
                                 </div>
                                 <div class="clearfix"></div>
-                                <div class="col-sm-12 summary-table tcol_grey f_16 text-justify sum_table_height">
+                                <div class="col-sm-12 summary-table f_16 text-justify sum_table_height">
 
-
+                                        <p>
                                     <?php
                                     if(isset($ans->course_overview))
                                     {
-                                    
+                                        if(!empty($ans->course_overview))
+                                        {
                                         echo str_replace('"', '', $ans->course_overview);
-                                       
-                                    }
+                                        }
+                                    
                                      else
                                     {
                                         
-                                         echo "<div class='col-sm-12 alert alert-info'>Sorry, no Data found</div>";
+                                         echo "<div class='col-sm-12 alert alert-info'>Sorry, no data found</div>";
                                         
                                     }
-                                    
+                                    }
                                     ?>
                                     
-
+                                            </p>
 
                                     <div class="clearfix"></div>
                                 </div>
@@ -539,29 +553,30 @@
                                  <div class="tab-pane" id="key_add">
                             <div class="row">
                                 <div class="col-sm-6 col-sm-6">
-                                    <h4 class="tcol_red">Key admission criteria</h4>
+                                    <h4 class="tcol_red">Key Admission Criteria</h4>
                                 </div>
                                 <div class="clearfix"></div>
-                                <div class="col-sm-12 summary-table tcol_grey f_16 text-justify sum_table_height">
+                                <div class="col-sm-12 summary-table  f_16 text-justify sum_table_height">
 
-
+                                         <p>
                                     <?php
                                     if(isset($ans->key_eligibility))
                                     {
-                                    
-                                        echo str_replace('"', '', $ans->key_eligibility);
+                                        if(!empty($ans->key_eligibility))
+                                        {
+                                            echo str_replace('"', '', $ans->key_eligibility);
                                        
                                     }
                                      else
                                     {
                                         
-                                         echo "<div class='col-sm-12 alert alert-info'>Sorry, no Data found</div>";
+                                         echo "<div class='col-sm-12 alert alert-info'>Sorry, no data found</div>";
                                         
                                     }
-                                    
+                                    }
                                     ?>
                                    
-
+                                      </p>
 
                                     <div class="clearfix"></div>
                                 </div>
@@ -571,29 +586,31 @@
                         <div class="tab-pane" id="add">
                             <div class="row">
                                 <div class="col-sm-6 col-sm-6">
-                                    <h4 class="tcol_red">Admission procedure</h4>
+                                    <h4 class="tcol_red">Admission Procedure</h4>
                                 </div>
                                 <div class="clearfix"></div>
-                                <div class="col-sm-12 summary-table tcol_grey f_16 text-justify sum_table_height">
-
+                                <div class="col-sm-12 summary-table  f_16 text-justify sum_table_height">
+                                     <p>
 
                                     <?php
                                     
                                     if(isset($ans->admission_procedure))
                                     {
-                                    
+                                        if(!empty($ans->admission_procedure))
+                                        {
+                                        
                                         echo str_replace('"', '', $ans->admission_procedure);
                                        
                                     }
                                      else
                                     {
                                         
-                                         echo "<div class='col-sm-12 alert alert-info'>Sorry, no Data found</div>";
+                                         echo "<div class='col-sm-12 alert alert-info'>Sorry, no data found</div>";
                                         
                                     }
-                                    
+                                    }
                                     ?>
-
+                                          </p>
 
                                     <div class="clearfix"></div>
                                 </div>
@@ -607,27 +624,28 @@
                                     <h4 class="tcol_red">Scholarships</h4>
                                 </div>
                                 <div class="clearfix"></div>
-                                <div class="col-sm-12 summary-table tcol_grey f_16 text-justify sum_table_height">
-
+                                <div class="col-sm-12 summary-table  f_16 text-justify sum_table_height" id="test-scroll">
+                                        <p>
 
                                     <?php
                                     
                                        if(isset($ans->scholarships))
                                     {
-                                    
+                                           if(!empty($ans->scholarships))
+                                           {
                                         echo str_replace('"', '', $ans->scholarships);
-                                       
-                                    }
+                                           }
+                                    
                                      else
                                     {
                                     
-                                      echo "<div class='col-sm-12 alert alert-info'>Sorry, no Data found</div>";
+                                      echo "<div class='col-sm-12 alert alert-info'>Sorry, no data found</div>";
                                         
                                     }
-                                   
+                                    }
                                     ?>
 
-
+                                      </p>
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -640,30 +658,36 @@
                                     <h4 class="tcol_red">Careers</h4>
                                 </div>
                                 <div class="clearfix"></div>
-                                <div class="col-sm-12 summary-table tcol_grey f_16 text-justify sum_table_height">
+                                <div class="col-sm-12 summary-table  f_16 text-justify sum_table_height">
 
-
+                                     <p>
                                     <?php
                                     
                                      if(isset($ans->careers))
                                     {
-                                    
+                                         if(!empty($ans->careers))
+                                         {
                                         echo str_replace('"', '', $ans->careers);
-                                       
+                                         }
+                                          else
+                                         {
+                                        echo "<div class='col-sm-12 alert alert-info'>Sorry, no data found</div>";
+                                        }
                                     }
-                                     else
-                                    {
-                                        echo "<div class='col-sm-12 alert alert-info'>Sorry, no Data found</div>";
-                                    }
+                                    
                                     ?>
 
-
+                                         </p>
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="tab-pane " id="programs">
+                            
+                            <?php   $ans_program = $get_college_program; 
+                            
+                            if (($ans_program) != "no") {?>
                             <div class="row">
                                 <div class="col-sm-6 col-md-6 ">
                                     <!--onchange="location = this.options[this.selectedIndex].value;"-->
@@ -785,6 +809,14 @@
 
                                 </div>            
                             </div>
+                            
+                            <?php
+                            }
+                            else 
+                                {
+                                        echo " <div class='col-sm-12 summary-table lh30 sum_table_height'><div class='col-sm-12 alert alert-info'>Sorry, no data found</div></div>";
+                                }
+                            ?>
                         </div>
                         <div class="tab-pane" id="c">
                             <div class="row">
@@ -793,7 +825,7 @@
                                 </div>
                                 <div class="clearfix"></div>
                                 <div class="col-sm-12 summary-table lh30 sum_table_height">
-                                    <div class=" tcol_grey f_16" ><span class="summmary_ad_criteria"> 1</span> GMAT Scores:
+                                    <!--div class="  f_16" ><span class="summmary_ad_criteria"> 1</span> GMAT Scores:
                                         <?php
                                         if ($ans->gmat_score == "1") {
                                             echo "N/A";
@@ -806,7 +838,7 @@
                                         }
                                         ?>
                                     </div>
-                                    <div class=" tcol_grey f_16" ><span class="summmary_ad_criteria"> 2</span> Resume/work ex:
+                                    <div class="  f_16" ><span class="summmary_ad_criteria"> 2</span> Resume/work ex:
                                         <?php
                                         if ($ans->resume == "1") {
                                             echo "N/A";
@@ -819,7 +851,7 @@
                                         }
                                         ?>
                                     </div>
-                                    <div class=" tcol_grey f_16" ><span class="summmary_ad_criteria"> 3</span> Application essay:
+                                    <div class="  f_16" ><span class="summmary_ad_criteria"> 3</span> Application essay:
                                         <?php
                                         if ($ans->app_essay == "1") {
                                             echo "N/A";
@@ -832,7 +864,7 @@
                                         }
                                         ?>
                                     </div>
-                                    <div class=" tcol_grey f_16" ><span class="summmary_ad_criteria"> 4</span> Interviews:
+                                    <div class="  f_16" ><span class="summmary_ad_criteria"> 4</span> Interviews:
                                         <?php
                                         if ($ans->interview == "1") {
                                             echo "N/A";
@@ -845,7 +877,7 @@
                                         }
                                         ?>
                                     </div>
-                                    <div class=" tcol_grey f_16" ><span class="summmary_ad_criteria"> 5</span> Transcript:
+                                    <div class="  f_16" ><span class="summmary_ad_criteria"> 5</span> Transcript:
                                         <?php
                                         if ($ans->transcript == "1") {
                                             echo "N/A";
@@ -857,7 +889,28 @@
                                             echo "Not Imporatnt";
                                         }
                                         ?>
-                                    </div>
+                                    </div-->
+                                    <?php 
+                                    
+                                        $documents = json_decode($ans->document);
+                                        if(!empty($documents))
+                                        {
+                                            foreach($documents as $doc)
+                                            {
+                                                $doc_ext = explode(".",$doc)
+                                                ?>    
+                                                        <div class="display_doc" id="main-doc"><div class="profile_doc"  ><?php if($doc_ext[1] == "xlsx") {?><i class="fa fa-2x tcol_darkblue fa-file-excel-o"></i><?php } if(($doc_ext[1] == "png") || ($doc_ext[1] == "jpeg") || ($doc_ext[1] == "gif") || ($doc_ext[1] == "jpg")) { ?> <i class="fa fa-2x tcol_darkblue fa-file-image-o"></i><?php } if($doc_ext[1] == "pdf") {?> <i class="fa fa-2x tcol_darkblue fa-file-pdf-o"></i><?php } if($doc_ext[1] == "ppt") { ?> <i class="fa fa-2x tcol_darkblue fa-file-powerpoint-o"></i><?php } if($doc_ext[1] == "docx") {?> <i class="fa fa-2x tcol_darkblue fa-file-word-o"></i><?php }?>  <a href="/public/admin/scripts/plugins/uploads/college_doc/<?php echo $doc; ?> " class="tcol_darkblue f_18" target="_blank"><?php echo $doc_ext[0]; ?></a><br></div></div>
+                                          <?php       
+                                            }
+                                            
+                                        }
+                                        else
+                                        {
+                                             echo "<div class='col-sm-12 alert alert-info'>Sorry, no data found</div>";
+                                            
+                                        }
+                                  
+                                    ?>
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -1086,7 +1139,6 @@
         <hr/>
         <!--End rating-->
 
-
         <!--Start reviews-->   
        	<div class="row mb50">
             <div class="col-sm-12 col-md-12">
@@ -1147,15 +1199,20 @@
                             ?>
 
 
-                            <a href="<?php echo SITE_URL ?>client/client_user/user_show_profile/<?php echo $review->student_id; ?>" ><img src=<?php
+                            <a href="<?php echo SITE_URL ?>client/client_user/user_show_profile/<?php echo $review->student_id; ?>" target ="_blank"><img src=<?php
                             if (!empty($review->profile_pic)) {
                                 echo $user_pic1;
                             } else {
                                 echo "'" . CLIENT_IMAGES;
                             }
                             ?>/defaultuser.jpg' class="img-responsive prof_pic"></a>
-                                 <div class="tcol_grey student_name "><?php if (!empty($get_review_rating)) echo $review->name; ?></div>
+                                 <div class="tcol_grey student_name "><a href="<?php echo SITE_URL ?>client/client_user/user_show_profile/<?php echo $review->student_id; ?>" target ="_blank"><?php if (!empty($get_review_rating)) echo $review->name; ?></a></div>
                                
+                                 <?php $id = session('client_user_id'); 
+                                 if( $id != $review->student_id)
+                                     {
+                                     ?>
+                                 
                                  <a href="javascript:;"   <?php
                               
                         $id = session('client_user_id');
@@ -1191,9 +1248,20 @@
                           echo $follow_string;
                         ?>
                             
-                          
-                            
-                            </a> <a href="#"> <img src="<?php echo CLIENT_IMAGES; ?>/icons/message.png"> </a>
+                             </a> <a id="<?= $review->student_id ?>"
+                             <?php
+                            $id = session('client_user_id');
+                             if ($id != 0) {
+                                ?>
+                            class="msgg"
+                            <?php
+                        } else {
+                            ?>
+                            data-toggle="modal" data-target=".bs-example-modal-lg"
+
+                            <?php
+                        }
+                                 ?>> <img src="<?php echo CLIENT_IMAGES; ?>/icons/message.png"> </a><?php }?>
                         </div>
 
                         <div class="col-sm-6 col-md-6">
@@ -1303,18 +1371,18 @@
                                                         }
                                                         ?>
 
-                                                        <div class="col-sm-3 col-md-3 col-xs-6"><a href="#x" class="thumbnail">
+                                                        <div class="col-sm-3 col-md-3 col-xs-6 text-center"><a href="<?php echo SITE_URL ?>client/client_user/user_show_profile/<?php echo $followers['student_id']; ?>" class="thumbnail" target ="_blank">
                                                                 <img src=<?php
                                                                 if (!empty($followers['profile_pic'])) {
                                                                     echo $profile_pic1;
                                                                 } else {
                                                                     echo "'" . CLIENT_IMAGES;
                                                                 }
-                                                                ?>defaultuser.jpg'alt="Image" class="img-responsive stprof"> </a> 
+                                                                ?>defaultuser.jpg' alt="Image" class="img-responsive stprof" > </a> 
 
 
                                                             <span class="tcol_grey f_16">
-                                                        <?php echo $followers['name']; ?><br/></span></div>
+                                                        <a href="<?php echo SITE_URL ?>client/client_user/user_show_profile/<?php echo $followers['student_id']; ?>" class="thumbnail" target ="_blank"><?php echo $followers['name']; ?></a><br/></span></div>
                                                         <?php
                                                         if ($count % 4 == 0) {
                                                             echo "</div></div>";
@@ -1381,13 +1449,14 @@
                                                                 }
                                                                 ?>
 
-                                                                <div class="col-sm-3 col-md-3 col-xs-6"><a href="#x" class="thumbnail"><img src=<?php
+                                                                <div class="col-sm-3 col-md-3 col-xs-6  text-center"><a href="<?php echo SITE_URL ?>client/client_user/user_show_profile/<?php echo $student_record['student_id']; ?>" class="thumbnail" target ="_blank"><img src=<?php
                                                                         if (!empty($student_record['profile_pic'])) {
                                                                             echo $profile_spic1;
                                                                         } else {
                                                                             echo "'" . CLIENT_IMAGES;
                                                                         }
-                                                                        ?>defaultuser.jpg' alt="Image" class="img-responsive stprof"> </a> <span class="tcol_grey f_16"><?php echo $student_record['name']; ?><br/></span></div>
+                                                                        ?>defaultuser.jpg' alt="Image" class="img-responsive stprof" > </a> 
+                                                                    <span class="tcol_grey f_16"><a href="<?php echo SITE_URL ?>client/client_user/user_show_profile/<?php echo $student_record['student_id']; ?>" class="thumbnail" target ="_blank"><?php echo $student_record['name']; ?></a><br/></span></div>
                                                                                                                                             <?php
                                                                                                                                             if ($count % 4 == 0) {
                                                                                                                                                 echo "</div></div>";
@@ -1466,27 +1535,31 @@
                                                                 <div class="event_icon">
                                                                     <?php
                                                                     $logo = $event['event_img'];
+                                                                   
                                                                     $ans_logo = stripslashes(str_replace(array("[", "]", "(", ")"), " ", $logo));
                                                                     //echo $ans_logo;
                                                                     ?>
 
-                                                                    <img src=<?php
-                                                                    if (!empty($event['event_img'])) {
-                                                                        echo $ans_logo;
-                                                                    } else {
-                                                                        echo "'" . CLIENT_IMAGES;
+                                                                    <img src="<?php
+                                                                    if (($logo != "")) 
+                                                                        {
+                                                                        echo  "/public/admin/scripts/plugins/uploads/event_img/$logo";
+                                                                        } 
+                                                                        else 
+                                                                       {
+                                                                        echo   CLIENT_IMAGES."/icons/calendar-icon.png";
                                                                     }
-                                                                    ?>/icons/calendar-icon.png' class="img-responsive">
+                                                                    ?>" class="img-responsive">
                                                                 </div> 
                                                                 <div class="event_detail">
                                                                     <div>Event name: <?php echo $event['event_name']; ?></div>
                                                                     <div>Date: <?php echo $event['event_date']; ?> </div>
                                                                     <div> Location: <?php echo $event['event_location']; ?> </div>
-                                                                    <div class="mt10"> 
+                                                                    <!--div class="mt10"> 
                                                                         <a href="#" class="event_social"><i class="fa fa-facebook tcol_darkblue"></i></a>
                                                                         <a href="#" class="event_social"><i class="fa  fa-linkedin tcol_darkblue"></i></a>
                                                                         <a href="#" class="event_social"><i class="fa  fa-google-plus tcol_darkblue"></i></a>
-                                                                    </div>
+                                                                    </div-->
                                                                 </div> 
                                                             </div> 										  
                                                         </div>
@@ -1540,15 +1613,60 @@
 
                             </div>
                             <div class="col-sm-2 sidebar">
-								<?php  $this->load->view(CLIENT_TICKER_VIEW);?>
-								<?php $this->load->view(CLIENT_ADS_VIEW); ?>
-							</div>
+                                    <?php  $this->load->view(CLIENT_TICKER_VIEW);?>
+                                    <?php $this->load->view(CLIENT_ADS_VIEW); ?>
+                            </div>
                         </div>
 
 
 
 
                         <!-- Walls -->
+                        <!---- Message box -->
+
+                            
+                        <div class="modal fade" id="compose_message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <button type="button" class="close pull-right" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h3 class="modal-title tcol_darkblue mb30" id="myModalLabel">Compose Message</h3>
+                <form class="form-horizontal" enctype="multipart/form-data" method="post" action="<?= CLIENT_SITE_URL ?>client_notification/message_insert/">
+                  
+                    <input type="hidden" class="form-control" id="name" name="to" placeholder="Type name" value=""/>
+                    
+
+                    <div class="form-group">
+                        <label for="where" class="col-sm-3 control-label">Subject</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="where" name="sub" placeholder="Subject" required/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shortdesc" class="col-sm-3 control-label">Message</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" name="msg" required> </textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <input type="submit" value="Create" class="home_search_button">
+                            <input type="button" value="Cancel" class="btn btn-default">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+                        
+                        
+                        
+
+
+                        <!---- Message box -->
 
 
                         <footer>
@@ -1560,7 +1678,16 @@
                     <script src="<?php echo CLIENT_SCRIPTS; ?>jquery.min.js"></script> 
                     <!-- Include all compiled plugins (below), or include individual files as needed --> 
                     <script src="<?php echo CLIENT_SCRIPTS; ?>bootstrap.min.js"></script>
-                    <script src="<?php echo CLIENT_MODULES; ?>college_follow_module.js"></script>
+<!--                    <script src="<?php echo CLIENT_SCRIPTS; ?>jquery.slimscroll.min.js"></script>
+                     <script type="text/javascript">
+		 $(document).ready(function(){
+    $('.sum_table_height').slimScroll({
+        height: '438px',
+		Default: false
+    });
+});
+	</script>
+-->                    <script src="<?php echo CLIENT_MODULES; ?>college_follow_module.js"></script>
                     <script src="<?php echo CLIENT_MODULES; ?>client_user_module_js.js"></script>
                     <script type="text/javascript">
                                             $('.collapse').on('shown.bs.collapse', function() {
@@ -1575,11 +1702,14 @@
 
                     <script>
                         $(document).ready(function() {
+                           
                             setInterval(function() {
                                 resizeIframe($("#schoolwalls iframe"))
                             }, 1000);
                             $('.carousel-inner .item:first').addClass('active');
                         });
                     </script>
+                       
+
                     </body>
                     </html>

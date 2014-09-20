@@ -38,7 +38,7 @@ class Client_Communities extends CI_Controller {
 
         if (isset($_FILES["file"])) {
             $config['upload_path'] = './uploads/comm_pics/';
-            $config['allowed_types'] = 'gif|jpg|png';
+            $config['allowed_types'] = 'gif|jpg|png|jpeg';
             $this->load->library('upload', $config);
 
             if (!$this->upload->do_upload("file")) {
@@ -165,7 +165,7 @@ class Client_Communities extends CI_Controller {
 
         if (isset($_FILES["file"])) {
             $config['upload_path'] = './uploads/wall_pics/';
-            $config['allowed_types'] = 'gif|jpg|png';
+            $config['allowed_types'] = 'gif|jpg|png|jpeg';
 
 
             $this->load->library('upload', $config);
@@ -202,7 +202,7 @@ class Client_Communities extends CI_Controller {
 
         $message = "
          Dear Admin, <br />
-         " . session("full_name") . " has reported one of the wall discussions as SPAM. Here are the details : <br />
+         " . get_user_name_id(session("client_user_id")) . " has reported one of the wall discussions as SPAM. Here are the details : <br />
           Discussion : $discussion_title <br />
           Community : $topic <br />
         
@@ -211,11 +211,7 @@ class Client_Communities extends CI_Controller {
                 
                 ";
 
-        ini_set("SMTP", "aspmx.l.google.com");
-        $headers = "MIME-Version: 1.0" . "\r\n";
-        $headers .= "Content-type: text/html; charset=iso-8859-1" . "\r\n";
-        $headers .= "From: test@gmail.com" . "\r\n";
-        mail(session('client_email'), "Wall Discussion Spam Reported", $message, $headers);
+        sendMail(ADMIN_EMAIL, "Community Discussion Spam Reported", $message);
     }
 
     function wall_comment_spam_send() {
@@ -233,7 +229,7 @@ class Client_Communities extends CI_Controller {
 
         $message = "
          Dear Admin, <br />
-         " . session("full_name") . " has reported one of the wall comments as SPAM. Here are the details : <br />
+         " . get_user_name_id(session("client_user_id")) . " has reported one of the wall comments as SPAM. Here are the details : <br />
           
           Comment : " . $comments[$key]['comment'] . " <br />
           Discussion : $discussion_title <br />
@@ -244,12 +240,7 @@ class Client_Communities extends CI_Controller {
                 
                 ";
 
-
-        ini_set("SMTP", "aspmx.l.google.com");
-        $headers = "MIME-Version: 1.0" . "\r\n";
-        $headers .= "Content-type: text/html; charset=iso-8859-1" . "\r\n";
-        $headers .= "From: test@gmail.com" . "\r\n";
-        mail(session('client_email'), "Wall Comment Spam Reported", $message, $headers);
+        sendMail(ADMIN_EMAIL, "Community Discussion Comment Spam Reported", $message);
     }
 
     function delete_wall_discussion() {

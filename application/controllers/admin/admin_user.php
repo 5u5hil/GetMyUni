@@ -41,4 +41,13 @@ class Admin_User extends CI_Controller {
         echo json_encode($json_array);
 
 }
+
+ function index()
+    {
+       // $data['get_college_name'] 						= $this->admin_college_model->get_school_name();
+       //  $this->load->view(ADMIN_COLLEGE_LIST_VIEW,$data);
+      
+           
+            $this->load->view(ADMIN_USER);
+    }
 }

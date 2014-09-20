@@ -65,12 +65,12 @@
             <div class="col-md-offset-2 col-sm-10 col-md-10 col-xs-12" id="toggle-walls">
                 <div class="newpost">
                     <div class="postaction"> <span class="postt">Post</span> / <span class="upic">Upload Picture</span></div>
-                    <form class="newpostform" enctype="multipart/form-data" action="<?= CLIENT_SITE_URL ?>client_communities/wall_discussion_insert/" method="post">
+                    <form class="newpostform" enctype="multipart/form-data" action="<?= CLIENT_SITE_URL ?>client_forums/wall_discussion_insert/" method="post">
                         <div class="form-group">
                             <textarea name="dname" class="form-control" placeholder="Write Comment" style="resize: none;" required></textarea>
                         </div>
                         <div class="picupl"></div>
-                        <input type="hidden" name="community_id" value="<?= $this->uri->segment(4, 0) ?>" />
+                        <input type="hidden" name="school_id" value="<?= $this->uri->segment(4, 0) ?>" />
                         <input type="hidden" name="uriseg" value="<?= $uriseg ?>" />
                         <div class="text-right">
                             <input type="Submit" Value="Post" class="btn btn-primary" />
@@ -84,8 +84,8 @@
             foreach ($discussions as $discussion) {
                 //$pic = json_decode($discussion["profile_pic"], true);
                 //$pic = $pic[0];
-                 $pic = stripslashes(str_replace(array("[", "]", "(", ")"), " ", $discussion["profile_pic"]));
-                 //display($pic);
+                $pic = stripslashes(str_replace(array("[", "]", "(", ")"), " ", $discussion[0]["profile_pic"]));
+                //display($pic);
                 ?>
 
                 <div class="row mt30 mb30">
@@ -120,7 +120,7 @@
                                     <a href="javascript:void();" class="shwCm<?= $discussion['id'] ?>"> 
                                         <i class="fa fa-comment"></i> <span class="cmNo<?= $discussion['id'] ?>"><?= count($comments) > 0 ? count($comments) : "" ?></span> Comment<?= count($comments) > 1 ? "s" : "" ?></a> - 
                                     <?php $likes = json_decode($discussion['likes'], true); ?>
-                                    <a href="javascript:void();" class="<?= in_array(session('client_user_id'), $likes) ? 'unlike' : 'like' ?>" data-did="<?= $discussion['id'] ?>" data-cid="<?= $discussion['community_id'] ?>" > <?= in_array(session('client_user_id'), $likes) ? 'Unlike' : '<i class="fa fa-thumbs-up"> </i> Like' ?>  </a>
+                                    <a href="javascript:void();" class="<?= in_array(session('client_user_id'), $likes) ? 'unlike' : 'like' ?>" data-did="<?= $discussion['id'] ?>" data-sid="<?= $discussion['school_id'] ?>" > <?= in_array(session('client_user_id'), $likes) ? 'Unlike' : '<i class="fa fa-thumbs-up"> </i> Like' ?>  </a>
                                 </div>
                             </div>  
 
@@ -133,15 +133,16 @@
                                             foreach ($comments as $comment) {
                                                 $udetails = get_user_details($comment["uid"]);
                                                 $name = $udetails[0]["name"];
-                                                $pic = json_decode($udetails[0]["profile_pic"], true);
-                                                $pic = $pic[0];
+                                               // $pic = json_decode($udetails[0]["profile_pic"], true);
+                                               // $pic = $pic[0];
+                                                $pic = stripslashes(str_replace(array("[", "]", "(", ")"), " ", $udetails[0]["profile_pic"]));
                                                 ?>
 
                                                 <div class="subcommentbox" id="default_comment_div">
 
                                                     <div class="row mb10">
                                                         <div class="col-sm-10 col-md-10">
-                                                            <div class="profilepic"><img src="<?= $pic ? $pic : CLIENT_IMAGES . "defaultuser.jpg"; ?>"></div>
+                                                            <div class="profilepic"><img src=<?= $pic ? $pic : CLIENT_IMAGES . "defaultuser.jpg"; ?>></div>
                                                             <div class="tcol_blue f_16"><?= $name ?></div>
                                                             <div class="tcol_grey f_12"> <i class="fa fa-clock-o"> </i> <?= date_time_diff($comment['time']) ?></div>
                                                             <div class="subcomments"><?= $comment['comment'] ?></div>
@@ -166,7 +167,7 @@
                                 </div>
                             </div>
                             <div class="mt10">
-                                <input type="text" class="form-control commentInput"  data-sid="<?= $discussion["community_id"] ?>" data-did ="<?= $discussion["id"] ?>" placeholder="Write Comment" />
+                                <input type="text" class="form-control commentInput"  data-sid="<?= $discussion["school_id"] ?>" data-did ="<?= $discussion["id"] ?>" placeholder="Write Comment" />
                             </div>
                         </div>
 
@@ -263,7 +264,7 @@
     </body>
 </html>
 <script src="<?php echo ADMIN_SCRIPTS; ?>plugins/plupload.full.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="<?php echo CLIENT_MODULES ?>client_community_module.js"></script>
+<script type="text/javascript" src="<?php echo CLIENT_MODULES ?>client_wall_module.js"></script>
 </body>
 
 </html>

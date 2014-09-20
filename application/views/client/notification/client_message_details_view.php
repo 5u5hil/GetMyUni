@@ -8,7 +8,7 @@
     <div class="col-sm-10 col-md-10 col-xs-12">
         <div class="row">
             <div class="col-sm-12">
-                <h1 class="page_title"> Messages Detail</h1>
+                <h1 class="page_title"> Message Details</h1>
             </div>
         </div>
 
@@ -25,14 +25,15 @@
                         $to = $msg["to"];
                     }
 
-
-                    $pic = json_decode($get_user_details[0]["profile_pic"], true);
-
-                    $pic = $pic[0] ? $pic[0] : CLIENT_IMAGES . "defaultuser.jpg";
+                     $pic1 = stripslashes(str_replace(array("[", "]", "(", ")"), " ", $get_user_details[0]["profile_pic"]));
+                    //$pic = json_decode($get_user_detail[0]["profile_pic"], true);
+                    $pic = $pic1 ? $pic1 : CLIENT_IMAGES . "defaultuser.jpg";
+                    
+                    //$pic = $pic[0] ? $pic[0] : CLIENT_IMAGES . "defaultuser.jpg";
                     ?>
                     <div class="read_panel">
                         <div class="media">
-                            <a href="#" class="pull-left"><img src="<?= $pic ?>" class="media-image"></a>
+                            <a href="#" class="pull-left"><img src=<?= $pic ?> class="media-image"></a>
                             <div class="media-body">
                                 <span class="media-meta pull-right"><?= date("d M, h:i a", strtotime($msg["added_at"])) ?></span>
                                 <div class="text-primary mname"><?= $get_user_details[0]["name"]; ?></div>
@@ -46,11 +47,12 @@
                 <?php } ?>
                 <?php
                 $get_user_detail = get_user_details(session("client_user_id"));
-                $pic = json_decode($get_user_detail[0]["profile_pic"], true);
-                $pic = $pic[0] ? $pic[0] : CLIENT_IMAGES . "defaultuser.jpg";
+                $pic1 = stripslashes(str_replace(array("[", "]", "(", ")"), " ", $get_user_detail[0]["profile_pic"]));
+                //$pic = json_decode($get_user_detail[0]["profile_pic"], true);
+                $pic = $pic1 ? $pic1 : CLIENT_IMAGES . "defaultuser.jpg";
                 ?>
                 <div class="media mt20">
-                    <a href="<?= SITE_URL ?>/profile/<?= session("client_user_id") ?>/" class="pull-left"><img src="<?= $pic ?>" class="media-image"></a>
+                    <a href="<?= SITE_URL ?>/profile/<?= session("client_user_id") ?>/" class="pull-left"><img src=<?= $pic ?> class="media-image"></a>
                     <div class="media-body">
                         <form name="message_frm" action="<?= CLIENT_SITE_URL ?>client_notification/message_insert/" method="post">
                             <div class="row">
@@ -72,7 +74,11 @@
             <!-- Ad --> 
         </div>
     </div>
-    <div class="col-sm-2 sidebar"> <img src="<?php echo CLIENT_IMAGES; ?>ticker.jpg" class="mt20 img-responsive"> <img src="<?php echo CLIENT_IMAGES; ?>adspace.jpg" class="mt10 img-responsive"> <img src="<?php echo CLIENT_IMAGES; ?>adspace2.jpg" class="mt10 img-responsive"> <img src="<?php echo CLIENT_IMAGES; ?>adspace4.jpg" class="mt10 img-responsive"> </div>
+    <div class="col-sm-2 sidebar"> 
+    <?php  $this->load->view(CLIENT_TICKER_VIEW);?>
+    <?php $this->load->view(CLIENT_ADS_VIEW); ?>
+    
+    </div>
 </div>
 </div>
 <footer>
