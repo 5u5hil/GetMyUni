@@ -213,7 +213,7 @@ class Client_college_Model extends CI_Model {
     
     function get_college_compare($id) {
         if (is_numeric($id)) {
-            $get = $this->db->query("SELECT CONCAT_WS(  ' - ', c.school_name, m.degree_name ) school_name, c.address, c.rank, concat(c.acc_rate,'%'),CONCAT('$', FORMAT(c.avg_tution, 2)) , c.test_score, c.top_sectors, CONCAT('$', FORMAT(c.avg_salary, 0)), c.work_exp FROM college_info c, master_degree m WHERE c.id =$id AND c.degree = m.id");
+            $get = $this->db->query("SELECT CONCAT_WS(  ' - ', c.school_name, m.degree_name ) school_name, c.address, c.rank, concat(c.acc_rate,'%'),CONCAT('$', FORMAT(c.avg_tution, 2)) , c.test_score, c.top_sectors, CONCAT('$', FORMAT(c.avg_salary, 0)), c.work_exp, CONCAT('<a href=\'http://www.getmyuni.com/college/',c.school_name,'/',CAST(c.id as CHAR(50)),'/\'>College Profile</a>') school_link FROM college_info c, master_degree m WHERE c.id =$id AND c.degree = m.id");
             if ($get->num_rows == 0) {
                 return FALSE;
             } else {
