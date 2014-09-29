@@ -110,6 +110,14 @@
 
                                     <div class="col-sm-8 col-md-8">Average work experience</div></div>
                             </li>
+                             <li  class="compare_element">
+                                <div class="row"> 
+                                    <div class="col-sm-3 col-md-3">
+                                        <img src="<?php echo CLIENT_IMAGES; ?>icons/acceptance.png">
+                                    </div>
+                                    <div class="col-sm-8 col-md-8">College Profile Link</div>
+                                </div>
+                            </li>
                         </ul>
                     </li>
                     <li> 
